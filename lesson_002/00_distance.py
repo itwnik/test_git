@@ -20,6 +20,7 @@ moscow = sites['Moscow']
 london = sites['London']
 paris = sites['Paris']
 
+# TODO в питоне принято переменные называть в формате snake_case_one
 distance_Moscow_London = ((moscow[0] - london[0]) ** 2 + (moscow[1] - london[1]) ** 2) ** .5
 distance_Moscow_Paris = ((moscow[0] - paris[0]) ** 2 + (moscow[1] - paris[1]) ** 2) ** .5
 distance_London_Paris = ((london[0] - paris[0]) ** 2 + (london[1] - paris[1]) ** 2) ** .5

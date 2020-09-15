@@ -23,6 +23,7 @@ violator_songs = [
 
 #
 
+# TODO у нас значение в словарях в формате 4.86 - это и есть float преобразовывать не нужно
 three_songs = round(float(violator_songs[3][1]) + float(violator_songs[5][1]) + float(violator_songs[8][1]), 2)
 print('Три песни звучат ' + '0' + str(three_songs) + ' минут')
 
@@ -45,11 +46,17 @@ pocket_universe_songs = {
 #   А другие три песни звучат приблизительно ХХХ минут
 
 #
-
+# TODO Для переноса не используйте знак \, а лучше все всзять в () и перенести по математическому знаку,
+#  или другому символу
 Yellow_three_songs = pocket_universe_songs['On Track'] \
                      + pocket_universe_songs['To the Sea'] + pocket_universe_songs['Beyond Mirrors']
+# TODO Для переноса не используйте знак \, а лучше все всзять в () и перенести по математическому знаку,
+#  или другому символу
 other_three_songs = round(pocket_universe_songs['Solar Driftwood'] \
                      + pocket_universe_songs['Celsius'] + pocket_universe_songs['Pan Blue'])
+# TODO стараемся конкатенацию строк в принте не использовать, либо через (,)
+# TODO самый новый формат для печати в принт это f - строки или более ранний .format()
+# TODO преобразование к str делать не нужно принт и так распечатает!
 print('Общее время звучания трех песен: On Track, To the Sea и Beyond Mirrors ' + str(Yellow_three_songs) + ' минут')
 print('А другие три песни звучат приблизительно 0' + str(other_three_songs) + ' минут')
 
