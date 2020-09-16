@@ -30,7 +30,6 @@ point_1 = (23, 34)
 
 origin = (0, 0)
 # Все вычисления и преобразования лучше выполнять до, а в принте выводить эту переменную
-# TODO Так? )
 point_one_in_circle = ((point_1[0] - origin[0]) ** 2) + ((point_1[1] - origin[1]) ** 2) < radius ** 2
 print(point_one_in_circle)
 
@@ -47,3 +46,5 @@ print(point_two_in_circle)
 # 77777.7777
 # False
 # False
+
+# зачет!

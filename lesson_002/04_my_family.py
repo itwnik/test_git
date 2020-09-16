@@ -33,3 +33,5 @@ stature = (my_family_height[0][1] + my_family_height[1][1] + my_family_height[2]
 # аналогично
 
 print(f"Общий рост моей семьи {stature} см")
+
+# зачет!

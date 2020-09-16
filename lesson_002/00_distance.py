@@ -20,27 +20,28 @@ moscow = sites['Moscow']
 london = sites['London']
 paris = sites['Paris']
 
-# в питоне принято переменные называть в формате snake_case_one
-# TODO немного не понял, можно пожалуйста пример? у меня вроде читаемое название переменной
-# так нужно было назвать?  Moscow_London_case или  distance_Moscow_London_case
-distance_Moscow_London = ((moscow[0] - london[0]) ** 2 + (moscow[1] - london[1]) ** 2) ** .5
-distance_Moscow_Paris = ((moscow[0] - paris[0]) ** 2 + (moscow[1] - paris[1]) ** 2) ** .5
-distance_London_Paris = ((london[0] - paris[0]) ** 2 + (london[1] - paris[1]) ** 2) ** .5
+distance_moscow_london = ((moscow[0] - london[0]) ** 2 + (moscow[1] - london[1]) ** 2) ** .5
+distance_moscow_paris = ((moscow[0] - paris[0]) ** 2 + (moscow[1] - paris[1]) ** 2) ** .5
+distance_london_paris = ((london[0] - paris[0]) ** 2 + (london[1] - paris[1]) ** 2) ** .5
 
-# distances = {'distance_Moscow_London': distance_Moscow_London,
+#distances = {'distance_Moscow_London': distance_Moscow_London,
 #             'distance_Moscow_Paris': distance_Moscow_Paris,
 #             'distance_London_Paris': distance_London_Paris}
 
 distances['Moscow'] = {}
-distances['Moscow']['London'] = distance_Moscow_London
-distances['Moscow']['Paris'] = distance_Moscow_Paris
+distances['Moscow']['London'] = distance_moscow_london
+distances['Moscow']['Paris'] = distance_moscow_paris
 
 distances['London'] = {}
-distances['London']['Moscow'] = distance_Moscow_London
-distances['London']['Paris'] = distance_London_Paris
+distances['London']['Moscow'] = distance_moscow_london
+distances['London']['Paris'] = distance_london_paris
 
 distances['Paris'] = {}
-distances['Paris']['Moscow'] = distance_Moscow_Paris
-distances['Paris']['London'] = distance_London_Paris
+distances['Paris']['Moscow'] = distance_moscow_paris
+distances['Paris']['London'] = distance_london_paris
+
+#
 
 pprint(distances)
+
+# зачет!

@@ -44,3 +44,6 @@ message_5 = secret_message[4][20:15:-1]
 # можно написать через запятую принт сам расставит пробелы
 
 print(message_1, message_2, message_3, message_4, message_5)
+
+# зачет!
+
