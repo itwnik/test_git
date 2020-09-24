@@ -21,9 +21,8 @@ def test_convert(height_convert, width_convert, height_paper, width_paper):
     else:
         print(f"В конверт размером {height_convert} x {width_convert} "
               f"НЕ входит лист бумаги {height_paper} x {width_paper}")
-# TODO может ли функция ничего не возвращать?
-# TODO надеюсь не против что я поэксперементировал с задачами?
 
+# может!
 
 envelop_x, envelop_y = 10, 7
 paper_x, paper_y = 8, 9
@@ -68,8 +67,6 @@ test_convert(envelop_x, envelop_y, paper_x, paper_y)
 # brick_x, brick_y, brick_z = 3, 6, 11
 # brick_x, brick_y, brick_z = 3, 11, 6
 # (просто раскоментировать нужную строку и проверить свой код)
-
-
 
 
 def test_hole(hole_height, hole_width, brick_height, brick_width, brick_lenght):
@@ -136,3 +133,5 @@ brick_x, brick_y, brick_z = 3, 6, 11
 test_hole(hole_x, hole_y, brick_x, brick_y, brick_z)
 brick_x, brick_y, brick_z = 3, 11, 6
 test_hole(hole_x, hole_y, brick_x, brick_y, brick_z)
+
+# зачет!

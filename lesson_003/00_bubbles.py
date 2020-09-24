@@ -12,8 +12,10 @@ def sleep_and_cleen(sleep_timer):
 
 
 # Нарисовать пузырек - три вложенных окружностей с шагом 5 пикселей
-# TODO не могу понять почему я должен получить точку через функцию get_point
-# TODO почему я не могу взять какой нибудт тьюпл? по факту, какого типа переменная center у меня?
+
+
+# мы используем библиотеку в которой точка рисования определяется через get_point
+# если тип не будет соответствовать то рисовать не будет возможным!
 
 for radius in range(50, 65, 5):
     center = sd.get_point(100, 300)
@@ -21,7 +23,7 @@ for radius in range(50, 65, 5):
 sleep_and_cleen(2)
 
 
-# print(type(center))
+# print(type(center)) # <class 'simple_draw.Point'> - тип
 
 # Написать функцию рисования пузырька, принммающую 3 (или более) параметра: точка рисования, шаг и цвет
 
@@ -62,6 +64,7 @@ for _ in range(99):
         sd.circle(center_3, radius, color, width)
         radius += sd.random_number(1, 5)
 sleep_and_cleen(5)
+
 sd.quit()
 
-sd.pause()
+# зачет!
