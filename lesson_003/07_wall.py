@@ -9,16 +9,17 @@ import simple_draw as sd
 #  здесь ваш код
 sd.resolution = (700, 700)
 # print(sd.resolution[1])
-x, y = 0, 0
 for coord_y in range(0, sd.resolution[1]-50, 50):
-    # print(coord_y)
+    # TODO start_point будет у нас всего принимать два значения либо 0 либо -50
+    # TODO получать мы его будем используя emunerate + range в первом цикле, получая сразу row, Y в цикле
+
+    # TODO осталось сдвинуть ряд, для этого вам нужно завести переменную start_point и за место первого параметра
+    # TODO в range подставить range(start_point, sd.resolution[0]-100, 100)
     for coord_x in range(10, sd.resolution[0]-100, 100):
-        # print(coord_x)
         left_bottom = sd.get_point(coord_x + 10, coord_y + 7)
         right_top = sd.get_point(100 + coord_x, 50 + coord_y)
         sd.rectangle(left_bottom, right_top, sd.COLOR_WHITE, 5)
 
-# TODO я попробую зделать по Вашему алгоритму, но уже и так убил много времени на понимания задачи )
 # sd.resolution = (1200, 600)
 # x, y = 0, 0
 # resolution_y = sd.resolution[1] - 50  # вычетаем число кратное стороне y кирпича

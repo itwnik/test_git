@@ -12,7 +12,9 @@
 educational_grant, expenses = 10000, 12000
 
 #  здесь ваш код
+# TODO нейминг это месяц
 x = 1
+# TODO есть такое слово ?
 balans = 0
 while x <= 9:
     res = educational_grant - (expenses * 1.03)
@@ -24,4 +26,5 @@ else:
 
 print(f"Студенту надо попросить {balans} рублей")
 
+# TODO результат не верный ! Дебажим алгоритм в уме или на листочке
 

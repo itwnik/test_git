@@ -55,15 +55,17 @@ store = {
 #     вывод на консоль количества и стоимости товара на складе
 
 #  здесь ваш код
+# TODO комментарии отладочные удаляем перед пушем
+
+# TODO Используйте все силу Python, можно сразу распаковать имя и код методом у словаря .items()
 for product in goods:
+    # TODO в цикле вторым параметром получаем
     product_id = goods[product]
-    #print(product_id)
     quantity_count = 0
     price_count = 0
+    # TODO нейминг, мы получили словарь, параметры_продукта а не count
     for count in store[product_id]:
-        #print(count)
         quantity_count += count['quantity']
-        #print(quantity_count)
+        # TODO тут наверное нужно умножать на количество этого товара
         price_count += count['price']
-        #print(price_count)
     print(f"{product} - {quantity_count} шт., стоимость {price_count} руб.")
