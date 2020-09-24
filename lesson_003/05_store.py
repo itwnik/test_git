@@ -54,4 +54,16 @@ store = {
 #         подсчет стоимости товара
 #     вывод на консоль количества и стоимости товара на складе
 
-# TODO здесь ваш код
+#  здесь ваш код
+for product in goods:
+    product_id = goods[product]
+    #print(product_id)
+    quantity_count = 0
+    price_count = 0
+    for count in store[product_id]:
+        #print(count)
+        quantity_count += count['quantity']
+        #print(quantity_count)
+        price_count += count['price']
+        #print(price_count)
+    print(f"{product} - {quantity_count} шт., стоимость {price_count} руб.")

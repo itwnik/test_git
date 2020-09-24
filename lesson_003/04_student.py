@@ -11,4 +11,17 @@
 
 educational_grant, expenses = 10000, 12000
 
-# TODO здесь ваш код
+#  здесь ваш код
+x = 1
+balans = 0
+while x <= 9:
+    res = educational_grant - (expenses * 1.03)
+    balans -= res
+    x += 1
+else:
+    res = educational_grant - expenses
+    balans -= res
+
+print(f"Студенту надо попросить {balans} рублей")
+
+
