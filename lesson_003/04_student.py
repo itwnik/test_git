@@ -11,20 +11,13 @@
 
 educational_grant, expenses = 10000, 12000
 
-#  здесь ваш код
-# TODO нейминг это месяц
-x = 1
-# TODO есть такое слово ?
-balans = 0
-while x <= 9:
-    res = educational_grant - (expenses * 1.03)
-    balans -= res
-    x += 1
+difference_money = educational_grant - expenses  # считаем сколько нехватает денг студенту за 1 месяц
+month = 2  # первый месяц посчитали, начинаем со 2ого
+expenses_indexation = expenses
+while month <= 10:  # со второго по 10 месяц считаем разницу в расходах
+    expenses_indexation = expenses_indexation * 1.03  # вычесляем увеличение каждого месяца на индексацию
+    difference_money += educational_grant - expenses_indexation  # вычесляем разницу
+    month += 1  # увеличиваем ммесяц
 else:
-    res = educational_grant - expenses
-    balans -= res
-
-print(f"Студенту надо попросить {balans} рублей")
-
-# TODO результат не верный ! Дебажим алгоритм в уме или на листочке
-
+    difference_money = round(abs(difference_money), 2)  # округляем расчет до 2х знаков и делаем его положительным
+print(f"Студенту надо попросить {difference_money} рублей")  # выводим результат

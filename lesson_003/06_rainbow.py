@@ -10,11 +10,10 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
 # Нарисовать радугу: 7 линий разного цвета толщиной 4 с шагом 5 из точки (50, 50) в точку (350, 450)
 
 # x = 0
-# TODO нейминг line переименуем в color
-# for line in rainbow_colors:
+# for color in rainbow_colors:
 #     start_point = sd.get_point(50 + x, 50 - x)
 #     end_point = sd.get_point(350 + x, 450 - x)
-#     sd.line(start_point, end_point, line, 4)
+#     sd.line(start_point, end_point, color, 4)
 #     x += 5
 # Подсказка: цикл нужно делать сразу по тьюплу с цветами радуги.
 
@@ -26,10 +25,9 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
 sd.resolution = (600, 600)
 radius = 500
 width = 15
-# TODO нейминг line переименуем в color
-for line in rainbow_colors:
+for color in rainbow_colors:
     start_point = sd.get_point(100, 50)
-    sd.circle(start_point, radius, line, width)
+    sd.circle(start_point, radius, color, width)
     radius -= 30
     width += 2
 
