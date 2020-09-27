@@ -63,3 +63,5 @@ for product, product_id in goods.items():
         price_count += product_parameters['price']
         total_coast += product_parameters['quantity'] * product_parameters['price']
     print(f"{product} - {quantity_count} шт., стоимость {total_coast} руб.")
+
+# зачет!

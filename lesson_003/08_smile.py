@@ -25,13 +25,13 @@ def emoji(coord_x, coord_y, color):
     simple_draw.lines([_lips_point1, _lips_point2, _lips_point4])  # 3 точки - это не ошибка а так задумано_)
 
 
-# TODO прошу подсказать, как получить точку х или y из функции .get_point
-# TODO пробовал так
-# TODO point = simple_draw.get_point(100, 50)
-# TODO point(0) или так point[0] не выходит
+# point = simple_draw.get_point(100, 50)
+# вот так - point.x point.y
 for _ in range(10):
     coordinate_x = simple_draw.random_number(100, 600)
     coordinate_y = simple_draw.random_number(150, 650)
     emoji(coord_x=coordinate_x, coord_y=coordinate_y, color=simple_draw.COLOR_WHITE)
 
 simple_draw.pause()
+
+# зачет!

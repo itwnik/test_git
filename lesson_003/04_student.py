@@ -21,3 +21,5 @@ while month <= 10:  # со второго по 10 месяц считаем ра
 else:
     difference_money = round(abs(difference_money), 2)  # округляем расчет до 2х знаков и делаем его положительным
 print(f"Студенту надо попросить {difference_money} рублей")  # выводим результат
+
+# зачет!

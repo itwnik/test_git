@@ -32,3 +32,5 @@ for color in rainbow_colors:
     width += 2
 
 sd.pause()
+
+# зачет!

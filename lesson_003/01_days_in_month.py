@@ -8,14 +8,15 @@
 
 # Номер месяца получать от пользователя следующим образом
 
-user_input = input('Введите, пожалуйста, номер месяца: ')
-if user_input.isdigit():
-    month = int(user_input)
-    print('Вы ввели', month)
-else:
-    print('ВЫ ввели не число')
+# Можно вот так
+while True:
     user_input = input('Введите, пожалуйста, номер месяца: ')
-# TODO Исправил! изначально я так и хотел сделать, НО меня смутило название ДЗ (if/elif/else)
+    if user_input.isdigit():
+        month = int(user_input)
+        print('Вы ввели', month)
+        break
+    print('ВЫ ввели не число')
+
 data_month = {
     '1': 31,
     '2': 28,
@@ -34,3 +35,5 @@ if user_input in data_month:
     print(data_month[user_input])
 else:
     print("нет такого месяца")
+
+# зачет!
