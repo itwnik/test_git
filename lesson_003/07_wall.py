@@ -28,3 +28,5 @@ for index, coordinate_y in enumerate(range(0, sd.resolution[1], 50)):
 #           рисуем кирпич
 
 sd.pause()
+
+# зачет!
