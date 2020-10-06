@@ -17,56 +17,34 @@ N = 20
 # sd.random_number()
 # sd.user_want_exit()
 
-# TODO давайте пока не будем усложнять а сдлеам упрощенный вариант а потом добавим factor a b c
+# TODO Большое спасибо! за подробные объяснения!!!! действительно по Вашему алгоритму получается красивее!!!
 
-# TODO чтобы не писать вот так, запишем через for _ in range(N): сократим пару 10-ок строк
-# TODO Для начало сформирует нужный нам список списков, объявим его до цикла
-# TODO Используя цикл фор _ in range(N): в нем
-# TODO x,y,length будем получать используя допустим x = sd.random_number(100,1200), y = sd.random_number(500, 600),
-#  length = sd.random_number(10,100)
-# TODO Создадим один общий список списков и назовем его параметры_снежинок.добавить([x,y,length])
-
-# TODO переменная list - зарезервированное слово, использовать его нельзя в нейминге переменных.
-point_x_list = []
-point_y_list = []
-size_list = []      # 10-18 список размеров снежинки
-factor_a_list = []  # .6  список ответвления лучиков
-factor_b_list = []  # .35 список длины лучиков
-factor_c_list = []  # 60 список уголов отклонения лучиков
-x = 0
-for _ in range(0, N):
-    x += sd.random_number(25, 30)
-    point_x_list.append(x)
-    point_y_list.append(sd.random_number(200, 250))
-    size_list.append(sd.random_number(10, 18))
-    factor_a_list.append(sd.random_number(40, 80) / 100)
-    factor_b_list.append(sd.random_number(20, 50) / 100)
-    factor_c_list.append(sd.random_number(40, 70))
+sd.resolution = (1200, 600)
+settings_snowflake = []
+for _ in range(N):
+    x = sd.random_number(100, 1200)
+    y = sd.random_number(500, 600)
+    length = sd.random_number(20, 40)
+    settings_snowflake.append([x, y, length])
 
 while True:
     sd.clear_screen()
-    # TODO заводим цикл: фор i in range(N), будем получать i для индексов, на каждой итерации этого цикла
-    # TODO мы будем получать нужные нам x,y,length каждой снежинки в списке, изменять их,
-    # TODO рисовать и потом записывать измененные значения обратно в список список по индексу!
-    for index, point_x in enumerate(point_x_list):
-        # TODO получим данные x,y,length из списка списков по индексу снежинки
-        # TODO и далее по коду будем использовать x, y, length
-        point_y = point_y_list[index]
-        center_snowflake = sd.get_point(point_x, point_y)  # рисуем снежинку
-        # TODO тут мы будем изменять 'y' и 'x' отдельными строками.
-        point_y_list[index] = point_y_list[index] - 50  # уменьшаем координату у
-        # TODO после того как мы изменили 'y' и 'x' мы их должны будем сохранить в общий список списков
-        # TODO по своему индексу для каждого параметра.
-        sd.snowflake(center=center_snowflake, length=size_list[index], factor_a=factor_a_list[index],
-                     factor_b=factor_b_list[index], factor_c=factor_c_list[index])
-        # TODO Напишем тут сразу если Y < 50 то в списке параметры_снежинок мы по индексу присвоим 600, это потолок!
-        # TODO if y < 50:
-        # TODO     параметры_снежинок[индекс][1] == 600
+    for index in range(N):
+        point_x = settings_snowflake[index][0]
+        point_y = settings_snowflake[index][1]
+        center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # рисуем снежинку
+        settings_snowflake[index][0] += 5
+        settings_snowflake[index][1] -= 20
+        sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+        if point_y < 50:
+            settings_snowflake[index][1] = 600
+        if point_x > 1100:  # доработал сдвиг по х тоже
+            settings_snowflake[index][0] = 50
 
-    # TODO эту сюда переместим
     sd.sleep(0.1)
     if sd.user_want_exit():  # проверка выхода из цикла
         break
+
 sd.pause()
 
 # Примерный алгоритм отрисовки снежинок
