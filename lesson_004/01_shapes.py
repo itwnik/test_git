@@ -38,18 +38,21 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 # sd.resolution = (1200, 800)
 
-# TODO first part homework
-
+# TODO Хорошо у вас сейчас три параметра, точка, угол наклона, и длина
 def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
     current_point_shape = point_start
+    # TODO тут мы заведем range от 0, до 360-120(чтобы крутить без крайнего вектора), с шагом 120
     for angle_shape in range(ange_tilt, 360 + ange_tilt, 120):
+        # TODO а вот тут в параметре angle=angle_shape+ange_tilt
         vector_shape = sd.get_vector(start_point=current_point_shape,
                                      angle=angle_shape, length=length_side, width=2)
         vector_shape.draw()
         current_point_shape = vector_shape.end_point
+    # TODO тогда мы просто без условий после цикла напечатаем sd.line крайнею линию
         if angle_shape == 120 + ange_tilt:
             sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
             break
+    # TODO возвращать ничего не нужно, return None - такая конструкция абсурдная потому что возвращает None
     return None
 
 
