@@ -17,17 +17,37 @@ N = 20
 # sd.random_number()
 # sd.user_want_exit()
 
+point_x_list = []
+point_y_list = []
+size_list = []      # 10-18 список размеров снежинки
+factor_a_list = []  # .6  список ответвления лучиков
+factor_b_list = []  # .35 список длины лучиков
+factor_c_list = []  # 60 список уголов отклонения лучиков
+x = 0
+for _ in range(0, N):
+    x += sd.random_number(25, 30)
+    point_x_list.append(x)
+    point_y_list.append(sd.random_number(200, 250))
+    size_list.append(sd.random_number(10, 18))
+    factor_a_list.append(sd.random_number(40, 80) / 100)
+    factor_b_list.append(sd.random_number(20, 50) / 100)
+    factor_c_list.append(sd.random_number(40, 70))
 
 while True:
     sd.clear_screen()
-    # TODO здесь ваш код
-    sd.sleep(0.1)
-    if sd.user_want_exit():
+    for index, point_x in enumerate(point_x_list):
+        point_y = point_y_list[index]
+        point_y_list[index] = point_y_list[index] - 50  # уменьшаем координату у
+        center_snowflake = sd.get_point(point_x, point_y)  # рисуем снежинку
+        sd.snowflake(center=center_snowflake, length=size_list[index], factor_a=factor_a_list[index],
+                     factor_b=factor_b_list[index], factor_c=factor_c_list[index])
+        sd.sleep(0.1)
+    if sd.user_want_exit() or point_y < 50:  # проверка выхода из цикла
         break
 sd.pause()
 
 # Примерный алгоритм отрисовки снежинок
-#   навсегда
+#   навсегд а
 #     очистка экрана
 #     для индекс, координата_х из списка координат снежинок
 #       получить координата_у по индексу

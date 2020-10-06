@@ -2,6 +2,7 @@
 
 import simple_draw as sd
 
+
 # Часть 1.
 # Написать функции рисования равносторонних геометрических фигур:
 # - треугольника
@@ -35,8 +36,76 @@ import simple_draw as sd
 # sd.get_vector()
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
+# sd.resolution = (1200, 800)
 
-# TODO здесь ваш код
+# TODO first part homework
+
+def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
+    current_point_shape = point_start
+    for angle_shape in range(ange_tilt, 360 + ange_tilt, 120):
+        vector_shape = sd.get_vector(start_point=current_point_shape,
+                                     angle=angle_shape, length=length_side, width=2)
+        vector_shape.draw()
+        current_point_shape = vector_shape.end_point
+        if angle_shape == 120 + ange_tilt:
+            sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+            break
+    return None
+
+
+initial_point_triangle = sd.get_point(300, 300)
+paint_triangle(initial_point_triangle, ange_tilt=0, length_side=150)
+
+
+def paint_square(point_start, ange_tilt, length_side):  # рисуем квадрат
+    current_point_shape = point_start
+    for angle_shape in range(ange_tilt, 360 + ange_tilt, 90):
+        vector_shape = sd.get_vector(start_point=current_point_shape,
+                                     angle=angle_shape, length=length_side, width=2)
+        vector_shape.draw()
+        current_point_shape = vector_shape.end_point
+        if angle_shape == 180 + ange_tilt:
+            sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+            break
+    return None
+
+
+initial_point_square = sd.get_point(100, 300)
+paint_square(initial_point_square, ange_tilt=25, length_side=100)
+
+
+def paint_pentagone(point_start, ange_tilt, length_side):  # рисуем пятиугольник
+    current_point_shape = point_start
+    for angle_shape in range(ange_tilt, 360 + ange_tilt, 72):
+        vector_shape = sd.get_vector(start_point=current_point_shape,
+                                     angle=angle_shape, length=length_side, width=2)
+        vector_shape.draw()
+        current_point_shape = vector_shape.end_point
+        if angle_shape == 216 + ange_tilt:
+            sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+            break
+    return None
+
+
+initial_point_pentagone = sd.get_point(100, 100)
+paint_pentagone(initial_point_pentagone, ange_tilt=0, length_side=100)
+
+
+def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шестиугольник
+    current_point_shape = point_start
+    for angle_shape in range(ange_tilt, 360 + ange_tilt, 60):
+        vector_shape = sd.get_vector(start_point=current_point_shape,
+                                     angle=angle_shape, length=length_side, width=2)
+        vector_shape.draw()
+        current_point_shape = vector_shape.end_point
+        if angle_shape == 240 + ange_tilt:
+            sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+            break
+    return None
+
+
+initial_point_hexagon = sd.get_point(400, 100)
+paint_hexagon(initial_point_hexagon, ange_tilt=55, length_side=100)
 
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
