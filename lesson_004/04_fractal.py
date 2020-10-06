@@ -26,7 +26,6 @@ import simple_draw as sd
 
 # можно поиграть -шрифтами- цветами и углами отклонения
 
-# TODO part one
 # initial_point = sd.get_point(300, 0)
 #
 #
@@ -43,7 +42,6 @@ import simple_draw as sd
 #
 # draw_branches(start_point=initial_point, angle_draw=90, length_branch=150)
 
-# TODO part two
 # initial_point = sd.get_point(300, 0)
 # sd.resolution = (1200, 600)
 #
@@ -67,7 +65,6 @@ import simple_draw as sd
 # # run from part 2 a task
 # # draw_branches(start_point=initial_point, angle_draw=90, length_branch=150)
 #
-# TODO part three
 # root_point = sd.get_point(300, 30)
 # draw_branches(start_point=root_point, angle_draw=90, length_branch=100)
 
@@ -79,8 +76,6 @@ import simple_draw as sd
 # Пригодятся функции
 # sd.random_number()
 
-
-# TODO part four
 
 initial_point = sd.get_point(300, 0)
 sd.resolution = (1200, 600)
@@ -116,3 +111,5 @@ draw_branches(start_point=root_point, angle_draw=90, length_branch=100)
 
 
 sd.pause()
+
+# зачет!
