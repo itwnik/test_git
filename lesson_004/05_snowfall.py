@@ -17,6 +17,16 @@ N = 20
 # sd.random_number()
 # sd.user_want_exit()
 
+# TODO давайте пока не будем усложнять а сдлеам упрощенный вариант а потом добавим factor a b c
+
+# TODO чтобы не писать вот так, запишем через for _ in range(N): сократим пару 10-ок строк
+# TODO Для начало сформирует нужный нам список списков, объявим его до цикла
+# TODO Используя цикл фор _ in range(N): в нем
+# TODO x,y,length будем получать используя допустим x = sd.random_number(100,1200), y = sd.random_number(500, 600),
+#  length = sd.random_number(10,100)
+# TODO Создадим один общий список списков и назовем его параметры_снежинок.добавить([x,y,length])
+
+# TODO переменная list - зарезервированное слово, использовать его нельзя в нейминге переменных.
 point_x_list = []
 point_y_list = []
 size_list = []      # 10-18 список размеров снежинки
@@ -35,14 +45,27 @@ for _ in range(0, N):
 
 while True:
     sd.clear_screen()
+    # TODO заводим цикл: фор i in range(N), будем получать i для индексов, на каждой итерации этого цикла
+    # TODO мы будем получать нужные нам x,y,length каждой снежинки в списке, изменять их,
+    # TODO рисовать и потом записывать измененные значения обратно в список список по индексу!
     for index, point_x in enumerate(point_x_list):
+        # TODO получим данные x,y,length из списка списков по индексу снежинки
+        # TODO и далее по коду будем использовать x, y, length
         point_y = point_y_list[index]
-        point_y_list[index] = point_y_list[index] - 50  # уменьшаем координату у
         center_snowflake = sd.get_point(point_x, point_y)  # рисуем снежинку
+        # TODO тут мы будем изменять 'y' и 'x' отдельными строками.
+        point_y_list[index] = point_y_list[index] - 50  # уменьшаем координату у
+        # TODO после того как мы изменили 'y' и 'x' мы их должны будем сохранить в общий список списков
+        # TODO по своему индексу для каждого параметра.
         sd.snowflake(center=center_snowflake, length=size_list[index], factor_a=factor_a_list[index],
                      factor_b=factor_b_list[index], factor_c=factor_c_list[index])
-        sd.sleep(0.1)
-    if sd.user_want_exit() or point_y < 50:  # проверка выхода из цикла
+        # TODO Напишем тут сразу если Y < 50 то в списке параметры_снежинок мы по индексу присвоим 600, это потолок!
+        # TODO if y < 50:
+        # TODO     параметры_снежинок[индекс][1] == 600
+
+    # TODO эту сюда переместим
+    sd.sleep(0.1)
+    if sd.user_want_exit():  # проверка выхода из цикла
         break
 sd.pause()
 
