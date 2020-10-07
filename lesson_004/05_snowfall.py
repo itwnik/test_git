@@ -17,7 +17,6 @@ N = 20
 # sd.random_number()
 # sd.user_want_exit()
 
-# TODO Большое спасибо! за подробные объяснения!!!! действительно по Вашему алгоритму получается красивее!!!
 
 sd.resolution = (1200, 600)
 settings_snowflake = []
@@ -38,6 +37,8 @@ while True:
         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
         if point_y < 50:
             settings_snowflake[index][1] = 600
+        # TODO эту часть во второй части можно опустить! Потому что там предполагается что X Y мы
+        # TODO мы будем менять динамически, подсказка!
         if point_x > 1100:  # доработал сдвиг по х тоже
             settings_snowflake[index][0] = 50
 
@@ -46,6 +47,8 @@ while True:
         break
 
 sd.pause()
+
+# TODO можно делать вторую часть!
 
 # Примерный алгоритм отрисовки снежинок
 #   навсегд а

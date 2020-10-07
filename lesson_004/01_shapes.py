@@ -38,11 +38,10 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 # sd.resolution = (1200, 800)
 
-# TODO благодарю, за подсказки, но соглааситесь, мой код тоже был неплох и рабочий, но на пару строчек больше.
+# Согласен! Код был рабочий!
 def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
     current_point_shape = point_start
-    # TODO вопрос по PEP8 допускается ли в функциях использовать выражения 4+5, вместо 4 + 5 для экономии места?
-    # TODO как правильно?
+    # лучше писать слитно именно в передаваемых атрибутах в range можно сделать пробел!
     for angle_shape in range(0, 360 - 120, 120):
         vector_shape = sd.get_vector(start_point=current_point_shape,
                                      angle=angle_shape + ange_tilt, length=length_side, width=2)
@@ -96,7 +95,6 @@ def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шест
 initial_point_hexagon = sd.get_point(400, 150)
 paint_hexagon(initial_point_hexagon, ange_tilt=120, length_side=100)
 
-# TODO p.s. фигуры специально так слеплены, на мой взглад это какой то интересный хаос)
 
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
@@ -121,5 +119,13 @@ paint_hexagon(initial_point_hexagon, ange_tilt=120, length_side=100)
 # Поэтому среди программистов есть принцип D.R.Y. https://clck.ru/GEsA9
 # Будьте ленивыми, не используйте копи-пасту!
 
+# TODO Делаем вторую часть, что у нас должно получится в коде
+# TODO одна большая общая функция которая рисует нужную нам фигуру если ей задать соответсвующие параметры
+
+# TODO функция отрисовки будет иметь в себе все то что повторяется в коде во всех функциях!
+
+# TODO в итого код должен быть вот таким для каждой функции-(фигуры):
+# TODO def triangle(нужные параметры):
+# TODO     общая_функция(парметры_для_отрисовки_треугольника)
 
 sd.pause()
