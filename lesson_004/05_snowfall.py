@@ -26,27 +26,27 @@ for _ in range(N):
     length = sd.random_number(20, 40)
     settings_snowflake.append([x, y, length])
 
-while True:
-    sd.clear_screen()
-    for index in range(N):
-        point_x = settings_snowflake[index][0]
-        point_y = settings_snowflake[index][1]
-        center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # рисуем снежинку
-        settings_snowflake[index][0] += 5
-        settings_snowflake[index][1] -= 20
-        sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
-        if point_y < 50:
-            settings_snowflake[index][1] = 600
-        # TODO эту часть во второй части можно опустить! Потому что там предполагается что X Y мы
-        # TODO мы будем менять динамически, подсказка!
-        if point_x > 1100:  # доработал сдвиг по х тоже
-            settings_snowflake[index][0] = 50
+# while True:
+#     sd.clear_screen()
+#     for index in range(N):
+#         point_x = settings_snowflake[index][0]
+#         point_y = settings_snowflake[index][1]
+#         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # рисуем снежинку
+#         settings_snowflake[index][0] += 5
+#         settings_snowflake[index][1] -= 20
+#         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+#         if point_y < 50:
+#             settings_snowflake[index][1] = 600
+#         # TODO эту часть во второй части можно опустить! Потому что там предполагается что X Y мы
+#         # TODO мы будем менять динамически, подсказка!
+#         if point_x > 1100:  # доработал сдвиг по х тоже
+#             settings_snowflake[index][0] = 50
+#
+#     sd.sleep(0.1)
+#     if sd.user_want_exit():  # проверка выхода из цикла
+#         break
 
-    sd.sleep(0.1)
-    if sd.user_want_exit():  # проверка выхода из цикла
-        break
 
-sd.pause()
 
 # TODO можно делать вторую часть!
 
@@ -90,9 +90,53 @@ sd.pause()
 #     если пользователь хочет выйти
 #       прервать цикл
 
+# TODO part two
+# while True:
+#     sd.start_drawing()
+#     for index in range(N):
+#         point_x = settings_snowflake[index][0]
+#         point_y = settings_snowflake[index][1]
+#         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
+#         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2], color=sd.background_color)
+#         settings_snowflake[index][0] += 5
+#         settings_snowflake[index][1] -= 20
+#         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
+#         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+#         sd.finish_drawing()
+#     sd.sleep(0.1)
+#     if sd.user_want_exit():  # проверка выхода из цикла
+#         break
+
 
 # Усложненное задание (делать по желанию)
 # - сделать рандомные отклонения вправо/влево при каждом шаге
 # - сделать сугоб внизу экрана - если снежинка долетает до низа, оставлять её там,
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
+
+# TODO part two point one
+while True:
+    sd.start_drawing()
+    for step, index in enumerate(range(N)):
+        point_x = settings_snowflake[index][0]
+        point_y = settings_snowflake[index][1]
+        center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
+        if point_y <= settings_snowflake[index][2]:  # если снежинка в конце экране не закрашиваем ее цветом экрана
+            settings_snowflake[index][1] = 600  # запускаем снегопад повторно
+            #  index -= 1  # этот код добовляет +1 снежинку ксли я правильно понял
+            pass
+        else:
+            sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2], color=sd.background_color)
+        if step % 2 == 0:  # рандомное отклонение вправо/влево
+            settings_snowflake[index][0] += sd.random_number(5, 10)  # 5
+        else:
+            settings_snowflake[index][0] -= sd.random_number(10, 20)  # 15
+        settings_snowflake[index][1] -= 15
+        center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
+        sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+        sd.finish_drawing()
+    sd.sleep(0.1)
+    if sd.user_want_exit():  # проверка выхода из цикла
+        break
+
+sd.pause()

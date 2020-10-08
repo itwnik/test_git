@@ -38,62 +38,60 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 # sd.resolution = (1200, 800)
 
-# Согласен! Код был рабочий!
-def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
-    current_point_shape = point_start
-    # лучше писать слитно именно в передаваемых атрибутах в range можно сделать пробел!
-    for angle_shape in range(0, 360 - 120, 120):
-        vector_shape = sd.get_vector(start_point=current_point_shape,
-                                     angle=angle_shape + ange_tilt, length=length_side, width=2)
-        vector_shape.draw()
-        current_point_shape = vector_shape.end_point
-    sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
-
-
-initial_point_triangle = sd.get_point(300, 300)
-paint_triangle(initial_point_triangle, ange_tilt=190, length_side=150)
-
-
-def paint_square(point_start, ange_tilt, length_side):  # рисуем квадрат
-    current_point_shape = point_start
-    for angle_shape in range(0, 360-90, 90):
-        vector_shape = sd.get_vector(start_point=current_point_shape,
-                                     angle=angle_shape+ange_tilt, length=length_side, width=2)
-        vector_shape.draw()
-        current_point_shape = vector_shape.end_point
-    sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
-
-
-initial_point_square = sd.get_point(100, 300)
-paint_square(initial_point_square, ange_tilt=210, length_side=100)
-
-
-def paint_pentagone(point_start, ange_tilt, length_side):  # рисуем пятиугольник
-    current_point_shape = point_start
-    for angle_shape in range(0, 360-72, 72):
-        vector_shape = sd.get_vector(start_point=current_point_shape,
-                                     angle=angle_shape+ange_tilt, length=length_side, width=2)
-        vector_shape.draw()
-        current_point_shape = vector_shape.end_point
-    sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
-
-
-initial_point_pentagone = sd.get_point(100, 100)
-paint_pentagone(initial_point_pentagone, ange_tilt=0, length_side=100)
-
-
-def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шестиугольник
-    current_point_shape = point_start
-    for angle_shape in range(0, 360-60, 60):
-        vector_shape = sd.get_vector(start_point=current_point_shape,
-                                     angle=angle_shape+ange_tilt, length=length_side, width=2)
-        vector_shape.draw()
-        current_point_shape = vector_shape.end_point
-    sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
-
-
-initial_point_hexagon = sd.get_point(400, 150)
-paint_hexagon(initial_point_hexagon, ange_tilt=120, length_side=100)
+# def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
+#     current_point_shape = point_start
+#     for angle_shape in range(0, 360 - 120, 120):
+#         vector_shape = sd.get_vector(start_point=current_point_shape,
+#                                      angle=angle_shape+ange_tilt, length=length_side, width=2)
+#         vector_shape.draw()
+#         current_point_shape = vector_shape.end_point
+#     sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+#
+#
+# initial_point_triangle = sd.get_point(300, 300)
+# paint_triangle(initial_point_triangle, ange_tilt=190, length_side=150)
+#
+#
+# def paint_square(point_start, ange_tilt, length_side):  # рисуем квадрат
+#     current_point_shape = point_start
+#     for angle_shape in range(0, 360-90, 90):
+#         vector_shape = sd.get_vector(start_point=current_point_shape,
+#                                      angle=angle_shape+ange_tilt, length=length_side, width=2)
+#         vector_shape.draw()
+#         current_point_shape = vector_shape.end_point
+#     sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+#
+#
+# initial_point_square = sd.get_point(100, 300)
+# paint_square(initial_point_square, ange_tilt=210, length_side=100)
+#
+#
+# def paint_pentagone(point_start, ange_tilt, length_side):  # рисуем пятиугольник
+#     current_point_shape = point_start
+#     for angle_shape in range(0, 360-72, 72):
+#         vector_shape = sd.get_vector(start_point=current_point_shape,
+#                                      angle=angle_shape+ange_tilt, length=length_side, width=2)
+#         vector_shape.draw()
+#         current_point_shape = vector_shape.end_point
+#     sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+#
+#
+# initial_point_pentagone = sd.get_point(100, 100)
+# paint_pentagone(initial_point_pentagone, ange_tilt=0, length_side=100)
+#
+#
+# def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шестиугольник
+#     current_point_shape = point_start
+#     for angle_shape in range(0, 360-60, 60):
+#         vector_shape = sd.get_vector(start_point=current_point_shape,
+#                                      angle=angle_shape+ange_tilt, length=length_side, width=2)
+#         vector_shape.draw()
+#         current_point_shape = vector_shape.end_point
+#     sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+#
+#
+# initial_point_hexagon = sd.get_point(400, 150)
+# paint_hexagon(initial_point_hexagon, ange_tilt=120, length_side=100)
 
 
 # Часть 1-бис.
@@ -119,13 +117,45 @@ paint_hexagon(initial_point_hexagon, ange_tilt=120, length_side=100)
 # Поэтому среди программистов есть принцип D.R.Y. https://clck.ru/GEsA9
 # Будьте ленивыми, не используйте копи-пасту!
 
-# TODO Делаем вторую часть, что у нас должно получится в коде
-# TODO одна большая общая функция которая рисует нужную нам фигуру если ей задать соответсвующие параметры
 
-# TODO функция отрисовки будет иметь в себе все то что повторяется в коде во всех функциях!
+def draw_shape(current_point_shape, ange_tilt, length_side, angle_draw_shape, ):
+    point_start = current_point_shape
+    for angle_shape in range(0, 360 - angle_draw_shape, angle_draw_shape):
+        vector_shape = sd.get_vector(start_point=current_point_shape,
+                                     angle=angle_shape+ange_tilt, length=length_side, width=2)
+        vector_shape.draw()
+        current_point_shape = vector_shape.end_point
+    sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
 
-# TODO в итого код должен быть вот таким для каждой функции-(фигуры):
-# TODO def triangle(нужные параметры):
-# TODO     общая_функция(парметры_для_отрисовки_треугольника)
+
+def paint_triangle(point_start, ange_tilt, length_side):  # рисуем треугольник
+    angle_triangle = 120
+    draw_shape(point_start, ange_tilt, length_side, angle_triangle,)
+
+
+def paint_square(point_start, ange_tilt, length_side):  # рисуем квадрат
+    angle_square = 90
+    draw_shape(point_start, ange_tilt, length_side, angle_square,)
+
+
+def paint_pentagone(point_start, ange_tilt, length_side):  # рисуем пятиугольник
+    angle_pentagone = 72
+    draw_shape(point_start, ange_tilt, length_side, angle_pentagone,)
+
+
+def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шестиугольник
+    angle_hexagon = 60
+    draw_shape(point_start, ange_tilt, length_side, angle_hexagon,)
+
+
+initial_point_triangle = sd.get_point(100, 100)
+initial_point_square = sd.get_point(100, 300)
+initial_point_pentagone = sd.get_point(400, 100)
+initial_point_hexagon = sd.get_point(400, 300)
+
+paint_triangle(point_start=initial_point_triangle, ange_tilt=15, length_side=150)
+paint_square(point_start=initial_point_square, ange_tilt=25, length_side=100)
+paint_pentagone(point_start=initial_point_pentagone, ange_tilt=30, length_side=100)
+paint_hexagon(point_start=initial_point_hexagon, ange_tilt=10, length_side=100)
 
 sd.pause()
