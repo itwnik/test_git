@@ -37,8 +37,7 @@ for _ in range(N):
 #         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
 #         if point_y < 50:
 #             settings_snowflake[index][1] = 600
-#         # TODO эту часть во второй части можно опустить! Потому что там предполагается что X Y мы
-#         # TODO мы будем менять динамически, подсказка!
+
 #         if point_x > 1100:  # доработал сдвиг по х тоже
 #             settings_snowflake[index][0] = 50
 #
@@ -46,9 +45,6 @@ for _ in range(N):
 #     if sd.user_want_exit():  # проверка выхода из цикла
 #         break
 
-
-
-# TODO можно делать вторую часть!
 
 # Примерный алгоритм отрисовки снежинок
 #   навсегд а
@@ -90,7 +86,7 @@ for _ in range(N):
 #     если пользователь хочет выйти
 #       прервать цикл
 
-# TODO part two
+
 # while True:
 #     sd.start_drawing()
 #     for index in range(N):
@@ -114,7 +110,9 @@ for _ in range(N):
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
 
-# TODO part two point one
+# TODO доработать алгоритм из первой части без наворотов!
+# TODO нужно только добавить рендомное отклонение без условий
+# TODO и только одно условие в конце цикла фор на упавшею снежинку
 while True:
     sd.start_drawing()
     for step, index in enumerate(range(N)):
@@ -140,3 +138,5 @@ while True:
         break
 
 sd.pause()
+
+# TODO снегопад не должен заканчиваться !
