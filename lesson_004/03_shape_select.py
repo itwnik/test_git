@@ -8,8 +8,11 @@ import simple_draw as sd
 
 # Код функций из упр lesson_004/02_global_color.py скопировать сюда
 # Результат решения см lesson_004/results/exercise_03_shape_select.jpg
-
+# TODO аналогично нейминг
+# TODO Примерно новый объект данных может выглядеть вот так:
+# TODO colors = {0: ['треугольник', функция_треугольник], 1: ['квадрат', функция_квадрат], и так далее!
 shape_ls = [['треугольник', 120], ['квадрат', 90], ['пятиугольник', 72], ['шестиугольник', 60]]
+
 print(f"Возможные варианты: ")
 for index, value in enumerate(shape_ls):
     print(f"{index}: {value[0]}")
@@ -23,7 +26,7 @@ while True:
     else:
         print(f"Ошибка! повторите ввод!")
 
-
+# TODO функции объявляем до основной логики программы!
 def draw_shape(current_point_shape, ange_tilt, length_side, angle_draw_shape, color_shape, ):
     point_start = current_point_shape
     for angle_shape in range(0, 360 - angle_draw_shape, angle_draw_shape):
@@ -56,6 +59,9 @@ def paint_hexagon(point_start, ange_tilt, length_side):  # рисуем шест
 
 user_color = sd.COLOR_DARK_YELLOW
 initial_point = sd.get_point(300, 300)
+# TODO тогда тут если мы по ключу выберем нужную нам функцию! Важно! не ее название, а именно функцию.
+# TODO то нам останется подставить нужные параметры и вызвать ее тут используя ()
+# TODO тогда не придется писать такую вложенность!
 if user_shape == shape_ls[0][1]:
     paint_triangle(point_start=initial_point, ange_tilt=0, length_side=150)
 elif user_shape == shape_ls[1][1]:
