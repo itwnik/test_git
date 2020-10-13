@@ -18,13 +18,13 @@ N = 20
 # sd.user_want_exit()
 
 
-sd.resolution = (1200, 600)
-settings_snowflake = []
-for _ in range(N):
-    x = sd.random_number(100, 1200)
-    y = sd.random_number(500, 600)
-    length = sd.random_number(20, 40)
-    settings_snowflake.append([x, y, length])
+# sd.resolution = (1200, 600)
+# settings_snowflake = []
+# for _ in range(N):
+#     x = sd.random_number(100, 1200)
+#     y = sd.random_number(500, 600)
+#     length = sd.random_number(20, 40)
+#     settings_snowflake.append([x, y, length])
 
 # while True:
 #     sd.clear_screen()
@@ -47,7 +47,7 @@ for _ in range(N):
 
 
 # Примерный алгоритм отрисовки снежинок
-#   навсегд а
+#   навсегда
 #     очистка экрана
 #     для индекс, координата_х из списка координат снежинок
 #       получить координата_у по индексу
@@ -110,26 +110,53 @@ for _ in range(N):
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
 
-# TODO доработать алгоритм из первой части без наворотов!
-# TODO нужно только добавить рендомное отклонение без условий
-# TODO и только одно условие в конце цикла фор на упавшею снежинку
+sd.resolution = (1200, 600)
+settings_snowflake = []
+fallen_snow = []
+for _ in range(N):
+    x = sd.random_number(100, 1200)
+    y = sd.random_number(500, 600)
+    length = sd.random_number(20, 40)
+    settings_snowflake.append([x, y, length])
+
+# Выполнение задачи по Вашему алгоритму, как
+
+# while True:
+#     sd.clear_screen()
+#     # sd.start_drawing()
+#     for index in range(N):
+#         point_x = settings_snowflake[index][0]
+#         point_y = settings_snowflake[index][1]
+#         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # рисуем снежинку
+#         settings_snowflake[index][0] += sd.random_number(-15, 15)  # рандомное отклонение вправо/влево
+#         settings_snowflake[index][1] -= sd.random_number(15, 25)
+#         print(settings_snowflake)
+#         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+#         if point_y < 50:  # если снежинка упала вниз
+#             settings_snowflake[index][1] = 600  # начинаем снегопад заново
+#             fallen_snow.append([point_x, point_y, settings_snowflake[index][2]])  # добовляем координаты ее в список
+#         for index_1 in range(len(fallen_snow)):  # отрисовываем каждую упавшую снежинку из списка
+#             center_fallen_snow = sd.get_point(fallen_snow[index_1][0], fallen_snow[index_1][1])
+#             sd.snowflake(center=center_fallen_snow, length=settings_snowflake[index][2])
+#     # sd.finish_drawing()
+#     sd.sleep(0.1)
+#     if sd.user_want_exit():  # проверка выхода из цикла
+#         break
+
+# второй вариант, выдуманный мной.
+
 while True:
     sd.start_drawing()
-    for step, index in enumerate(range(N)):
+    for index in range(N):
         point_x = settings_snowflake[index][0]
         point_y = settings_snowflake[index][1]
         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
-        if point_y <= settings_snowflake[index][2]:  # если снежинка в конце экране не закрашиваем ее цветом экрана
-            settings_snowflake[index][1] = 600  # запускаем снегопад повторно
-            #  index -= 1  # этот код добовляет +1 снежинку ксли я правильно понял
-            pass
+        if point_y < 50:
+            settings_snowflake[index][1] = 600
         else:
             sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2], color=sd.background_color)
-        if step % 2 == 0:  # рандомное отклонение вправо/влево
-            settings_snowflake[index][0] += sd.random_number(5, 10)  # 5
-        else:
-            settings_snowflake[index][0] -= sd.random_number(10, 20)  # 15
-        settings_snowflake[index][1] -= 15
+        settings_snowflake[index][0] += sd.random_number(-15, 15)
+        settings_snowflake[index][1] -= sd.random_number(15, 25)
         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
         sd.finish_drawing()
@@ -139,4 +166,5 @@ while True:
 
 sd.pause()
 
-# TODO снегопад не должен заканчиваться !
+# TODO не совсем понял как перерабатывать алгоритм из первой части, поэтому сделал 2 Варианта, надеюсь какой то из них
+#  вам зайдет.
