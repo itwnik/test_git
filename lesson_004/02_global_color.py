@@ -89,3 +89,5 @@ paint_pentagone(point_start=initial_point_pentagone, ange_tilt=30, length_side=1
 paint_hexagon(point_start=initial_point_hexagon, ange_tilt=10, length_side=100)
 
 sd.pause()
+
+# зачет!
