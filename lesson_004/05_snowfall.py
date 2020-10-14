@@ -145,20 +145,29 @@ for _ in range(N):
 
 # второй вариант, выдуманный мной.
 
+
 while True:
     sd.start_drawing()
     for index in range(N):
+        # TODO тут мы объявили point_x point_y, нужно еще и length
         point_x = settings_snowflake[index][0]
         point_y = settings_snowflake[index][1]
+        # TODO вот тут в качестве аргументов как раз и передаем point_x point_y, length
         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
+        # TODO тут мы печатаем sd.snowflake(... color=sd.background_color)
+        # TODO это переносим в конец цикла
         if point_y < 50:
             settings_snowflake[index][1] = 600
+        # TODO эту часть else убираем
         else:
             sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2], color=sd.background_color)
+        # TODO аналогично изменяем point_x point_y а не сразу в списке!
         settings_snowflake[index][0] += sd.random_number(-15, 15)
         settings_snowflake[index][1] -= sd.random_number(15, 25)
+        # TODO в качестве аргументов передаем point_x point_y, length
         center_snowflake = sd.get_point(settings_snowflake[index][0], settings_snowflake[index][1])  # координаты
         sd.snowflake(center=center_snowflake, length=settings_snowflake[index][2])
+        # TODO и после того как отрисовали мы сохраняем point_x point_y, length в нужную ячейку в список списков
         sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():  # проверка выхода из цикла
@@ -166,5 +175,7 @@ while True:
 
 sd.pause()
 
-# TODO не совсем понял как перерабатывать алгоритм из первой части, поэтому сделал 2 Варианта, надеюсь какой то из них
-#  вам зайдет.
+# TODO сугроб доработаем иным способом потому что создания нового списка через 5-10 мин будет тормозить программу!
+# TODO сделаем point_y < 50:  число 50 вынесем в переменную
+#  и сделаем динамическим изменяемым и на каждой итерации будем прибавлять +=0.5 или 1
+
