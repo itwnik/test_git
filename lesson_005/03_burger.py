@@ -15,4 +15,15 @@
 # Создать рецепт своего бургера, по вашему вкусу.
 # Если не хватает инградиентов - создать соответствующие функции в модуле my_burger
 
-# TODO здесь ваш код
+import my_burger as burger
+
+print(f"Авторский рецепт бургера Димональдс")
+burger.buns()
+burger.cutlets()
+burger.cucumbers()
+burger.tomatoes()
+burger.mayonnais()
+burger.cheese()
+burger.mustard_sauce()
+burger.fresh_onion()
+print(f"Все заточем с апетитом =)")
