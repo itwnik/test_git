@@ -2,18 +2,16 @@
 
 import simple_draw as sd
 
-# TODO поиграйтесь можно попробовать с старт и ент дравфтинг поиграться
-
+# TODO спасибо! пофиксил проблему.
 
 def draw_branches(start_point, angle_draw, length_branch, color=sd.COLOR_YELLOW):
     if length_branch < 5:  # проверяка на вход из рекурсии
         return
     # рисуем ствол
-
-    vector_one = sd.get_vector(start_point=start_point, angle=angle_draw, length=length_branch, )
     sd.start_drawing()
+    vector_one = sd.get_vector(start_point=start_point, angle=angle_draw, length=length_branch, )
     vector_one.draw(color=color)
-    sd.finish_drawing()
+
     next_point = vector_one.end_point  # определяем следующую точку рисования ветки
     # определяем рандомную начальную и конечную точку угла в пределах 40% от 30 градусов
     random_tilt_start = int(30 * 1.4)
@@ -29,14 +27,15 @@ def draw_branches(start_point, angle_draw, length_branch, color=sd.COLOR_YELLOW)
     next_length_branch = length_branch * (sd.random_number(a=random_length_end, b=random_length_start) / 100)
     if next_length_branch < 20:
         color = sd.COLOR_GREEN
-    sd.start_drawing()
     # рисуем ветку
     draw_branches(start_point=next_point, angle_draw=r_next_angle_draw, length_branch=next_length_branch, color=color)  # правую
-    sd.finish_drawing()
     draw_branches(start_point=next_point, angle_draw=l_next_angle_draw, length_branch=next_length_branch, color=color)  # левую
 
     return vector_one.end_point
 
-
-# root_point = sd.get_point(300, 30)
-# draw_branches(start_point=root_point, angle_draw=90, length_branch=100)
+# Для тестов
+# def draw_branches_repeat():
+#     root_point = sd.get_point(300, 30)
+#     draw_branches(start_point=root_point, angle_draw=90, length_branch=100)
+#     sd.finish_drawing()
+# sd.pause()

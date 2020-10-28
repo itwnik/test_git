@@ -33,5 +33,3 @@ def wall_draw(start_brick, end_brick, start_width_brick, end_width_brick, color_
             shift = 0
     sd.finish_drawing()
 
-
-# wall_draw(start_brick=300, end_brick=900, start_width_brick=50, end_width_brick=400)
