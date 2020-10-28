@@ -2,8 +2,7 @@
 
 import simple_draw as sd
 
-# TODO не могу понять как рисовать дерево сразу. может быть  через while ?
-#  или можно как то через вызов функции самой себя?
+# TODO поиграйтесь можно попробовать с старт и ент дравфтинг поиграться
 
 
 def draw_branches(start_point, angle_draw, length_branch, color=sd.COLOR_YELLOW):
