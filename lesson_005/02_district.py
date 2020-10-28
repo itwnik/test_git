@@ -25,3 +25,5 @@ district = [*center_house1_room1,
             ]
 
 print(f"На районе живут {', '.join(district)}")
+
+# зачет!
