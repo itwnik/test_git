@@ -27,3 +27,5 @@ burger.cheese()
 burger.mustard_sauce()
 burger.fresh_onion()
 print(f"Все заточем с апетитом =)")
+
+# зачет!
