@@ -2,7 +2,6 @@
 
 import simple_draw as sd
 
-# TODO спасибо! пофиксил проблему.
 
 def draw_branches(start_point, angle_draw, length_branch, color=sd.COLOR_YELLOW):
     if length_branch < 5:  # проверяка на вход из рекурсии
