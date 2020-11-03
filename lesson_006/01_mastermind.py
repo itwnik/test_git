@@ -44,4 +44,69 @@
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
-# TODO здесь ваш код...
+#
+
+"""
+
+Игра «Быки и коровы»
+Правила:
+Компьютер загадывает четырехзначное число, все цифры которого различны
+(первая цифра числа отлична от нуля). Игроку необходимо разгадать задуманное число.
+Игрок вводит четырехзначное число c неповторяющимися цифрами,
+компьютер сообщают о количестве «быков» и «коров» в названном числе
+«бык» — цифра есть в записи задуманного числа и стоит в той же позиции,
+      что и в задуманном числе
+«корова» — цифра есть в записи задуманного числа, но не стоит в той же позиции,
+      что и в задуманном числе
+
+Например, если задумано число 3275 и названо число 1234,
+получаем в названном числе одного «быка» и одну «корову».
+Очевидно, что число отгадано в том случае, если имеем 4 «быка».
+
+"""
+
+from mastermind_engine import mystery_number, check_number, end_game
+import termcolor as tc
+
+count = 1
+
+
+def input_and_check(data, text):
+    while True:
+
+        user_input = input(tc.colored(text, 'green', ))
+        if data == 1:
+            if user_input.isdigit() and user_input[0] != "0":
+                temp = set(user_input)
+                if len(temp) == 4:
+                    break
+        elif data == 2:
+            if user_input == "y" or user_input == "n":
+                break
+        print(f"Ошибка! повторите ввод!")
+    return user_input
+
+
+def new_game():
+    if input_and_check(2, 'Игра «Быки и коровы»! \n Распечатать правила? (y/n): ') == "y":
+        print(__doc__)
+    tc.cprint("Игра началась!", 'red')
+    # mystery_number()
+    # print(mystery_number())
+    print("Компьютер загадал число XXXX")
+
+
+new_game()
+while True:
+    user_input_number = input_and_check(1, f"Отгадайте число которое загадал компьютер. Раунд № {count}: ")
+    # print(check_number(user_input_number))
+    answer = check_number(user_input_number)
+    print(f"Быки - {answer['bulls']}, коровы - {answer['crows']}")
+    count += 1
+    if end_game(user_input_number):
+        print(f"You WIN!!! Тебе понадобилось {count-1} раунда")
+        if input_and_check(2, 'Еще раз? (y/n): ') == "y":
+            count = 1
+            new_game()
+        else:
+            break
