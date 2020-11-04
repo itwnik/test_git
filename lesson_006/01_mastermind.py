@@ -71,15 +71,17 @@ import termcolor as tc
 count = 1
 
 
+# TODO разделить на две функции!
 def input_and_check(data, text):
     while True:
-
         user_input = input(tc.colored(text, 'green', ))
         if data == 1:
+            # TODO логику выносим в API, тут только одно условие!
             if user_input.isdigit() and user_input[0] != "0":
                 temp = set(user_input)
                 if len(temp) == 4:
                     break
+        # TODO это во вторую функцию
         elif data == 2:
             if user_input == "y" or user_input == "n":
                 break
@@ -104,6 +106,8 @@ while True:
     print(f"Быки - {answer['bulls']}, коровы - {answer['crows']}")
     count += 1
     if end_game(user_input_number):
+        # TODO все что ниже вынести в отдельную функцию! Придумать как выйти из Игры логически! Без применения
+        #  дополнительных функций!
         print(f"You WIN!!! Тебе понадобилось {count-1} раунда")
         if input_and_check(2, 'Еще раз? (y/n): ') == "y":
             count = 1
