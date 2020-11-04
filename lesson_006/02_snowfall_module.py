@@ -28,8 +28,10 @@ while True:
     #  если есть номера_достигших_низа_экрана() то
     if sf.index_fall_snow():
         # удалить_снежинки(номера)
+        # TODO тут что то нужно сделать с неймингом N
         N = sf.del_snowflake()
         # создать_снежинки(count)
+        # TODO добавлять будем столько сколько sf.index_fall_snow() вернет используя len()
         sf.create_snowflake(N)
     sd.sleep(0.1)
     if sd.user_want_exit():
