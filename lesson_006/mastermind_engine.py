@@ -1,58 +1,40 @@
 # -*- coding: utf-8 -*-
 
-
-"""
-
-Движок игры «Быки и коровы»
-
-"""
+"""  Движок игры «Быки и коровы»  """
 
 import random as r
 
-# TODO нужно если тип указать без ()
 _num_string = str()
 
 
 def mystery_number():
-    # TODO Можно упростить заводим бесконечный цикл
-    # TODO final_result присваиваем строку в которой randint(1000, 9999)
-    # TODO Потом проверяем если set этой строки без дублей, (и прочекать длину)
-    # TODO то выходим из цикла
-    # TODO и возвращаем нужный нам результат
     global _num_string
-    numbers = list()
-    while len(numbers) < 4:
-        temp = r.randint(0, 9)
-        if temp not in numbers:
-            if len(numbers) == 0 and temp == 0:
-                pass
-            else:
-                numbers.append(temp)
-    _num_string = ''.join(str(_num_string) for _num_string in numbers)
+    while True:
+        _num_string = str(r.randint(1000, 9999))
+        if len(set(_num_string)) == 4:
+            break
     return _num_string
 
-# TODO вот тут как раз пишем функцию проверки которая наружу будет выдавать True\False
-# TODO нам нужен отдельный метод который чекает число пользователя на ошибки,
-# TODO Можно создать список булевых значений и чекать его сразу в if функцией all, будет один if!
-# TODO У вас должно быть 4 проверки: на число, на длинну, на длинну set, и на первый 0, только в нужном порядке!
+# TODO без if тоже работает. нашел еще интересный способ в сети, насколько он правельный?
+# def check_input_number(user_input): -> bool:
+#     return user_input.isdigit() and int(user_input) > 0 and len(set(user_input)) == 4
 
 
-def check_number(user_input):
+def check_input_number(user_input):
+    return all([user_input.isdigit() and int(user_input) > 0 and len(set(user_input)) == 4])
+
+
+def check_bulls_crow(user_input):
     bulls_crow = {"bulls": 0, "crows": 0}
-    for i in range(0, len(user_input)):
+    for i in range(len(user_input)):
         if user_input[i] == _num_string[i]:
             bulls_crow["bulls"] += 1
-        # TODO за место find можно использовать .count()
+        # TODO лучше оставлю так, как то более одинаково.
         elif user_input.find(_num_string[i]) >= 0:
             bulls_crow["crows"] += 1
     return bulls_crow
 
 
 def end_game(is_game):
-    # TODO можно сразу записать вот так
-    # TODO return is_game == _num_string
-    end = False
-    if is_game == _num_string:
-        end = True
-    return end
+    return is_game == _num_string
 

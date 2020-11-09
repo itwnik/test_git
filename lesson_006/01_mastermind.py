@@ -65,52 +65,52 @@
 
 """
 
-from mastermind_engine import mystery_number, check_number, end_game
+from mastermind_engine import mystery_number, end_game, check_input_number, check_bulls_crow
 import termcolor as tc
 
 count = 1
+answer = {"bulls": 0, "crows": 0}
 
 
-# TODO разделить на две функции!
-def input_and_check(data, text):
+def input_and_check(text):
     while True:
         user_input = input(tc.colored(text, 'green', ))
-        if data == 1:
-            # TODO логику выносим в API, тут только одно условие!
-            if user_input.isdigit() and user_input[0] != "0":
-                temp = set(user_input)
-                if len(temp) == 4:
-                    break
-        # TODO это во вторую функцию
-        elif data == 2:
-            if user_input == "y" or user_input == "n":
-                break
+        if check_input_number(user_input):
+            return user_input
+        print(f"Ошибка! повторите ввод!")
+
+
+def check_user_answer_question(text):
+    while True:
+        user_input = input(tc.colored(text, 'green', ))
+        if user_input == "y" or user_input == "n":
+            break
         print(f"Ошибка! повторите ввод!")
     return user_input
 
 
 def new_game():
-    if input_and_check(2, 'Игра «Быки и коровы»! \n Распечатать правила? (y/n): ') == "y":
+    print("Игра «Быки и коровы»!")
+    if check_user_answer_question("Распечатать правила? (y/n):") == "y":
         print(__doc__)
     tc.cprint("Игра началась!", 'red')
     # mystery_number()
-    # print(mystery_number())
+    print(mystery_number())
     print("Компьютер загадал число XXXX")
 
 
+def win_repeat(laps):
+    print(f"You WIN!!! Тебе понадобилось {laps - 1} раунда")
+    if check_user_answer_question('Еще раз? (y/n): ') == "y":
+        new_game()
+
+
 new_game()
-while True:
-    user_input_number = input_and_check(1, f"Отгадайте число которое загадал компьютер. Раунд № {count}: ")
-    # print(check_number(user_input_number))
-    answer = check_number(user_input_number)
+while answer['bulls'] != 4:
+    user_input_number = input_and_check(f"Отгадайте число которое загадал компьютер. Раунд № {count}: ")
+    answer = check_bulls_crow(user_input_number)
     print(f"Быки - {answer['bulls']}, коровы - {answer['crows']}")
     count += 1
     if end_game(user_input_number):
-        # TODO все что ниже вынести в отдельную функцию! Придумать как выйти из Игры логически! Без применения
-        #  дополнительных функций!
-        print(f"You WIN!!! Тебе понадобилось {count-1} раунда")
-        if input_and_check(2, 'Еще раз? (y/n): ') == "y":
-            count = 1
-            new_game()
-        else:
-            break
+        win_repeat(count)
+        count = 1
