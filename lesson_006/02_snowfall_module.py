@@ -15,10 +15,11 @@ import snowfall as sf
 # В текущем модуле реализовать главный цикл падения снежинок,
 # обращаясь ТОЛЬКО к функциям модуля snowfall
 sd.resolution = (1200, 600)
-N = 20
+amount_snow = 20
 # создать_снежинки(N)
-sf.create_snowflake(N)
+sf.create_snowflake(amount_snow)
 while True:
+    sd.start_drawing()
     #  нарисовать_снежинки_цветом(color=sd.background_color)
     sf.paint_color_snowflake(snowflake_color=sd.background_color)
     #  сдвинуть_снежинки()
@@ -26,13 +27,14 @@ while True:
     #  нарисовать_снежинки_цветом(color)
     sf.paint_color_snowflake(snowflake_color=sd.COLOR_WHITE)
     #  если есть номера_достигших_низа_экрана() то
+    sd.finish_drawing()
     if sf.index_fall_snow():
         # удалить_снежинки(номера)
-        # TODO тут что то нужно сделать с неймингом N
-        N = sf.del_snowflake()
+        amount_snow = sf.del_snowflake()
         # создать_снежинки(count)
-        # TODO добавлять будем столько сколько sf.index_fall_snow() вернет используя len()
-        sf.create_snowflake(N)
+        # TODO в первоночальном варианте я хотел так сделать, но меня смутило то, что "зачем вызывать повторно функцию
+        #   если я уже ее вызываю в if"
+        sf.create_snowflake(len(sf.index_fall_snow()))
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
