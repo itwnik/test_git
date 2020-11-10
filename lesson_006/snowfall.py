@@ -43,7 +43,7 @@ def index_fall_snow():
     return fall_snow
 
 
-# мой метод, удаляет с конца цикла тоже
+# мой метод, удаляет с конца цикла тоже, только для это мне пришло отсортировать и перевернуть
 def del_snowflake():
     global settings_snowflake
     for elem in fall_snow:
