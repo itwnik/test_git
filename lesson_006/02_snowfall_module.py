@@ -28,13 +28,12 @@ while True:
     sf.paint_color_snowflake(snowflake_color=sd.COLOR_WHITE)
     #  если есть номера_достигших_низа_экрана() то
     sd.finish_drawing()
-    if sf.index_fall_snow():
+    check_fall_snow = len(sf.index_fall_snow())
+    if check_fall_snow:
         # удалить_снежинки(номера)
         amount_snow = sf.del_snowflake()
         # создать_снежинки(count)
-        # TODO можно сделать тогда так вызывать эту функцию один раз в переменную до условия, в условии и тут уже
-        # TODO чекать переменную в которую мы записали результат sf.index_fall_snow(
-        sf.create_snowflake(len(sf.index_fall_snow()))
+        sf.create_snowflake(check_fall_snow)
     sd.sleep(0.1)
     if sd.user_want_exit():
         break

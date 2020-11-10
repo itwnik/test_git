@@ -40,10 +40,9 @@ def index_fall_snow():
     return fall_snow
 
 
-# TODO если снежинки будут залипать нужно fall_snow отсортировать и перевернуть
+# если снежинки будут залипать нужно fall_snow отсортировать и перевернуть
+# TODO что значит если снежинка будет залипать? не понял немного.
 def del_snowflake():
     global settings_snowflake
-    # TODO немного странная записить у нас fall_snow хранит уже индексы зачем мы применили к нему enumerate ?
-    # TODO можно без него!
-    for index, elem in enumerate(fall_snow):
-        del settings_snowflake[elem-index]
+    for elem in fall_snow:
+        del settings_snowflake[elem-fall_snow.index(elem)]
