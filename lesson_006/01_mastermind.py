@@ -114,3 +114,5 @@ while answer['bulls'] != 4:
     if end_game(user_input_number):
         win_repeat(count)
         count = 1
+
+# TODO игра падает если ввести 12341 не хватает проверки на просто длину

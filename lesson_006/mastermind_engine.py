@@ -15,9 +15,8 @@ def mystery_number():
             break
     return _num_string
 
-# TODO без if тоже работает. нашел еще интересный способ в сети, насколько он правельный?
-# def check_input_number(user_input): -> bool:
-#     return user_input.isdigit() and int(user_input) > 0 and len(set(user_input)) == 4
+# TODO сильно длинное вычисление в ретурне, посоветую вынести список в отдельную переменную
+# TODO и all(список) тогда, не хватает одной проверки!
 
 
 def check_input_number(user_input):
@@ -29,7 +28,6 @@ def check_bulls_crow(user_input):
     for i in range(len(user_input)):
         if user_input[i] == _num_string[i]:
             bulls_crow["bulls"] += 1
-        # TODO лучше оставлю так, как то более одинаково.
         elif user_input.find(_num_string[i]) >= 0:
             bulls_crow["crows"] += 1
     return bulls_crow
