@@ -113,6 +113,6 @@ while answer['bulls'] != 4:
     count += 1
     if end_game(user_input_number):
         win_repeat(count)
-        count = 1
+        count, answer['bulls'] = 1, 0
 
-# TODO игра падает если ввести 12341 не хватает проверки на просто длину
+# TODO пофиксил, спасибо! нашел еще баг, игра повторно не запускается, вывести ее на второй круг и его пофиксил.

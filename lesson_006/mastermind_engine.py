@@ -15,12 +15,15 @@ def mystery_number():
             break
     return _num_string
 
-# TODO сильно длинное вычисление в ретурне, посоветую вынести список в отдельную переменную
-# TODO и all(список) тогда, не хватает одной проверки!
+# TODO чет я запутался с этими списками и функцией all()
+#  кстати, ТУДУ можно не писать в каждой строке, пайчарм (версия 2020.2.1) понимает что ТУДУ продолжается
+#  если сделать один пробел от начального ТУДУ ))
 
 
 def check_input_number(user_input):
-    return all([user_input.isdigit() and int(user_input) > 0 and len(set(user_input)) == 4])
+    correct = [user_input.isdigit() and int(user_input) > 0 and len(set(user_input)) == 4 and len(user_input) == 4]
+    if all(correct):
+        return True
 
 
 def check_bulls_crow(user_input):
