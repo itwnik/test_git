@@ -37,12 +37,20 @@ def index_fall_snow():
     for index in range(len(settings_snowflake)):
         if settings_snowflake[index][1] <= -50:
             fall_snow.append(index)
+    # мой метод
+    fall_snow.sort()
+    fall_snow.reverse()
     return fall_snow
 
 
-# если снежинки будут залипать нужно fall_snow отсортировать и перевернуть
-# TODO что значит если снежинка будет залипать? не понял немного.
+# мой метод, удаляет с конца цикла тоже
 def del_snowflake():
     global settings_snowflake
     for elem in fall_snow:
-        del settings_snowflake[elem-fall_snow.index(elem)]
+        del settings_snowflake[elem]
+
+# Ваш метод, у вас тоже все верно.
+# def del_snowflake():
+#     global settings_snowflake
+#     for elem in fall_snow:
+#         del settings_snowflake[elem-fall_snow.index(elem)]
