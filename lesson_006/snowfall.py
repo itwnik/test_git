@@ -37,11 +37,13 @@ def index_fall_snow():
     for index in range(len(settings_snowflake)):
         if settings_snowflake[index][1] <= -50:
             fall_snow.append(index)
-            temp = True
     return fall_snow
 
 
+# TODO если снежинки будут залипать нужно fall_snow отсортировать и перевернуть
 def del_snowflake():
     global settings_snowflake
+    # TODO немного странная записить у нас fall_snow хранит уже индексы зачем мы применили к нему enumerate ?
+    # TODO можно без него!
     for index, elem in enumerate(fall_snow):
         del settings_snowflake[elem-index]
