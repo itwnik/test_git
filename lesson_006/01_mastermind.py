@@ -100,9 +100,13 @@ def new_game():
 
 
 def win_repeat(laps):
+    global answer
     print(f"You WIN!!! Тебе понадобилось {laps - 1} раунда")
     if check_user_answer_question('Еще раз? (y/n): ') == "y":
+        answer['bulls'] = 0
         new_game()
+    else:
+        print("Goodbye!!!!")
 
 
 new_game()
@@ -113,6 +117,4 @@ while answer['bulls'] != 4:
     count += 1
     if end_game(user_input_number):
         win_repeat(count)
-        count, answer['bulls'] = 1, 0
-
-# TODO сейчас баг, нужно выйти из цикла! exit() raise не использовать, это нужно сделать логически
+        count = 1
