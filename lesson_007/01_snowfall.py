@@ -24,7 +24,7 @@ class Snowflake:
         sd.snowflake(center_snowflake, length=self.length, color=snowflake_color)  # рисуем синим снежинку
 
     def can_fall(self):
-        if self.y < -30:
+        if self.y <= 30:
             return False
         else:
             return True
@@ -72,12 +72,10 @@ def get_flakes(quantity):
 def get_fallen_flakes():
     count = 0
     for fl in flakes:
-        if not flake.can_fall():
+        if not fl.can_fall():
             count += 1
-            print(flakes.count(fl))
-            del flakes[flakes.count(fl)]
-            # print(str(flakes))
-            # как удалить снежинку?
+            fl.draw(snowflake_color=sd.background_color)  # TODO снежинки удаляем или делаем сугроб?
+            flakes.remove(fl)
     return count
 
 
@@ -94,11 +92,9 @@ while True:
         flake.draw(snowflake_color=sd.COLOR_WHITE)
         sd.finish_drawing()
     fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
-    # print(fallen_flakes)
     if fallen_flakes:
         append_flakes(fallen_flakes)
         print(len(flakes))
-
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
