@@ -118,3 +118,5 @@ while answer['bulls'] != 4:
     if end_game(user_input_number):
         win_repeat(count)
         count = 1
+
+# зачет!
