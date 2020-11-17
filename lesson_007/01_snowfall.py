@@ -16,6 +16,7 @@ class Snowflake:
         self.length = sd.random_number(20, 24)
 
     def move(self):
+        # TODO используем метод can_fall, если может падать то изменяем
         self.x += sd.random_number(-15, 15)  # меняем х
         self.y -= sd.random_number(15, 25)  # меняем у
 
@@ -24,6 +25,7 @@ class Snowflake:
         sd.snowflake(center_snowflake, length=self.length, color=snowflake_color)  # рисуем синим снежинку
 
     def can_fall(self):
+        # TODO можно упростить написав сразу так return self.y >= 30
         if self.y <= 30:
             return False
         else:
@@ -71,19 +73,22 @@ def get_flakes(quantity):
 
 def get_fallen_flakes():
     count = 0
+    # TODO нейминг, старайтесь не сокращать называния
     for fl in flakes:
         if not fl.can_fall():
             count += 1
-            fl.draw(snowflake_color=sd.background_color)  # TODO снежинки удаляем или делаем сугроб?
+            fl.draw(snowflake_color=sd.background_color)  # TODO снежинки - удаляем!
             flakes.remove(fl)
     return count
 
 
 def append_flakes(quantity):
+    # как бы мы должны знать от куда у нас в функции flakes
+    global flakes
     flakes.extend(get_flakes(quantity))
 
 
-flakes = get_flakes(quantity=3)
+flakes = get_flakes(quantity=25)
 while True:
     for flake in flakes:
         sd.start_drawing()
@@ -94,7 +99,7 @@ while True:
     fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
     if fallen_flakes:
         append_flakes(fallen_flakes)
-        print(len(flakes))
+        # print(len(flakes))
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
