@@ -16,20 +16,16 @@ class Snowflake:
         self.length = sd.random_number(20, 24)
 
     def move(self):
-        # TODO используем метод can_fall, если может падать то изменяем
-        self.x += sd.random_number(-15, 15)  # меняем х
-        self.y -= sd.random_number(15, 25)  # меняем у
+        if self.can_fall():
+            self.x += sd.random_number(-15, 15)  # меняем х
+            self.y -= sd.random_number(15, 25)  # меняем у
 
     def draw(self, snowflake_color):
         center_snowflake = sd.get_point(self.x, self.y)  # получаем центр снежинки
         sd.snowflake(center_snowflake, length=self.length, color=snowflake_color)  # рисуем синим снежинку
 
     def can_fall(self):
-        # TODO можно упростить написав сразу так return self.y >= 30
-        if self.y <= 30:
-            return False
-        else:
-            return True
+        return self.y >= 30
 
     def __str__(self):
         return 'Snowflake: ' + ', '.join(self.x) + ', '.join(self.y) + ', '.join(self.length)
@@ -73,17 +69,17 @@ def get_flakes(quantity):
 
 def get_fallen_flakes():
     count = 0
-    # TODO нейминг, старайтесь не сокращать называния
-    for fl in flakes:
-        if not fl.can_fall():
+    for fallen_flake in flakes:
+        if not fallen_flake.can_fall():
             count += 1
-            fl.draw(snowflake_color=sd.background_color)  # TODO снежинки - удаляем!
-            flakes.remove(fl)
+            fallen_flake.draw(snowflake_color=sd.background_color)
+            flakes.remove(fallen_flake)  # TODO как мне удалить объект через del? del fallen_flake ?
     return count
 
 
 def append_flakes(quantity):
-    # как бы мы должны знать от куда у нас в функции flakes
+    # TODO на уроке говорили, что если аункция не находит переменную в локальном нейминге, то начинает искать
+    #  в глобальном. а в глобальном она есть. Или это нужно всегда ставить для читаемости кода?
     global flakes
     flakes.extend(get_flakes(quantity))
 
@@ -99,7 +95,6 @@ while True:
     fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
     if fallen_flakes:
         append_flakes(fallen_flakes)
-        # print(len(flakes))
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
