@@ -231,9 +231,9 @@ def user_inputs_y_n(text):
         print(f"Ошибка! повторите ввод!")
 
 
+secret = 0
 repeat = "y"
 while repeat == "y":
-    # TODO secret переменная не объявлена!
     if head_element in elements and secret == 0:
         elements.remove(head_element)
     element_1 = int(user_inputs("первого"))

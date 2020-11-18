@@ -73,14 +73,16 @@ def get_fallen_flakes():
         if not fallen_flake.can_fall():
             count += 1
             fallen_flake.draw(snowflake_color=sd.background_color)
-            flakes.remove(fallen_flake)  # TODO не понял вопроса, remove же удаляет снежинку !
+            flakes.remove(fallen_flake)  # TODO да, remove удаляет снежин, НО снежинку же можно удалить
+                                         #  разными способами? например чере функцию del
+                                         #  как в этом примере:
+                                         #  a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                         #  del a[-1]
+                                         #  как в нашем случае это провернуть?
     return count
 
 
 def append_flakes(quantity):
-    # в данном случае да, для читаемости! вообще лучше не использовать global, как бы это не странно
-    # сейчас звучало, нужно делать логику функций так чтобы она была независима от внешних переменных.
-    # в данном коде такое решение вполне оправдано.
     global flakes
     flakes.extend(get_flakes(quantity))
 
