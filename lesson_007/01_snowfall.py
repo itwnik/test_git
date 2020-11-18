@@ -73,13 +73,14 @@ def get_fallen_flakes():
         if not fallen_flake.can_fall():
             count += 1
             fallen_flake.draw(snowflake_color=sd.background_color)
-            flakes.remove(fallen_flake)  # TODO как мне удалить объект через del? del fallen_flake ?
+            flakes.remove(fallen_flake)  # TODO не понял вопроса, remove же удаляет снежинку !
     return count
 
 
 def append_flakes(quantity):
-    # TODO на уроке говорили, что если аункция не находит переменную в локальном нейминге, то начинает искать
-    #  в глобальном. а в глобальном она есть. Или это нужно всегда ставить для читаемости кода?
+    # в данном случае да, для читаемости! вообще лучше не использовать global, как бы это не странно
+    # сейчас звучало, нужно делать логику функций так чтобы она была независима от внешних переменных.
+    # в данном коде такое решение вполне оправдано.
     global flakes
     flakes.extend(get_flakes(quantity))
 
