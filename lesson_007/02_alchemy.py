@@ -19,7 +19,6 @@
 #   print(Water(), '+', Air(), '=', Water() + Air())
 #   print(Fire(), '+', Air(), '=', Fire() + Air())
 
-# TODO здесь ваш код
 
 class Water:
     def __init__(self):
@@ -234,6 +233,7 @@ def user_inputs_y_n(text):
 
 repeat = "y"
 while repeat == "y":
+    # TODO secret переменная не объявлена!
     if head_element in elements and secret == 0:
         elements.remove(head_element)
     element_1 = int(user_inputs("первого"))
