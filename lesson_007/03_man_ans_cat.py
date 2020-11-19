@@ -70,19 +70,21 @@ class Man:
         cprint('{} Вьехал в дом'.format(self.name), color='cyan')
 
     #  ------------Cat action----------
-    # TODO технически все работает, но как только я добовляю в функцию buy_food_cat(self) имя кота
-    #  программа падает. Что я делаю не так? Если я подбираю кота, то судя по моему коду, у кота появляется дом и у Men появляется кот.
-    #  Или же кот появляется у дома?
+    # TODO победил этот баг, НО мне не понятна конструкция, зачем мы у чееловека создаем кота, потом у кота дом?
+    #  мы же можем напрямую у класа кота создать дом?
+    #  например так  cat.house = house (без self) ? тогда уйдет строчка self.cat = cat
+
     def pick_up_cat(self, cat, house):
         self.cat = cat
         self.cat.house = house
+        self.house.cat = cat
         self.house.food_cat = 100
-        self.house.dirt = 50
-        cprint('{} подобрал кота и назвал его ""'.format(self.name, ), color='red')
+        self.house.dirt = 150
+        cprint('{} подобрал кота и назвал его "{}"'.format(self.name, self.house.cat.name), color='red')
 
     def buy_food_cat(self):
         if self.house.money >= 50:
-            cprint('{} сходил в магазин за едой коту по имени ""'.format(self.name, ), color='red')
+            cprint('{} сходил в магазин за едой коту по имени "{}"'.format(self.name, self.house.cat.name), color='red')
             self.house.money -= 50
             self.house.food_cat += 50
         else:
@@ -90,7 +92,7 @@ class Man:
 
     def clean_after_cat(self):
         if self.house.dirt >= 100:
-            cprint('{} убрал за котом по имени ""'.format(self.name, ), color='red')
+            cprint('{} убрал за котом по имени "{}"'.format(self.name, self.house.cat.name), color='red')
             self.fullness -= 20
             self.house.dirt -= 100
     #  ------------
@@ -151,7 +153,7 @@ class Cat:
     def cat_dirt_generation(self):
         cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='red')
         self.fullness_cat -= 10
-        self.house.dirt += 20
+        self.house.dirt += 150
 
     def action_cat(self):
         if self.fullness_cat <= 0:
@@ -173,7 +175,7 @@ citizens = [
     Man(name='Бивис'),
     Man(name='Батхед'),
     Man(name='Кенни'), ]
-
+#
 my_cat = Cat(name_cat="Повелитель грязи")
 my_sweet_home = House()
 
@@ -186,7 +188,9 @@ citizens[randint(0, len(citizens) - 1)].pick_up_cat(cat=my_cat, house=my_sweet_h
 for day in range(1, 366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
-        citisen.act()
+        test = citisen.act()
+        if test:
+            print('test')
     my_cat.action_cat()
     print('--- в конце дня ---')
     for citisen in citizens:
