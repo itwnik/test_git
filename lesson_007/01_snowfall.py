@@ -73,12 +73,10 @@ def get_fallen_flakes():
         if not fallen_flake.can_fall():
             count += 1
             fallen_flake.draw(snowflake_color=sd.background_color)
-            flakes.remove(fallen_flake)  # TODO да, remove удаляет снежин, НО снежинку же можно удалить
-                                         #  разными способами? например чере функцию del
-                                         #  как в этом примере:
-                                         #  a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                                         #  del a[-1]
-                                         #  как в нашем случае это провернуть?
+            # как то так, или в цикле можно получить индекс через enumerate и удалять по нему
+            index_flake = flakes.index(fallen_flake)
+            del flakes[index_flake]
+            # flakes.remove(fallen_flake)
     return count
 
 
@@ -103,3 +101,5 @@ while True:
         break
 
 sd.pause()
+
+# зачет!
