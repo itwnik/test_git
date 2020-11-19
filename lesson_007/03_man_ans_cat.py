@@ -33,6 +33,7 @@ class Man:
         self.name = name
         self.fullness = 50
         self.house = None
+        # TODO это убераем
         # self.cat = None
 
     def __str__(self):
@@ -45,6 +46,7 @@ class Man:
             self.fullness += 10
             self.house.food -= 10
         else:
+            # TODO уменьшаем сытость
             cprint('{} нет еды'.format(self.name), color='red')
 
     def work(self):
@@ -70,13 +72,19 @@ class Man:
         cprint('{} Вьехал в дом'.format(self.name), color='cyan')
 
     #  ------------Cat action----------
-    # TODO победил этот баг, НО мне не понятна конструкция, зачем мы у чееловека создаем кота, потом у кота дом?
-    #  мы же можем напрямую у класа кота создать дом?
-    #  например так  cat.house = house (без self) ? тогда уйдет строчка self.cat = cat
+    # TODO у человека не может быть параметра кот, и мы не создаем его тут!
+    # TODO метод pick_up_cat лишь дает человеку возможность подобрать кота и назначить ему дом!
+    # TODO так и нужно делать:
+    #  например так  cat.house = self.house (только как раз с self) тогда уйдет строчка self.cat = cat
 
+    # TODO тут мы принимаем только экземпляр класса cat
     def pick_up_cat(self, cat, house):
+        # TODO сейчас это строка ругается на что нет такой переменной, но она нам и не нужна!
         self.cat = cat
+        # TODO тут делаем проверку есть ли у человека дом, если да то этот дом присваиваем коту и тогда
+        # TODO они будут жить в общем доме, если дома у человека нет то и кота он взять не может!
         self.cat.house = house
+        # TODO часть этих методов у нас уже есть в доме, от сюда их убираем они не нужны!
         self.house.cat = cat
         self.house.food_cat = 100
         self.house.dirt = 150
@@ -95,9 +103,12 @@ class Man:
             cprint('{} убрал за котом по имени "{}"'.format(self.name, self.house.cat.name), color='red')
             self.fullness -= 20
             self.house.dirt -= 100
+        # TODO информируем о том что в доме чисто
     #  ------------
 
     def act(self):
+        # TODO вынесем это в отдельный метод и будем проверять в цикле в конце дня, после всех действий
+        # TODO задача добиться чтобы цикл останавливался в случае чего!
         if self.fullness <= 0:
             cprint('{} умер...'.format(self.name), color='red')
             return
@@ -124,9 +135,13 @@ class House:
 
     def __init__(self):
         self.food = 50
+        # TODO эти параметры зададим по дефолту, думаю что человек давно искал кота
+        # TODO но обнулим их
         # self.food_cat = 120
         self.money = 0
+        # TODO грязь тоже как бы в доме есть
         # self.dirt = 0
+        # TODO у дома не может быть параметра кот
         self.cat = None
 
     def __str__(self):
@@ -146,6 +161,7 @@ class Cat:
         self.fullness_cat -= 10
 
     def eat_cat(self):
+        # TODO делаем проверку на еду если есть то он есть если нет то информируем в консоле
         cprint('Кот по имени "{}" поел'.format(self.name), color='red')
         self.fullness_cat += 20
         self.house.food_cat -= 10
@@ -156,9 +172,11 @@ class Cat:
         self.house.dirt += 150
 
     def action_cat(self):
+        # TODO вынесем в отдельный метод
         if self.fullness_cat <= 0:
             cprint('Кот по имени "{}" умер...жаль...'.format(self.name), color='red')
             return
+        # TODO тут добавим рендомности и некоторые методы продублируем на волю случая
         if self.fullness_cat <= 50:
             self.eat_cat()
         elif self.house.dirt <= 10:
@@ -183,11 +201,16 @@ my_sweet_home = House()
 for citisen in citizens:
     citisen.go_to_the_house(house=my_sweet_home)
 
+# TODO эту часть вынесете в отдельную переменную
+#  randint(0, len(citizens) - 1)
 citizens[randint(0, len(citizens) - 1)].pick_up_cat(cat=my_cat, house=my_sweet_home)
 
-for day in range(1, 366):
+# можно так
+for day in range(366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
+        # TODO зачем тут переменная test усложнение и лишняя переменная, + вложенность, от вложенности
+        # TODO может быть и не уйдем в доработках но в данном моменте она не нужна.
         test = citisen.act()
         if test:
             print('test')
@@ -197,6 +220,7 @@ for day in range(1, 366):
         print(citisen)
     print(my_cat)
     print(my_sweet_home)
+    # TODO проверку на жизнь делать тут в конце цикла
 
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
