@@ -33,8 +33,6 @@ class Man:
         self.name = name
         self.fullness = 50
         self.house = None
-        # TODO это убераем
-        # self.cat = None
 
     def __str__(self):
         return 'Я - {}, сытость {}'.format(
@@ -46,7 +44,7 @@ class Man:
             self.fullness += 10
             self.house.food -= 10
         else:
-            # TODO уменьшаем сытость
+            self.fullness -= 10
             cprint('{} нет еды'.format(self.name), color='red')
 
     def work(self):
@@ -71,47 +69,38 @@ class Man:
         self.fullness -= 10
         cprint('{} Вьехал в дом'.format(self.name), color='cyan')
 
-    #  ------------Cat action----------
-    # TODO у человека не может быть параметра кот, и мы не создаем его тут!
-    # TODO метод pick_up_cat лишь дает человеку возможность подобрать кота и назначить ему дом!
-    # TODO так и нужно делать:
-    #  например так  cat.house = self.house (только как раз с self) тогда уйдет строчка self.cat = cat
-
-    # TODO тут мы принимаем только экземпляр класса cat
-    def pick_up_cat(self, cat, house):
-        # TODO сейчас это строка ругается на что нет такой переменной, но она нам и не нужна!
-        self.cat = cat
-        # TODO тут делаем проверку есть ли у человека дом, если да то этот дом присваиваем коту и тогда
-        # TODO они будут жить в общем доме, если дома у человека нет то и кота он взять не может!
-        self.cat.house = house
-        # TODO часть этих методов у нас уже есть в доме, от сюда их убираем они не нужны!
-        self.house.cat = cat
-        self.house.food_cat = 100
-        self.house.dirt = 150
-        cprint('{} подобрал кота и назвал его "{}"'.format(self.name, self.house.cat.name), color='red')
+    #  ------------Cat action---------
+    def pick_up_cat(self, cat, ):
+        if self.house is not None:
+            # TODO разве это хороший тон в нутри класса обращаться к другому класу?
+            cat.house = self.house
+            self.house.cat = cat
+            cprint('{} подобрал кота и назвал его "{}"'.format(
+                self.name, self.house.cat.name), color='red')
 
     def buy_food_cat(self):
         if self.house.money >= 50:
-            cprint('{} сходил в магазин за едой коту по имени "{}"'.format(self.name, self.house.cat.name), color='red')
             self.house.money -= 50
             self.house.food_cat += 50
+            cprint('{} сходил в магазин за едой коту по имени "{}"'.format(
+                self.name, self.house.cat.name), color='red')
         else:
             cprint('{} деньги кончились!'.format(self.name), color='red')
 
     def clean_after_cat(self):
         if self.house.dirt >= 100:
-            cprint('{} убрал за котом по имени "{}"'.format(self.name, self.house.cat.name), color='red')
             self.fullness -= 20
             self.house.dirt -= 100
-        # TODO информируем о том что в доме чисто
+            cprint('{} убрал за котом по имени "{}" В доме чисто!'.format(
+                self.name, self.house.cat.name), color='red')
     #  ------------
 
-    def act(self):
-        # TODO вынесем это в отдельный метод и будем проверять в цикле в конце дня, после всех действий
-        # TODO задача добиться чтобы цикл останавливался в случае чего!
+    def die_man(self):
         if self.fullness <= 0:
             cprint('{} умер...'.format(self.name), color='red')
-            return
+            return True
+
+    def act(self):
         dice = randint(1, 6)
         if self.fullness < 30:
             self.eat()
@@ -125,7 +114,7 @@ class Man:
             self.work()
         elif dice == 2:
             self.eat()
-        elif dice == 3:
+        elif dice == 4:
             self.clean_after_cat()
         else:
             self.watch_MTV()
@@ -135,14 +124,9 @@ class House:
 
     def __init__(self):
         self.food = 50
-        # TODO эти параметры зададим по дефолту, думаю что человек давно искал кота
-        # TODO но обнулим их
-        # self.food_cat = 120
         self.money = 0
-        # TODO грязь тоже как бы в доме есть
-        # self.dirt = 0
-        # TODO у дома не может быть параметра кот
-        self.cat = None
+        self.food_cat = 0
+        self.dirt = 0
 
     def __str__(self):
         return 'В доме человечей еды осталось {}, кошачей еды осталось {}, денег осталось {}, грязи {}'.format(
@@ -153,33 +137,41 @@ class Cat:
 
     def __init__(self, name_cat):
         self.name = name_cat
-        self.fullness_cat = 50
+        self.fullness_cat = 0
         self.house = None
 
     def sleep_cat(self):
+        self.fullness_cat -= 1
         cprint('Кот по имени "{}" поспал'.format(self.name), color='red')
-        self.fullness_cat -= 10
 
     def eat_cat(self):
-        # TODO делаем проверку на еду если есть то он есть если нет то информируем в консоле
-        cprint('Кот по имени "{}" поел'.format(self.name), color='red')
-        self.fullness_cat += 20
-        self.house.food_cat -= 10
+        if self.house.food_cat >= 10:
+            self.fullness_cat += 20
+            self.house.food_cat -= 10
+            cprint('Кот по имени "{}" поел'.format(self.name), color='red')
+        else:
+            cprint('В доме кончелась еда для кота', color='red')
 
     def cat_dirt_generation(self):
-        cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='red')
         self.fullness_cat -= 10
-        self.house.dirt += 150
+        self.house.dirt += 100
+        cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='red')
 
-    def action_cat(self):
-        # TODO вынесем в отдельный метод
+    def die(self):
+        # TODO по идеи если он умер, значит нам нужно удалить экземпляр класа кот!? Или он сам очистится?
         if self.fullness_cat <= 0:
             cprint('Кот по имени "{}" умер...жаль...'.format(self.name), color='red')
-            return
-        # TODO тут добавим рендомности и некоторые методы продублируем на волю случая
+            return True
+
+    def action_cat(self):
+        dice = randint(1, 6)
         if self.fullness_cat <= 50:
             self.eat_cat()
         elif self.house.dirt <= 10:
+            self.cat_dirt_generation()
+        elif dice == 4:
+            self.eat_cat()
+        elif dice == 3:
             self.cat_dirt_generation()
         else:
             self.sleep_cat()
@@ -193,7 +185,8 @@ citizens = [
     Man(name='Бивис'),
     Man(name='Батхед'),
     Man(name='Кенни'), ]
-#
+
+
 my_cat = Cat(name_cat="Повелитель грязи")
 my_sweet_home = House()
 
@@ -201,26 +194,26 @@ my_sweet_home = House()
 for citisen in citizens:
     citisen.go_to_the_house(house=my_sweet_home)
 
-# TODO эту часть вынесете в отдельную переменную
-#  randint(0, len(citizens) - 1)
-citizens[randint(0, len(citizens) - 1)].pick_up_cat(cat=my_cat, house=my_sweet_home)
+random_man = randint(0, len(citizens) - 1)
+citizens[random_man].pick_up_cat(cat=my_cat, )
 
-# можно так
 for day in range(366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
-        # TODO зачем тут переменная test усложнение и лишняя переменная, + вложенность, от вложенности
-        # TODO может быть и не уйдем в доработках но в данном моменте она не нужна.
-        test = citisen.act()
-        if test:
-            print('test')
+        # TODO переменная test была для отладки, хотел отловить момент когда кто то выполняет действие, у меня в
+        #  процессе бывало так что в какой то день из 3х человек кто то один проподал и ничего не делал, но
+        #  это не удачный код для этого
+        #  вот пример http://joxi.ru/KAx0WRliKBJQMA
+        citisen.act()
     my_cat.action_cat()
     print('--- в конце дня ---')
     for citisen in citizens:
         print(citisen)
     print(my_cat)
     print(my_sweet_home)
-    # TODO проверку на жизнь делать тут в конце цикла
+    if my_cat.die() or citisen.die_man():  # проверка на жизнь
+        break
+
 
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
