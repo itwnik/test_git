@@ -186,16 +186,19 @@ citizens = [
     Man(name='Батхед'),
     Man(name='Кенни'), ]
 
+cats = [
+    Cat(name_cat='Повелитель грязи'),
+    Cat(name_cat='Шерстяной упырь'),
+    Cat(name_cat='Милый говнюк'), ]
 
-my_cat = Cat(name_cat="Повелитель грязи")
+# my_cat = Cat(name_cat="Повелитель грязи")
 my_sweet_home = House()
 
 
 for citisen in citizens:
+    index = citizens.index(citisen)
     citisen.go_to_the_house(house=my_sweet_home)
-
-random_man = randint(0, len(citizens) - 1)
-citizens[random_man].pick_up_cat(cat=my_cat, )
+    citisen.pick_up_cat(cat=cats[index])
 
 for day in range(366):
     print('================ день {} =================='.format(day))
@@ -205,18 +208,22 @@ for day in range(366):
         #  это не удачный код для этого
         #  вот пример http://joxi.ru/KAx0WRliKBJQMA
         citisen.act()
-    my_cat.action_cat()
+    for my_cat in cats:
+        my_cat.action_cat()
     print('--- в конце дня ---')
     for citisen in citizens:
         print(citisen)
-    print(my_cat)
+    for my_cat in cats:
+        print(my_cat)
     print(my_sweet_home)
     if my_cat.die() or citisen.die_man():  # проверка на жизнь
         break
 
+# TODO при некоторых случайностях все выживают. прууф тут http://joxi.ru/RmzjLOGiMl7jRm
 
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
 # Им всем вместе так же надо прожить 365 дней.
 
+# TODO что тут имеется  ввиду?
 # (Можно определить критическое количество котов, которое может прокормить человек...)
