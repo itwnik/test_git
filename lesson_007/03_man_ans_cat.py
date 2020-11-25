@@ -190,15 +190,16 @@ citizens = [
 
 cats = [
     Cat(name_cat='Повелитель грязи'),
-    Cat(name_cat='Шерстяной упырь'),
-    Cat(name_cat='Милый говнюк'), ]
+    Cat(name_cat='Шерстяной упырь'), ]
+    # Cat(name_cat='Милый говнюк'), ]
 
 my_sweet_home = House()
 
 for citisen in citizens:
     index = citizens.index(citisen)
     citisen.go_to_the_house(house=my_sweet_home)
-    citisen.pick_up_cat(cat=cats[index])
+    if index < len(cats):
+        citisen.pick_up_cat(cat=cats[index])
 the_end = 1
 for day in range(366):
     if the_end == 0:
@@ -206,6 +207,8 @@ for day in range(366):
     print('================ день {} =================='.format(day))
     for citisen in citizens:
         index = citizens.index(citisen)
+        if index > len(cats)-1:
+            index = randint(0, len(cats)-1)
         citisen.act(cat=cats[index])
     for my_cat in cats:
         my_cat.action_cat()
@@ -216,8 +219,11 @@ for day in range(366):
         print(my_cat)
     print(my_sweet_home)
 
-    for man_cats in range(len(citizens)):
-        if cats[man_cats].die_cat(day) or citizens[man_cats].die_man(day):
+    for man_die in range(len(citizens)):
+        if citizens[man_die].die_man(day):
+            the_end = 0
+    for cat_die in range(len(cats)):
+        if cats[cat_die].die_cat(day):
             the_end = 0
 
 # Усложненное задание (делать по желанию)
