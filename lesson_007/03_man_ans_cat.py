@@ -70,23 +70,30 @@ class Man:
         cprint('{} Вьехал в дом'.format(self.name), color='cyan')
 
     #  ------------Cat action---------
-    def pick_up_cat(self, cat, ):
+    def pick_up_cat(self, cat):
         if self.house:
             cat.house = self.house
             cprint('{} подобрал кота и назвал его "{}"'.format(
                 self.name, cat.name), color='red')
 
+    # TODO давайте мы пока будем просто ходить за кормом для всех, данный метод не будем принимать экземпляр
     def buy_food_cat(self, cat):
         if self.house.money >= 50:
             self.house.money -= 50
             self.house.food_cat += 50
-            # TODO как в данном случае обратиться к коту? так?
+            # TODO организовать это можно, допустим в доме есть кошачий угол(дом) и туда их заселять, но опять же нужно
+            # TODO будет продумывать логику какому коты вы ходите за едой, думаю что должны быть сыты все, тогда
+            # TODO обсурдно ходить комуто одному потому что второй может не дожить.
             cprint('{} сходил в магазин за едой коту по имени "{}"'.format(
                 self.name, cat.name), color='red')
         else:
             cprint('{} деньги кончились!'.format(self.name), color='red')
 
     def clean_after_cat(self, cat):
+        # TODO В доме грязь копиться не только за котом, так что тут можно тоже безлико убирать квартиру!
+        # TODO логика тут должно быть такой без цикла, если грязи больше 100 то убираем, если меньше то убираем сколько
+        # TODO есть информировать в обоих случаях
+
         if self.house.dirt > 0:
             while self.house.dirt > 100:  # Это по условиям задачи
                 self.fullness -= 20
@@ -98,11 +105,13 @@ class Man:
                 self.name, cat.name), color='red')
     #  ------------
 
+    # TODO не принимаем ничего кроме self
     def die_man(self, day):
         if self.fullness <= 0:
             cprint('{} умер... на {} день'.format(self.name, day), color='red')
             return True
 
+    # TODO не принимаем ничего кроме self
     def act(self, cat, ):
         dice = randint(1, 6)
         if self.fullness < 30:
@@ -112,12 +121,14 @@ class Man:
         elif self.house.money < 50:
             self.work()
         elif self.house.food_cat < 50:
+            # TODO не принимаем ничего кроме
             self.buy_food_cat(cat)
         elif dice == 1:
             self.work()
         elif dice == 2:
             self.eat()
         elif dice == 4:
+            # TODO не принимаем ничего
             self.clean_after_cat(cat)
         else:
             self.watch_MTV()
@@ -160,6 +171,7 @@ class Cat:
         self.house.dirt += 5
         cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='red')
 
+    # TODO не принимаем ничего кроме self
     def die_cat(self, day, ):
         if self.fullness_cat <= 0:
             cprint('Кот по имени "{}" умер на {} день...жаль...'.format(self.name, day), color='red')
@@ -195,16 +207,23 @@ cats = [
 
 my_sweet_home = House()
 
+# TODO в первом цикле вы спокойно заселяете людей
 for citisen in citizens:
     index = citizens.index(citisen)
     citisen.go_to_the_house(house=my_sweet_home)
     if index < len(cats):
         citisen.pick_up_cat(cat=cats[index])
+# TODO потом рендомно выбираете человека из списка
+# TODO и втором циклом заселяете котов в дом.
+
+# TODO лучше сделать логическую переменную
 the_end = 1
 for day in range(366):
+    # TODO проверку вынести в конец цикла.
     if the_end == 0:
         break
     print('================ день {} =================='.format(day))
+    # TODO по списку каждый человек действует, без дополнительной логике как у котов
     for citisen in citizens:
         index = citizens.index(citisen)
         if index > len(cats)-1:
@@ -219,9 +238,12 @@ for day in range(366):
         print(my_cat)
     print(my_sweet_home)
 
+    # TODO тут два цикла по списку сначала людей и котов, и вызываем у каждого метод die_man
     for man_die in range(len(citizens)):
         if citizens[man_die].die_man(day):
+            # TODO тут у вас будет логическая переменная
             the_end = 0
+    # TODO тут второй цикл для котов
     for cat_die in range(len(cats)):
         if cats[cat_die].die_cat(day):
             the_end = 0
@@ -230,5 +252,4 @@ for day in range(366):
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
 # Им всем вместе так же надо прожить 365 дней.
 
-# TODO Имелось ввиду что если с тремя они не выживают в списке нужно оставить 2 кота, чтоб была стабильность
 # (Можно определить критическое количество котов, которое может прокормить человек...)
