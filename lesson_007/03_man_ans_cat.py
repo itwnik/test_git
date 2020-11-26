@@ -173,6 +173,7 @@ class Cat:
         dice = randint(1, 6)
         if self.fullness_cat <= 50:
             self.eat_cat()
+            # pass
         elif dice == 2:
             self.cat_dirt_generation()
         elif dice == 4:
@@ -220,9 +221,6 @@ for day in range(366):
     for my_cat in cats:
         print(my_cat)
     print(my_sweet_home)
-    if the_end:  # TODO почему в конец? мы же должны проверять умер ли кто-то перед началом нового дня!?
-        break    #  может тогда the_end сделать функцией?
-
     # TODO тут два цикла по списку сначала людей и котов, и вызываем у каждого метод die_man
     # TODO не понял, что за цикл по людям и котам? вложенный? можно алгоритм?
     for man_die in range(len(citizens)):
@@ -231,6 +229,8 @@ for day in range(366):
     for cat_die in range(len(cats)):
         if cats[cat_die].die_cat():
             the_end = True
+    if the_end:
+        break
 
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
