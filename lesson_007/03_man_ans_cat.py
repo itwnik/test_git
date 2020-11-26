@@ -86,10 +86,6 @@ class Man:
             cprint('{} деньги кончились!'.format(self.name), color='red')
 
     def clean_after_cat(self):
-        # TODO дело в том, что у нас ни где не копится грязь в коде, только тогда, когда кот дерет обои.
-        # TODO но функция уборки срабатывает рандомно. например, рандом сработал когда в квартире грязи 110
-        # TODO итог, в квартире все равно грязно.
-
         if self.house.dirt >= 100:
             self.fullness -= 20
             self.house.dirt -= 100
@@ -97,6 +93,7 @@ class Man:
                 self.name, self.house.dirt), color='red')
         else:
             self.fullness -= 20
+            # TODO можно сразу написать = 0, зачем лишние вычисления.
             self.house.dirt -= self.house.dirt
             cprint('{} убрал! В доме чисто!'.format(
                     self.name), color='red')
@@ -174,8 +171,8 @@ class Cat:
         if self.fullness_cat <= 50:
             self.eat_cat()
             # pass
-        elif dice == 2:
-            self.cat_dirt_generation()
+        # elif dice == 2:
+        #     self.cat_dirt_generation()
         elif dice == 4:
             self.eat_cat()
         elif dice == 6:
@@ -204,6 +201,8 @@ for citisen in citizens:
     index = citizens.index(citisen)
     citisen.go_to_the_house(house=my_sweet_home)
 for cat in cats:
+    # TODO попробуйте воспользоваться:
+    # index = choice(список)
     index = randint(0, len(citizens)-1)
     citizens[index].pick_up_cat(cat)
 
@@ -221,8 +220,8 @@ for day in range(366):
     for my_cat in cats:
         print(my_cat)
     print(my_sweet_home)
-    # TODO тут два цикла по списку сначала людей и котов, и вызываем у каждого метод die_man
-    # TODO не понял, что за цикл по людям и котам? вложенный? можно алгоритм?
+    # TODO у вас все верно, ва цикла, только использование такой конструкции range(len(citizens)) не по Пайтону
+    # TODO итерируйтесь сразу по списку без дополнительных вычислений
     for man_die in range(len(citizens)):
         if citizens[man_die].die_man():
             the_end = True
