@@ -93,8 +93,7 @@ class Man:
                 self.name, self.house.dirt), color='red')
         else:
             self.fullness -= 20
-            # TODO можно сразу написать = 0, зачем лишние вычисления.
-            self.house.dirt -= self.house.dirt
+            self.house.dirt = 0
             cprint('{} убрал! В доме чисто!'.format(
                     self.name), color='red')
     #  ------------
@@ -170,7 +169,6 @@ class Cat:
         dice = randint(1, 6)
         if self.fullness_cat <= 50:
             self.eat_cat()
-            # pass
         # elif dice == 2:
         #     self.cat_dirt_generation()
         elif dice == 4:
@@ -201,10 +199,8 @@ for citisen in citizens:
     index = citizens.index(citisen)
     citisen.go_to_the_house(house=my_sweet_home)
 for cat in cats:
-    # TODO попробуйте воспользоваться:
-    # index = choice(список)
-    index = randint(0, len(citizens)-1)
-    citizens[index].pick_up_cat(cat)
+    citisen = choice(citizens)
+    citisen.pick_up_cat(cat)
 
 the_end = False
 for day in range(366):
@@ -220,13 +216,12 @@ for day in range(366):
     for my_cat in cats:
         print(my_cat)
     print(my_sweet_home)
-    # TODO у вас все верно, ва цикла, только использование такой конструкции range(len(citizens)) не по Пайтону
-    # TODO итерируйтесь сразу по списку без дополнительных вычислений
-    for man_die in range(len(citizens)):
-        if citizens[man_die].die_man():
+    # упс, да Вы правы, чет я тут тупанул.
+    for citisen in citizens:
+        if citisen.die_man():
             the_end = True
-    for cat_die in range(len(cats)):
-        if cats[cat_die].die_cat():
+    for my_cat in cats:
+        if my_cat.die_cat():
             the_end = True
     if the_end:
         break
