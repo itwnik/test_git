@@ -53,8 +53,12 @@ class House:
         self.dirt_house += 5
 
     def __str__(self):
+        # TODO отладочные коменты стараемся перед пушем удалять.
         # return super().__str__()
         return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, грязи {self.dirt_house}"
+
+# TODO По заданию мы должны воспользоваться наследованием, написать общий класс человек с основными методами у него
+# TODO и от него отнаследовать мужа и жену, у них которых дополнить методы, у каждого будут свои.
 
 
 class Husband:
@@ -71,8 +75,11 @@ class Husband:
 
     def act(self):
         magic_ball = randint(1, 8)
+        # TODO метод act должен состоять из блоков if elif...elif else
         if self.fullness < 20:
             self.eat()
+        # TODO для каждого метода определяем только одно число, сначало у нас идут явные проверки, и только в
+        # TODO конце перед else, делаем проверки на magic_ball
         elif magic_ball == 2 or magic_ball == 5 or magic_ball == 4:
             self.work()
         # elif magic_ball == 3:
@@ -81,6 +88,7 @@ class Husband:
         #     self.work()
         elif magic_ball == 1 or magic_ball == 8 or magic_ball == 6:
             self.gaming()
+        # TODO условие нам пригодиться
         # else:
         #     self.gaming()
 
@@ -90,9 +98,11 @@ class Husband:
             self.house.eat_fridge -= 20
             cprint('{} поел'.format(self.name), color='green')
         else:
+            # TODO незабываем уменьшать сытость
             cprint('{} хотел поесть, но в доме нет еды!'.format(self.name), color='red')
 
     def work(self):
+        # TODO незабываем про параметр счастье, оно участвует почти в каждом методе
         self.fullness -= 10
         self.house.money_casket += 150
         cprint('{} сходил на работу'.format(self.name), color='green')
@@ -122,10 +132,12 @@ class Wife:
 
     def act(self):
         magic_ball = randint(1, 8)
+        # TODO проверка должна быть только одна!
         if self.fullness <= 20 and self.house.eat_fridge >= 20:
             self.eat()
         elif self.house.eat_fridge < 30:
             self.shopping()
+        # TODO проверка должна быть только одна!
         elif magic_ball == 2 or magic_ball == 8:
             self.buy_fur_coat()
         elif magic_ball == 5 or magic_ball == 1:
@@ -139,6 +151,7 @@ class Wife:
             self.house.eat_fridge -= 30
             cprint('{} поела'.format(self.name), color='yellow')
         else:
+            # TODO не забываем про сытость
             cprint('{} хотела поесть, но в доме нет еды!'.format(self.name), color='red')
 
     def shopping(self):
@@ -148,18 +161,22 @@ class Wife:
             self.house.money_casket -= 90
             cprint('{} сходила в магазин за едой'.format(self.name), color='yellow')
         else:
+            # TODO не забываем про счастье
             cprint('В доме кончились деньги!'.format(self.name), color='yellow')
 
     def buy_fur_coat(self):
+        # TODO на крайние деньги не берем шубу
         if self.house.money_casket >= 350:
             self.fullness -= 10
             self.happiness += 60
             self.house.money_casket -= 350
             cprint('{} купила шубу!'.format(self.name), color='yellow')
         else:
+            # TODO не забываем про счастье
             cprint('На шубу не хватает денег! Жаль...', color='yellow')
 
     def clean_house(self):
+        # TODO не забываем про счастье
         if self.house.dirt_house >= 100:
             self.fullness -= 10
             self.house.dirt_house -= 100
@@ -185,6 +202,7 @@ die_family_member = False
 for day in range(366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
+    # TODO это нужно вынести в отдельный метод, в родительский класс а тут только его вызывать.
     if home.dirt_house >= 90:
         serge.happiness -= 10
         masha.happiness -= 10
@@ -194,15 +212,12 @@ for day in range(366):
     cprint(serge, color='green')
     cprint(masha, color='yellow')
     cprint(home, color='cyan')
+    # TODO any принимает список, так сделайте список из двух элементов
     if any([serge.die() or masha.die()]):
         break
 
-# TODO вроде выжили http://joxi.ru/Q2Kkad9HvJMPY2
-#   подскажите как правильно бебажить чтоб подобрать нужные парамерты, есть какой то лайфхак?
-#   как вы это делали при подготовке ТЗ?
-#   я минут 40 наугад подберал параметры чтоб они выжили.
-
-# TODO после реализации первой части - отдать на проверку учителю
+# TODO лайфхаков нет, у вас пока что явные проблемы в методе действий для мужа и жены.
+# TODO после доработок будет по проще настроить.
 
 ######################################################## Часть вторая
 #
