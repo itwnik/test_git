@@ -49,7 +49,7 @@ class Man:
 
     def work(self):
         cprint('{} сходил на работу'.format(self.name), color='blue')
-        self.house.money += 150
+        self.house.money += 200
         self.fullness -= 10
 
     def watch_MTV(self):
@@ -60,7 +60,7 @@ class Man:
         if self.house.money >= 50:
             cprint('{} сходил в магазин за едой'.format(self.name), color='magenta')
             self.house.money -= 50
-            self.house.food += 50
+            self.house.food += 100
         else:
             cprint('{} деньги кончились!'.format(self.name), color='red')
 
@@ -107,7 +107,7 @@ class Man:
         dice = randint(1, 6)
         if self.fullness < 30:
             self.eat()
-        elif self.house.food < 20:
+        elif self.house.food < 30:
             self.shopping()
         elif self.house.money < 50:
             self.work()
@@ -188,11 +188,12 @@ citizens = [
     Man(name='Батхед'),
     Man(name='Кенни'), ]
 
-# TODO с тремя они явно не выживают, нужно доработать алгоритм так чтобы они жили с двумя котами,
-# TODO проверено, должны выживать, возможно проблема в действиях, или добавьте немного еды, нужно дебажить.
+# TODO поправил немного. выжили http://joxi.ru/p27pXeBUNg5jnA
+#   даже с 3я http://joxi.ru/v29bkeBUplLkwA
+
 cats = [
     Cat(name_cat='Повелитель грязи'),
-    # Cat(name_cat='Шерстяной упырь'),
+    Cat(name_cat='Шерстяной упырь'),
     Cat(name_cat='Милый говнюк'), ]
 
 my_sweet_home = House()
@@ -218,7 +219,6 @@ for day in range(366):
     for my_cat in cats:
         print(my_cat)
     print(my_sweet_home)
-    # упс, да Вы правы, чет я тут тупанул.
     for citisen in citizens:
         if citisen.die_man():
             the_end = True
