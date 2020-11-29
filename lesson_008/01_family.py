@@ -45,65 +45,162 @@ from random import randint
 class House:
 
     def __init__(self):
-        pass
+        self.money_casket = 100
+        self.eat_fridge = 50
+        self.dirt_house = 0
+
+    def dirt_generation(self):
+        self.dirt_house += 5
+
+    def __str__(self):
+        # return super().__str__()
+        return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, грязи {self.dirt_house}"
 
 
 class Husband:
 
-    def __init__(self):
-        pass
+    def __init__(self, name, house):
+        self.name = name
+        self.fullness = 30
+        self.happiness = 100
+        self.house = house
 
     def __str__(self):
-        return super().__str__()
+        # return super().__str__()
+        return f"{self.name} жив, сытость {self.fullness}, счастье {self.happiness}"
 
     def act(self):
-        pass
+        magic_ball = randint(1, 8)
+        if self.fullness < 20:
+            self.eat()
+        elif magic_ball == 2 or magic_ball == 5 or magic_ball == 4:
+            self.work()
+        # elif magic_ball == 3:
+        #     self.eat()
+        # elif magic_ball == 5:
+        #     self.work()
+        elif magic_ball == 1 or magic_ball == 8 or magic_ball == 6:
+            self.gaming()
+        # else:
+        #     self.gaming()
 
     def eat(self):
-        pass
+        if self.house.eat_fridge >= 20:
+            self.fullness += 20
+            self.house.eat_fridge -= 20
+            cprint('{} поел'.format(self.name), color='green')
+        else:
+            cprint('{} хотел поесть, но в доме нет еды!'.format(self.name), color='red')
 
     def work(self):
-        pass
+        self.fullness -= 10
+        self.house.money_casket += 150
+        cprint('{} сходил на работу'.format(self.name), color='green')
 
     def gaming(self):
-        pass
+        self.fullness -= 10
+        self.happiness += 20
+        cprint('{} играл в WoT'.format(self.name), color='green')
+
+    def die(self):
+        if self.fullness == 0 or self.happiness < 10:
+            cprint('{} умер...'.format(self.name), color='green')
+            return True
 
 
 class Wife:
 
-    def __init__(self):
-        pass
+    def __init__(self, name, house):
+        self.name = name
+        self.fullness = 30
+        self.happiness = 100
+        self.house = house
 
     def __str__(self):
-        return super().__str__()
+        # return super().__str__()
+        return f"{self.name} жива, сытость {self.fullness}, счастье {self.happiness}"
 
     def act(self):
-        pass
+        magic_ball = randint(1, 8)
+        if self.fullness <= 20 and self.house.eat_fridge >= 20:
+            self.eat()
+        elif self.house.eat_fridge < 30:
+            self.shopping()
+        elif magic_ball == 2 or magic_ball == 8:
+            self.buy_fur_coat()
+        elif magic_ball == 5 or magic_ball == 1:
+            self.clean_house()
+        else:
+            self.buy_fur_coat()
 
     def eat(self):
-        pass
+        if self.house.eat_fridge >= 30:
+            self.fullness += 30
+            self.house.eat_fridge -= 30
+            cprint('{} поела'.format(self.name), color='yellow')
+        else:
+            cprint('{} хотела поесть, но в доме нет еды!'.format(self.name), color='red')
 
     def shopping(self):
-        pass
+        if self.house.money_casket >= 90:
+            self.fullness -= 10
+            self.house.eat_fridge += 90
+            self.house.money_casket -= 90
+            cprint('{} сходила в магазин за едой'.format(self.name), color='yellow')
+        else:
+            cprint('В доме кончились деньги!'.format(self.name), color='yellow')
 
     def buy_fur_coat(self):
-        pass
+        if self.house.money_casket >= 350:
+            self.fullness -= 10
+            self.happiness += 60
+            self.house.money_casket -= 350
+            cprint('{} купила шубу!'.format(self.name), color='yellow')
+        else:
+            cprint('На шубу не хватает денег! Жаль...', color='yellow')
 
     def clean_house(self):
-        pass
+        if self.house.dirt_house >= 100:
+            self.fullness -= 10
+            self.house.dirt_house -= 100
+            cprint('{} убрала в доме! В доме стало чище, грязи :  {}!'.format(
+                self.name, self.house.dirt), color='yellow')
+        else:
+            self.fullness -= 20
+            self.house.dirt = 0
+            cprint('{} убрала! В доме чисто!'.format(
+                self.name), color='yellow')
+
+    def die(self):
+        if self.fullness == 0 or self.happiness < 10:
+            cprint('{} умерла...'.format(self.name), color='yellow')
+            return True
 
 
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+serge = Husband(name='Сережа', house=home)
+masha = Wife(name='Маша', house=home)
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
+die_family_member = False
+for day in range(366):
+    cprint('================== День {} =================='.format(day), color='grey')
+    home.dirt_generation()
+    if home.dirt_house >= 90:
+        serge.happiness -= 10
+        masha.happiness -= 10
     serge.act()
     masha.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
+    cprint('------------------ В конце дня ------------------', color='grey')
+    cprint(serge, color='green')
+    cprint(masha, color='yellow')
     cprint(home, color='cyan')
+    if any([serge.die() or masha.die()]):
+        break
+
+# TODO вроде выжили http://joxi.ru/Q2Kkad9HvJMPY2
+#   подскажите как правильно бебажить чтоб подобрать нужные парамерты, есть какой то лайфхак?
+#   как вы это делали при подготовке ТЗ?
+#   я минут 40 наугад подберал параметры чтоб они выжили.
 
 # TODO после реализации первой части - отдать на проверку учителю
 
@@ -188,7 +285,7 @@ class Child:
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
-
+"""
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
@@ -205,7 +302,7 @@ for day in range(365):
     cprint(masha, color='cyan')
     cprint(kolya, color='cyan')
     cprint(murzik, color='cyan')
-
+"""
 
 # Усложненное задание (делать по желанию)
 #
