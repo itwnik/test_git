@@ -88,6 +88,7 @@ class Human:
 
 class Husband(Human):
 
+    # TODO нет необходимости этот метод переопределять!
     def __str__(self):
         return super().__str__()
 
@@ -97,6 +98,7 @@ class Husband(Human):
             self.eat()
         elif self.house.money_casket < 400:
             self.work()
+        # TODO это оставим на волю случая, вызывать будем по magic_ball, у вас он уже есть
         elif self.happiness < 60:
             self.gaming()
         elif magic_ball == 1:
@@ -122,6 +124,7 @@ class Husband(Human):
 
 class Wife(Human):
 
+    # TODO аналогично, туду выше
     def __str__(self):
         return super().__str__()
 
@@ -133,6 +136,7 @@ class Wife(Human):
             self.eat()
         elif self.happiness < 70:
             self.buy_fur_coat()
+        # TODO это оставим на волю случая
         elif self.house.dirt_house > 50:
             self.clean_house()
         elif magic_ball == 2:
@@ -173,6 +177,7 @@ class Wife(Human):
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt), color='yellow')
         else:
+            # TODO у нас не полная уборка можно и -5 сделать
             self.fullness -= 10
             self.house.dirt = 0
             cprint('{} убрала! В доме чисто!'.format(self.name), color='yellow')
@@ -197,6 +202,7 @@ for day in range(366):
     if any([serge.die(), masha.die()]):
         break
 
+# TODO делаем вторую часть
 
 ######################################################## Часть вторая
 #
