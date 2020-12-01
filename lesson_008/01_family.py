@@ -57,6 +57,7 @@ class House:
 
 
 class Human:
+    food_eaten = 0
 
     def __init__(self, name, house):
         self.name = name
@@ -71,6 +72,7 @@ class Human:
         if self.house.eat_fridge > 30:
             self.fullness += 30
             self.house.eat_fridge -= 30
+            Human.food_eaten += 30
             cprint('{} поел'.format(self.name), color='green')
         else:
             self.fullness -= 10
@@ -87,10 +89,7 @@ class Human:
 
 
 class Husband(Human):
-
-    # TODO нет необходимости этот метод переопределять!
-    def __str__(self):
-        return super().__str__()
+    make_money = 0
 
     def act(self):
         magic_ball = randint(1, 8)
@@ -98,9 +97,9 @@ class Husband(Human):
             self.eat()
         elif self.house.money_casket < 400:
             self.work()
-        # TODO это оставим на волю случая, вызывать будем по magic_ball, у вас он уже есть
-        elif self.happiness < 60:
-            self.gaming()
+        # TODO если оставляю на волю случая то не выживают.
+        # elif self.happiness < 60:
+        #     self.gaming()
         elif magic_ball == 1:
             self.gaming()
         elif magic_ball == 3:
@@ -114,6 +113,7 @@ class Husband(Human):
         self.fullness -= 10
         self.happiness -= 10
         self.house.money_casket += 150
+        Husband.make_money += self.house.money_casket
         cprint('{} сходил на работу'.format(self.name), color='green')
 
     def gaming(self):
@@ -123,10 +123,7 @@ class Husband(Human):
 
 
 class Wife(Human):
-
-    # TODO аналогично, туду выше
-    def __str__(self):
-        return super().__str__()
+    quantity_fur_coat = 0
 
     def act(self):
         magic_ball = randint(1, 8)
@@ -136,9 +133,9 @@ class Wife(Human):
             self.eat()
         elif self.happiness < 70:
             self.buy_fur_coat()
-        # TODO это оставим на волю случая
-        elif self.house.dirt_house > 50:
-            self.clean_house()
+        # TODO если оставляю на волю случая то не выживают.
+        # elif self.house.dirt_house > 50:
+        #     self.clean_house()
         elif magic_ball == 2:
             self.buy_fur_coat()
         elif magic_ball == 4:
@@ -164,6 +161,7 @@ class Wife(Human):
             self.fullness -= 10
             self.happiness += 60
             self.house.money_casket -= 350
+            Wife.quantity_fur_coat += 1
             cprint('{} купила шубу!'.format(self.name), color='yellow')
         else:
             self.happiness -= 10
@@ -176,11 +174,11 @@ class Wife(Human):
             self.house.dirt_house -= 100
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt), color='yellow')
-        else:
-            # TODO у нас не полная уборка можно и -5 сделать
+        elif self.house.dirt_house >= 5:
+            # TODO Так?
             self.fullness -= 10
-            self.house.dirt = 0
-            cprint('{} убрала! В доме чисто!'.format(self.name), color='yellow')
+            self.house.dirt -= 5
+            cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt), color='yellow')
 
 
 home = House()
@@ -201,6 +199,9 @@ for day in range(366):
     cprint(home, color='magenta')
     if any([serge.die(), masha.die()]):
         break
+
+cprint(f"За {day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
+       f"куплено {Wife.quantity_fur_coat} шуб")
 
 # TODO делаем вторую часть
 
