@@ -92,12 +92,13 @@ class Husband(Human):
     make_money = 0
 
     def act(self):
-        magic_ball = randint(1, 8)
+        # TODO тут уменьшим до 6
+        magic_ball = randint(1, 6)
         if self.fullness < 40:
             self.eat()
-        elif self.house.money_casket < 400:
+        elif self.house.money_casket < 350:
             self.work()
-        # TODO если оставляю на волю случая то не выживают.
+        # если оставляю на волю случая то не выживают.
         # elif self.happiness < 60:
         #     self.gaming()
         elif magic_ball == 1:
@@ -126,18 +127,21 @@ class Wife(Human):
     quantity_fur_coat = 0
 
     def act(self):
-        magic_ball = randint(1, 8)
+        # TODO тут уменьшим до 6
+        magic_ball = randint(1, 6)
+        # TODO сначало проверяем сытость потом покупки
         if self.house.eat_fridge < 40:
             self.shopping()
         elif self.fullness < 30:
             self.eat()
-        elif self.happiness < 70:
-            self.buy_fur_coat()
-        # TODO если оставляю на волю случая то не выживают.
+        # TODO тут моного вам поправил посмотрите по коммиту что изменилось
+        # elif self.happiness < 70:
+        #     self.buy_fur_coat()
+        # если оставляю на волю случая то не выживают.
         # elif self.house.dirt_house > 50:
         #     self.clean_house()
         elif magic_ball == 2:
-            self.buy_fur_coat()
+            self.eat()
         elif magic_ball == 4:
             self.shopping()
         elif magic_ball == 6:
@@ -172,12 +176,15 @@ class Wife(Human):
             self.fullness -= 10
             self.happiness -= 10
             self.house.dirt_house -= 100
+            # TODO тут проблема с атрибутом
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt), color='yellow')
         elif self.house.dirt_house >= 5:
-            # TODO Так?
-            self.fullness -= 10
-            self.house.dirt -= 5
+            # TODO Вот так
+            self.happiness += 5
+            self.fullness -= 5
+            self.house.dirt_house = 0
+            # TODO тут проблема с атрибутом
             cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt), color='yellow')
 
 
@@ -200,6 +207,7 @@ for day in range(366):
     if any([serge.die(), masha.die()]):
         break
 
+# TODO тут как бы у нас day не определено!
 cprint(f"За {day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
        f"куплено {Wife.quantity_fur_coat} шуб")
 
