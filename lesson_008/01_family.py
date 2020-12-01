@@ -41,6 +41,13 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
+# TODO Александр, чем Вам мой Вариант не понравился? :) в нем было все, и случайность и выживание)
+#   Александр с данными параметрами выживаемость слишком низкая http://joxi.ru/bmoy8Q1TyvzeKA
+#   Примерно 90% смертности, к 10% выживаемости
+#   Может мой вариант оставим? иначе потом с котом и ребенком будет совсем атас. или что еще в этом варианте подкрутить?
+#   Судя по выживаемости, в 90% мужу не хватает счастья постоянно, больше счастья нельзя давать за игру,
+#   При этом в act и так по большей части он играет.........
+
 
 class House:
 
@@ -92,21 +99,15 @@ class Husband(Human):
     make_money = 0
 
     def act(self):
-        # TODO тут уменьшим до 6
         magic_ball = randint(1, 6)
-        if self.fullness < 40:
+        if self.fullness < 30:
             self.eat()
         elif self.house.money_casket < 350:
             self.work()
-        # если оставляю на волю случая то не выживают.
-        # elif self.happiness < 60:
-        #     self.gaming()
-        elif magic_ball == 1:
-            self.gaming()
         elif magic_ball == 3:
             self.eat()
         elif magic_ball == 5:
-            self.work()
+            self.gaming()
         else:
             self.gaming()
 
@@ -127,19 +128,11 @@ class Wife(Human):
     quantity_fur_coat = 0
 
     def act(self):
-        # TODO тут уменьшим до 6
         magic_ball = randint(1, 6)
-        # TODO сначало проверяем сытость потом покупки
         if self.house.eat_fridge < 40:
             self.shopping()
         elif self.fullness < 30:
             self.eat()
-        # TODO тут моного вам поправил посмотрите по коммиту что изменилось
-        # elif self.happiness < 70:
-        #     self.buy_fur_coat()
-        # если оставляю на волю случая то не выживают.
-        # elif self.house.dirt_house > 50:
-        #     self.clean_house()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
@@ -175,25 +168,23 @@ class Wife(Human):
         if self.house.dirt_house >= 100:
             self.fullness -= 10
             self.happiness -= 10
-            self.house.dirt_house -= 100
-            # TODO тут проблема с атрибутом
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
-                self.name, self.house.dirt), color='yellow')
+                self.name, self.house.dirt_house), color='yellow')
         elif self.house.dirt_house >= 5:
-            # TODO Вот так
+            # TODO Чет ВЫ меня совсем запутали))) почему при полной уборке у нас happiness -
+            #   при этом при уборке частично у нас happiness + ?
             self.happiness += 5
             self.fullness -= 5
             self.house.dirt_house = 0
-            # TODO тут проблема с атрибутом
-            cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt), color='yellow')
+            cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt_house), color='yellow')
 
 
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
-
+end_day = 1
 die_family_member = False
-for day in range(366):
+for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
     serge.who_in_the_shit()
@@ -204,11 +195,11 @@ for day in range(366):
     cprint(serge, color='green')
     cprint(masha, color='yellow')
     cprint(home, color='magenta')
+    end_day = day
     if any([serge.die(), masha.die()]):
         break
 
-# TODO тут как бы у нас day не определено!
-cprint(f"За {day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
+cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
        f"куплено {Wife.quantity_fur_coat} шуб")
 
 # TODO делаем вторую часть
