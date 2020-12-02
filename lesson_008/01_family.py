@@ -174,8 +174,7 @@ class Wife(Human):
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt_house), color='yellow')
         elif self.house.dirt_house >= 5:
-            # TODO Чет ВЫ меня совсем запутали))) почему при полной уборке у нас happiness -
-            #   при этом при уборке частично у нас happiness + ?
+            # TODO Тут наглядно показал что можно играть с параметрами.
             self.happiness += 5
             self.fullness -= 5
             self.house.dirt_house = 0
@@ -186,6 +185,7 @@ home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 end_day = 1
+# TODO что за параметр задел на вторую часть ?
 die_family_member = False
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
