@@ -76,10 +76,11 @@ class Human:
         return f"{self.name} сытость {self.fullness}, счастье {self.happiness}"
 
     def eat(self):
-        if self.house.eat_fridge > 30:
-            self.fullness += 30
-            self.house.eat_fridge -= 30
-            Human.food_eaten += 30
+        eat_count = 20
+        if self.house.eat_fridge >= eat_count:
+            self.fullness += eat_count
+            self.house.eat_fridge -= eat_count
+            Human.food_eaten += eat_count
             cprint('{} поел'.format(self.name), color='green')
         else:
             self.fullness -= 10
@@ -100,14 +101,16 @@ class Husband(Human):
 
     def act(self):
         magic_ball = randint(1, 6)
-        if self.fullness < 30:
+        if self.fullness <= 20:
             self.eat()
         elif self.house.money_casket < 350:
             self.work()
+        elif magic_ball == 1:
+            self.gaming()
         elif magic_ball == 3:
             self.eat()
-        elif magic_ball == 5:
-            self.gaming()
+        elif magic_ball == 6:
+            self.work()
         else:
             self.gaming()
 
@@ -129,18 +132,18 @@ class Wife(Human):
 
     def act(self):
         magic_ball = randint(1, 6)
-        if self.house.eat_fridge < 40:
-            self.shopping()
-        elif self.fullness < 30:
+        if self.fullness <= 20:
             self.eat()
+        elif self.house.eat_fridge <= 50:
+            self.shopping()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
-            self.shopping()
-        elif magic_ball == 6:
+            self.buy_fur_coat()
+        elif magic_ball == 5:
             self.clean_house()
         else:
-            self.buy_fur_coat()
+            self.clean_house()
 
     def shopping(self):
         if self.house.money_casket >= 50:
