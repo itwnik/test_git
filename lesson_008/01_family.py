@@ -41,13 +41,6 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
-# TODO Александр, чем Вам мой Вариант не понравился? :) в нем было все, и случайность и выживание)
-#   Александр с данными параметрами выживаемость слишком низкая http://joxi.ru/bmoy8Q1TyvzeKA
-#   Примерно 90% смертности, к 10% выживаемости
-#   Может мой вариант оставим? иначе потом с котом и ребенком будет совсем атас. или что еще в этом варианте подкрутить?
-#   Судя по выживаемости, в 90% мужу не хватает счастья постоянно, больше счастья нельзя давать за игру,
-#   При этом в act и так по большей части он играет.........
-
 
 class House:
 
@@ -55,16 +48,19 @@ class House:
         self.money_casket = 100
         self.eat_fridge = 50
         self.dirt_house = 0
+        self.food_cat = 30
 
     def dirt_generation(self):
         self.dirt_house += 5
 
     def __str__(self):
-        return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, грязи {self.dirt_house}"
+        return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, еды для кота {self.food_cat}," \
+               f" грязи {self.dirt_house}"
 
 
 class Human:
     food_eaten = 0
+    pat_cat = 0
 
     def __init__(self, name, house):
         self.name = name
@@ -90,6 +86,25 @@ class Human:
         if self.house.dirt_house >= 90:
             self.happiness -= 10
 
+    # --------------cat_act----------------------
+    def pat_the_cat(self):
+        self.happiness += 5
+        Human.pat_cat += 1
+        cprint('{} погладил кота!'.format(
+                self.name, ), color='red')
+
+    def buy_food_cat(self):
+        if self.house.money_casket >= 30:
+            self.house.money_casket -= 20
+            self.house.food_cat += 20
+            self.fullness -= 10
+            cprint('{} сходил в магазин за едой коту!'.format(
+                self.name, ), color='red')
+        else:
+            self.fullness -= 10
+            cprint('{} деньги кончились!'.format(self.name), color='red')
+    # --------------end_cat_act----------------------
+
     def die(self):
         if self.fullness == 0 or self.happiness < 10:
             cprint('Персонаж {} умер...'.format(self.name), color='red')
@@ -109,6 +124,10 @@ class Husband(Human):
             self.gaming()
         elif magic_ball == 3:
             self.eat()
+        elif magic_ball == 4:
+            self.pat_the_cat()
+        elif magic_ball == 5:
+            self.buy_food_cat()
         elif magic_ball == 6:
             self.work()
         else:
@@ -136,6 +155,10 @@ class Wife(Human):
             self.eat()
         elif self.house.eat_fridge <= 50:
             self.shopping()
+        elif self.house.food_cat <= 30:
+            self.buy_food_cat()
+        elif magic_ball == 1:
+            self.pat_the_cat()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
@@ -174,19 +197,66 @@ class Wife(Human):
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt_house), color='yellow')
         elif self.house.dirt_house >= 5:
-            # TODO Тут наглядно показал что можно играть с параметрами.
             self.happiness += 5
             self.fullness -= 5
             self.house.dirt_house = 0
             cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt_house), color='yellow')
 
 
+class Cat:
+    potatie_wallpaper = 0
+
+    def __init__(self, name_cat, house):
+        self.name = name_cat
+        self.fullness_cat = 30
+        self.house = house
+
+    def __str__(self):
+        return f"Кот {self.name} сытость {self.fullness_cat}"
+
+    def act(self):
+        magic_ball = randint(6, 12)
+        if self.fullness_cat <= 30:
+            self.eat_cat()
+        elif magic_ball == 7:
+            self.cat_dirt_generation()
+        elif magic_ball == 9:
+            self.eat_cat()
+        elif magic_ball == 11:
+            self.cat_dirt_generation()
+        else:
+            self.sleep()
+
+    def eat_cat(self):
+        if self.house.food_cat >= 10:
+            self.fullness_cat += 20
+            self.house.food_cat -= 10
+            cprint('Кот по имени "{}" поел'.format(self.name), color='blue')
+        else:
+            cprint('В доме кончелась еда для кота', color='blue')
+
+    def sleep(self):
+        self.fullness_cat -= 10
+        cprint('Кот по имени "{}" поспал'.format(self.name), color='blue')
+
+    def cat_dirt_generation(self):
+        self.fullness_cat -= 10
+        self.house.dirt_house += 5
+        Cat.potatie_wallpaper += 1
+        cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='blue')
+
+    def die_cat(self):
+        if self.fullness_cat <= 0:
+            cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
+            return True
+
+
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
+joe = Cat(name_cat='Джокот', house=home)
 end_day = 1
-# TODO что за параметр задел на вторую часть ?
-die_family_member = False
+
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
@@ -194,16 +264,18 @@ for day in range(1, 366):
     masha.who_in_the_shit()
     serge.act()
     masha.act()
+    joe.act()
     cprint('--------------- В конце дня ---------------', color='grey')
     cprint(serge, color='green')
     cprint(masha, color='yellow')
+    cprint(joe, color='blue')
     cprint(home, color='magenta')
     end_day = day
-    if any([serge.die(), masha.die()]):
+    if any([serge.die(), masha.die(), joe.die_cat()]):
         break
 
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
-       f"куплено {Wife.quantity_fur_coat} шуб")
+       f"куплено {Wife.quantity_fur_coat} шуб, подрато обоев {Cat.potatie_wallpaper}, поглажено кота {Human.pat_cat}")
 
 # TODO делаем вторую часть
 
@@ -231,7 +303,7 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 #
 # Если кот дерет обои, то грязи становится больше на 5 пунктов
 
-
+"""
 class Cat:
 
     def __init__(self):
@@ -248,7 +320,7 @@ class Cat:
 
     def soil(self):
         pass
-
+"""
 
 ######################################################## Часть вторая бис
 #
