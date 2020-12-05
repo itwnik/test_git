@@ -3,7 +3,7 @@
 from termcolor import cprint
 from random import randint
 
-######################################################## Часть первая
+# ####################################################### Часть первая
 #
 # Создать модель жизни небольшой семьи.
 #
@@ -41,13 +41,6 @@ from random import randint
 #
 # Подвести итоги жизни за год: сколько было заработано денег, сколько сьедено еды, сколько куплено шуб.
 
-# TODO Александр, чем Вам мой Вариант не понравился? :) в нем было все, и случайность и выживание)
-#   Александр с данными параметрами выживаемость слишком низкая http://joxi.ru/bmoy8Q1TyvzeKA
-#   Примерно 90% смертности, к 10% выживаемости
-#   Может мой вариант оставим? иначе потом с котом и ребенком будет совсем атас. или что еще в этом варианте подкрутить?
-#   Судя по выживаемости, в 90% мужу не хватает счастья постоянно, больше счастья нельзя давать за игру,
-#   При этом в act и так по большей части он играет.........
-
 
 class House:
 
@@ -75,8 +68,8 @@ class Human:
     def __str__(self):
         return f"{self.name} сытость {self.fullness}, счастье {self.happiness}"
 
-    def eat(self):
-        eat_count = 20
+    def eat(self, eat_count=20):
+
         if self.house.eat_fridge >= eat_count:
             self.fullness += eat_count
             self.house.eat_fridge -= eat_count
@@ -174,19 +167,38 @@ class Wife(Human):
             cprint('{} убрала в доме! В доме стало чище, грязи: {}!'.format(
                 self.name, self.house.dirt_house), color='yellow')
         elif self.house.dirt_house >= 5:
-            # TODO Тут наглядно показал что можно играть с параметрами.
             self.happiness += 5
             self.fullness -= 5
             self.house.dirt_house = 0
             cprint('{} убрала! Грязи: {}'.format(self.name, self.house.dirt_house), color='yellow')
 
 
+class Child(Human):
+
+    def __init__(self, name, house):
+        super().__init__(name=name, house=house)
+        self.happiness = 100
+
+    def act(self):
+        if self.fullness < 20:
+            self.eat()
+        else:
+            self.sleep()
+    # TODO тут мне кажется как то по другому можно ? как то глупо 2 раза eat_count=10 использовать.
+
+    def eat(self, eat_count=10):
+        super().eat(eat_count=10)
+
+    def sleep(self):
+        self.fullness -= 10
+        cprint('Малыш {} поспал!'.format(self.name), color='magenta')
+
+
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
+maks = Child(name='Макс', house=home)
 end_day = 1
-# TODO что за параметр задел на вторую часть ?
-die_family_member = False
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
@@ -194,9 +206,11 @@ for day in range(1, 366):
     masha.who_in_the_shit()
     serge.act()
     masha.act()
+    maks.act()
     cprint('--------------- В конце дня ---------------', color='grey')
     cprint(serge, color='green')
     cprint(masha, color='yellow')
+    cprint(maks, color='magenta')
     cprint(home, color='magenta')
     end_day = day
     if any([serge.die(), masha.die()]):
@@ -205,9 +219,7 @@ for day in range(1, 366):
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
        f"куплено {Wife.quantity_fur_coat} шуб")
 
-# TODO делаем вторую часть
-
-######################################################## Часть вторая
+# ####################################################### Часть вторая
 #
 # После подтверждения учителем первой части надо
 # отщепить ветку develop и в ней начать добавлять котов в модель семьи
@@ -232,25 +244,25 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 # Если кот дерет обои, то грязи становится больше на 5 пунктов
 
 
-class Cat:
+# class Cat:
+#
+#     def __init__(self):
+#         pass
+#
+#     def act(self):
+#         pass
+#
+#     def eat(self):
+#         pass
+#
+#     def sleep(self):
+#         pass
+#
+#     def soil(self):
+#         pass
 
-    def __init__(self):
-        pass
 
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
-
-    def sleep(self):
-        pass
-
-    def soil(self):
-        pass
-
-
-######################################################## Часть вторая бис
+# ####################################################### Часть вторая бис
 #
 # После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
 #
@@ -261,51 +273,51 @@ class Cat:
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:
-
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return super().__str__()
-
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
-
-    def sleep(self):
-        pass
+# class Child:
+#
+#     def __init__(self):
+#         pass
+#
+#     def __str__(self):
+#         return super().__str__()
+#
+#     def act(self):
+#         pass
+#
+#     def eat(self):
+#         pass
+#
+#     def sleep(self):
+#         pass
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
 
 
-######################################################## Часть третья
+# ####################################################### Часть третья
 #
 # после подтверждения учителем второй части (обоих веток)
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
-"""
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-kolya = Child(name='Коля')
-murzik = Cat(name='Мурзик')
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    kolya.act()
-    murzik.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(kolya, color='cyan')
-    cprint(murzik, color='cyan')
-"""
+# home = House()
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
+# kolya = Child(name='Коля')
+# murzik = Cat(name='Мурзик')
+#
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     kolya.act()
+#     murzik.act()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     cprint(kolya, color='cyan')
+#     cprint(murzik, color='cyan')
+
 
 # Усложненное задание (делать по желанию)
 #
