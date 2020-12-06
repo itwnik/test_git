@@ -3,7 +3,7 @@
 from termcolor import cprint
 from random import randint
 
-######################################################## Часть первая
+# ####################################################### Часть первая
 #
 # Создать модель жизни небольшой семьи.
 #
@@ -115,22 +115,15 @@ class Husband(Human):
     make_money = 0
 
     def act(self):
-        magic_ball = randint(1, 6)
+        magic_ball = randint(1, 8)
         if self.fullness <= 20:
             self.eat()
         elif self.house.money_casket < 350:
             self.work()
-        # TODO у вас задействованы почти все варианты magic_ball так быть не должно, потому что нет рендома.
-        # TODO можно оставить в magic_ball запуск работа, еда, и гладить кота!
-        elif magic_ball == 1:
-            self.gaming()
         elif magic_ball == 3:
             self.eat()
         elif magic_ball == 4:
             self.pat_the_cat()
-        elif magic_ball == 5:
-            # TODO за это должна отвечать жена
-            self.buy_food_cat()
         elif magic_ball == 6:
             self.work()
         else:
@@ -153,25 +146,26 @@ class Wife(Human):
     quantity_fur_coat = 0
 
     def act(self):
-        magic_ball = randint(1, 6)
+        magic_ball = randint(1, 9)
         if self.fullness <= 20:
             self.eat()
         elif self.house.eat_fridge <= 50:
             self.shopping()
         elif self.house.food_cat <= 30:
             self.buy_food_cat()
-        # TODO magic_ball оставить только вызов методов еды, поход в магазин, уборка дома, и гладить кота
         elif magic_ball == 1:
             self.pat_the_cat()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
             self.buy_fur_coat()
-        elif magic_ball == 5:
+        elif magic_ball == 6:
+            self.shopping()
+        elif magic_ball == 7:
             self.clean_house()
         else:
-            # TODO покупку шубы лучше перенести сюда когда не одно из условий выше не сработает
             self.clean_house()
+            # self.buy_fur_coat() # TODO так сильно подает выживаемость
 
     def shopping(self):
         if self.house.money_casket >= 50:
@@ -238,7 +232,7 @@ class Cat:
             self.house.food_cat -= 10
             cprint('Кот по имени "{}" поел'.format(self.name), color='blue')
         else:
-            # TODO усеньшаем сытость
+            self.fullness_cat -= 10
             cprint('В доме кончелась еда для кота', color='blue')
 
     def sleep(self):
@@ -255,6 +249,8 @@ class Cat:
         if self.fullness_cat <= 0:
             cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
             return True
+
+# TODO Александр, считаю, что с этими параметрами самая лучшая выживаемость + достаточный рандом
 
 
 home = House()
@@ -283,9 +279,7 @@ for day in range(1, 366):
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
        f"куплено {Wife.quantity_fur_coat} шуб, подрато обоев {Cat.potatie_wallpaper}, поглажено кота {Human.pat_cat}")
 
-# TODO делаем вторую часть
-
-######################################################## Часть вторая
+# ####################################################### Часть вторая
 #
 # После подтверждения учителем первой части надо
 # отщепить ветку develop и в ней начать добавлять котов в модель семьи
@@ -309,26 +303,24 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 #
 # Если кот дерет обои, то грязи становится больше на 5 пунктов
 
-"""
-class Cat:
+# class Cat:
+#
+#     def __init__(self):
+#         pass
+#
+#     def act(self):
+#         pass
+#
+#     def eat(self):
+#         pass
+#
+#     def sleep(self):
+#         pass
+#
+#     def soil(self):
+#         pass
 
-    def __init__(self):
-        pass
-
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
-
-    def sleep(self):
-        pass
-
-    def soil(self):
-        pass
-"""
-
-######################################################## Часть вторая бис
+# ####################################################### Часть вторая бис
 #
 # После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
 #
@@ -339,51 +331,50 @@ class Cat:
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:
-
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return super().__str__()
-
-    def act(self):
-        pass
-
-    def eat(self):
-        pass
-
-    def sleep(self):
-        pass
+# class Child:
+#
+#     def __init__(self):
+#         pass
+#
+#     def __str__(self):
+#         return super().__str__()
+#
+#     def act(self):
+#         pass
+#
+#     def eat(self):
+#         pass
+#
+#     def sleep(self):
+#         pass
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
 
 
-######################################################## Часть третья
+# ####################################################### Часть третья
 #
 # после подтверждения учителем второй части (обоих веток)
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
-"""
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-kolya = Child(name='Коля')
-murzik = Cat(name='Мурзик')
+# home = House()
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
+# kolya = Child(name='Коля')
+# murzik = Cat(name='Мурзик')
+#
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     kolya.act()
+#     murzik.act()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     cprint(kolya, color='cyan')
+#     cprint(murzik, color='cyan')
 
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    kolya.act()
-    murzik.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(kolya, color='cyan')
-    cprint(murzik, color='cyan')
-"""
 
 # Усложненное задание (делать по желанию)
 #
