@@ -120,6 +120,8 @@ class Husband(Human):
             self.eat()
         elif self.house.money_casket < 350:
             self.work()
+        # TODO у вас задействованы почти все варианты magic_ball так быть не должно, потому что нет рендома.
+        # TODO можно оставить в magic_ball запуск работа, еда, и гладить кота!
         elif magic_ball == 1:
             self.gaming()
         elif magic_ball == 3:
@@ -127,6 +129,7 @@ class Husband(Human):
         elif magic_ball == 4:
             self.pat_the_cat()
         elif magic_ball == 5:
+            # TODO за это должна отвечать жена
             self.buy_food_cat()
         elif magic_ball == 6:
             self.work()
@@ -157,6 +160,7 @@ class Wife(Human):
             self.shopping()
         elif self.house.food_cat <= 30:
             self.buy_food_cat()
+        # TODO magic_ball оставить только вызов методов еды, поход в магазин, уборка дома, и гладить кота
         elif magic_ball == 1:
             self.pat_the_cat()
         elif magic_ball == 2:
@@ -166,6 +170,7 @@ class Wife(Human):
         elif magic_ball == 5:
             self.clean_house()
         else:
+            # TODO покупку шубы лучше перенести сюда когда не одно из условий выше не сработает
             self.clean_house()
 
     def shopping(self):
@@ -233,6 +238,7 @@ class Cat:
             self.house.food_cat -= 10
             cprint('Кот по имени "{}" поел'.format(self.name), color='blue')
         else:
+            # TODO усеньшаем сытость
             cprint('В доме кончелась еда для кота', color='blue')
 
     def sleep(self):
