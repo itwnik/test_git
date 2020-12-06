@@ -176,20 +176,15 @@ class Wife(Human):
 
 class Child(Human):
 
-    # TODO по сути мы можем не переопределять этот метод, у нас в родительском self.happiness = 100
     def __init__(self, name, house):
         super().__init__(name=name, house=house)
-        self.happiness = 100
 
     def act(self):
         if self.fullness < 20:
-            # TODO а вот тут уже передать количество еды
             self.eat(eat_count=10)
         else:
             self.sleep()
 
-    # TODO в дам случае от этого не уйти по скольку у нас базовый метод предписывает что он при переопределении
-    # TODO должен принимать параметр, но можно написать вот так def eat(self, **kwargs):
     def eat(self, **kwargs):
         super().eat(**kwargs)
 
