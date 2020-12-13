@@ -167,11 +167,11 @@ class Wife(Human):
             self.clean_house()
 
     def shopping(self):
-        if self.house.money_casket >= 50:
+        if self.house.money_casket >= 80:
             self.fullness -= 10
             self.happiness -= 10
-            self.house.eat_fridge += 50
-            self.house.money_casket -= 50
+            self.house.eat_fridge += 80
+            self.house.money_casket -= 80
             cprint('{} сходила в магазин за едой'.format(self.name), color='yellow')
         else:
             self.happiness -= 10
@@ -268,16 +268,40 @@ class Cat:
             cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
             return True
 
-# TODO хорошо делаем третью часть.
-
 
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 maks = Child(name='Макс', house=home)
-joe = Cat(name_cat='Джокот', house=home)
+joe = Cat(name_cat='ДжОккот', house=home)
+# jek = Cat(name_cat='ДжЕккот', house=home)
+# jak = Cat(name_cat='ДжАккот', house=home)
+fail_day_money = []
+fail_day_food = []
 end_day = 1
 
+
+def fail_day_generation(n_money=2, k_food=3):
+    global fail_day_money
+    global fail_day_food
+    for _ in range(n_money):
+        fail_day_money.append(randint(101, 201))
+    for _ in range(k_food):
+        fail_day_food.append(randint(101, 201))
+
+
+def fail(in_day, ):
+    if in_day in fail_day_food:
+        temp_1 = home.eat_fridge
+        home.eat_fridge = int(home.eat_fridge / 2)
+        cprint(f"В доме было еды {temp_1}, но половина испортилась, еды осталось {home.eat_fridge}")
+    if in_day in fail_day_money:
+        temp_1 = home.money_casket
+        home.money_casket = int(home.money_casket / 2)
+        cprint(f"В доме было денег {temp_1}, но жена тусанула в казино , денег осталось {home.money_casket}")
+
+
+fail_day_generation()
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
@@ -286,7 +310,10 @@ for day in range(1, 366):
     serge.act()
     masha.act()
     joe.act()
+    # jek.act()
+    # jak.act()
     maks.act()
+    fail(day)
     cprint('--------------- В конце дня ---------------', color='grey')
     cprint(serge, color='green')
     cprint(masha, color='yellow')
