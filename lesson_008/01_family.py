@@ -94,9 +94,9 @@ class Human:
                 self.name, ), color='red')
 
     def buy_food_cat(self):
-        if self.house.money_casket >= 30:
-            self.house.money_casket -= 20
-            self.house.food_cat += 20
+        if self.house.money_casket >= 60:
+            self.house.money_casket -= 50
+            self.house.food_cat += 50
             self.fullness -= 10
             cprint('{} сходил в магазин за едой коту!'.format(
                 self.name, ), color='red')
@@ -146,7 +146,7 @@ class Wife(Human):
     quantity_fur_coat = 0
 
     def act(self):
-        magic_ball = randint(1, 9)
+        magic_ball = randint(1, 10)
         if self.fullness <= 20:
             self.eat()
         elif self.house.eat_fridge <= 50:
@@ -155,6 +155,8 @@ class Wife(Human):
             self.buy_food_cat()
         elif magic_ball == 1:
             self.pat_the_cat()
+        elif magic_ball == 3:
+            self.buy_food_cat()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
@@ -163,6 +165,8 @@ class Wife(Human):
             self.shopping()
         elif magic_ball == 7:
             self.clean_house()
+        # elif magic_ball == 8:
+        #     self.buy_food_cat()
         else:
             self.clean_house()
 
@@ -233,7 +237,7 @@ class Cat:
 
     def act(self):
         magic_ball = randint(6, 12)
-        if self.fullness_cat <= 30:
+        if self.fullness_cat <= 10:
             self.eat_cat()
         elif magic_ball == 7:
             self.cat_dirt_generation()
@@ -274,7 +278,7 @@ serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 maks = Child(name='Макс', house=home)
 joe = Cat(name_cat='ДжОккот', house=home)
-# jek = Cat(name_cat='ДжЕккот', house=home)
+jek = Cat(name_cat='ДжЕккот', house=home)
 # jak = Cat(name_cat='ДжАккот', house=home)
 fail_day_money = []
 fail_day_food = []
@@ -310,7 +314,7 @@ for day in range(1, 366):
     serge.act()
     masha.act()
     joe.act()
-    # jek.act()
+    jek.act()
     # jak.act()
     maks.act()
     fail(day)
@@ -318,6 +322,7 @@ for day in range(1, 366):
     cprint(serge, color='green')
     cprint(masha, color='yellow')
     cprint(joe, color='blue')
+    cprint(jek, color='blue')
     cprint(maks, color='magenta')
     cprint(home, color='magenta')
     end_day = day
