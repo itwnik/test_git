@@ -48,16 +48,19 @@ class House:
         self.money_casket = 100
         self.eat_fridge = 50
         self.dirt_house = 0
+        self.food_cat = 30
 
     def dirt_generation(self):
         self.dirt_house += 5
 
     def __str__(self):
-        return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, грязи {self.dirt_house}"
+        return f"В доме денег {self.money_casket}, еды {self.eat_fridge}, еды для кота {self.food_cat}," \
+               f" грязи {self.dirt_house}"
 
 
 class Human:
     food_eaten = 0
+    pat_cat = 0
 
     def __init__(self, name, house):
         self.name = name
@@ -83,6 +86,25 @@ class Human:
         if self.house.dirt_house >= 90:
             self.happiness -= 10
 
+    # --------------cat_act----------------------
+    def pat_the_cat(self):
+        self.happiness += 5
+        Human.pat_cat += 1
+        cprint('{} погладил кота!'.format(
+                self.name, ), color='red')
+
+    def buy_food_cat(self):
+        if self.house.money_casket >= 30:
+            self.house.money_casket -= 20
+            self.house.food_cat += 20
+            self.fullness -= 10
+            cprint('{} сходил в магазин за едой коту!'.format(
+                self.name, ), color='red')
+        else:
+            self.fullness -= 10
+            cprint('{} деньги кончились!'.format(self.name), color='red')
+    # --------------end_cat_act----------------------
+
     def die(self):
         if self.fullness == 0 or self.happiness < 10:
             cprint('Персонаж {} умер...'.format(self.name), color='red')
@@ -93,15 +115,15 @@ class Husband(Human):
     make_money = 0
 
     def act(self):
-        magic_ball = randint(1, 6)
+        magic_ball = randint(1, 8)
         if self.fullness <= 20:
             self.eat()
         elif self.house.money_casket < 350:
             self.work()
-        elif magic_ball == 1:
-            self.gaming()
         elif magic_ball == 3:
             self.eat()
+        elif magic_ball == 4:
+            self.pat_the_cat()
         elif magic_ball == 6:
             self.work()
         else:
@@ -124,17 +146,22 @@ class Wife(Human):
     quantity_fur_coat = 0
 
     def act(self):
-        magic_ball = randint(1, 6)
+        magic_ball = randint(1, 9)
         if self.fullness <= 20:
             self.eat()
         elif self.house.eat_fridge <= 50:
             self.shopping()
-
+        elif self.house.food_cat <= 30:
+            self.buy_food_cat()
+        elif magic_ball == 1:
+            self.pat_the_cat()
         elif magic_ball == 2:
             self.eat()
         elif magic_ball == 4:
             self.buy_fur_coat()
-        elif magic_ball == 5:
+        elif magic_ball == 6:
+            self.shopping()
+        elif magic_ball == 7:
             self.clean_house()
         else:
             self.clean_house()
@@ -193,11 +220,64 @@ class Child(Human):
         cprint('Малыш {} поспал!'.format(self.name), color='magenta')
 
 
+class Cat:
+    potatie_wallpaper = 0
+
+    def __init__(self, name_cat, house):
+        self.name = name_cat
+        self.fullness_cat = 30
+        self.house = house
+
+    def __str__(self):
+        return f"Кот {self.name} сытость {self.fullness_cat}"
+
+    def act(self):
+        magic_ball = randint(6, 12)
+        if self.fullness_cat <= 30:
+            self.eat_cat()
+        elif magic_ball == 7:
+            self.cat_dirt_generation()
+        elif magic_ball == 9:
+            self.eat_cat()
+        elif magic_ball == 11:
+            self.cat_dirt_generation()
+        else:
+            self.sleep()
+
+    def eat_cat(self):
+        if self.house.food_cat >= 10:
+            self.fullness_cat += 20
+            self.house.food_cat -= 10
+            cprint('Кот по имени "{}" поел'.format(self.name), color='blue')
+        else:
+            self.fullness_cat -= 10
+            cprint('В доме кончелась еда для кота', color='blue')
+
+    def sleep(self):
+        self.fullness_cat -= 10
+        cprint('Кот по имени "{}" поспал'.format(self.name), color='blue')
+
+    def cat_dirt_generation(self):
+        self.fullness_cat -= 10
+        self.house.dirt_house += 5
+        Cat.potatie_wallpaper += 1
+        cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='blue')
+
+    def die_cat(self):
+        if self.fullness_cat <= 0:
+            cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
+            return True
+
+# TODO хорошо делаем третью часть.
+
+
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 maks = Child(name='Макс', house=home)
+joe = Cat(name_cat='Джокот', house=home)
 end_day = 1
+
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
     home.dirt_generation()
@@ -205,18 +285,20 @@ for day in range(1, 366):
     masha.who_in_the_shit()
     serge.act()
     masha.act()
+    joe.act()
     maks.act()
     cprint('--------------- В конце дня ---------------', color='grey')
     cprint(serge, color='green')
     cprint(masha, color='yellow')
+    cprint(joe, color='blue')
     cprint(maks, color='magenta')
     cprint(home, color='magenta')
     end_day = day
-    if any([serge.die(), masha.die()]):
+    if any([serge.die(), masha.die(), joe.die_cat()]):
         break
 
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
-       f"куплено {Wife.quantity_fur_coat} шуб")
+       f"куплено {Wife.quantity_fur_coat} шуб, подрато обоев {Cat.potatie_wallpaper}, поглажено кота {Human.pat_cat}")
 
 # ####################################################### Часть вторая
 #
@@ -242,7 +324,6 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 #
 # Если кот дерет обои, то грязи становится больше на 5 пунктов
 
-
 # class Cat:
 #
 #     def __init__(self):
@@ -259,7 +340,6 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 #
 #     def soil(self):
 #         pass
-
 
 # ####################################################### Часть вторая бис
 #
@@ -299,6 +379,22 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 # влить в мастер все коммиты из ветки develop и разрешить все конфликты
 # отправить на проверку учителем.
 
+# home = House()
+# serge = Husband(name='Сережа')
+# masha = Wife(name='Маша')
+# kolya = Child(name='Коля')
+# murzik = Cat(name='Мурзик')
+#
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     kolya.act()
+#     murzik.act()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     cprint(kolya, color='cyan')
+#     cprint(murzik, color='cyan')
 
 # home = House()
 # serge = Husband(name='Сережа')
