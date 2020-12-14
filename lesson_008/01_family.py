@@ -207,6 +207,7 @@ class Wife(Human):
 
 class Child(Human):
 
+    # TODO это убираем
     def __init__(self, name, house):
         super().__init__(name=name, house=house)
 
@@ -332,17 +333,22 @@ for day in range(1, 366):
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
        f"куплено {Wife.quantity_fur_coat} шуб, подрато обоев {Cat.potatie_wallpaper}, поглажено кота {Human.pat_cat}")
 
+# TODO у меня сейчас не получится протестировать код, предлагаю вам все немного его разделить и сделать так:
+# TODO основную часть оставить тут без хауса и лишних котов, оставить и откатить тут до того момента который
+# TODO я смогу проверить
 
-# TODO Александр, доброго дня! я вернулся. слил все в мастер. добавил хаоса. и 2х котов. выживаемость 85%.
-#   не могу понять вторую часть задачи. Не совсем понял алгоритм.
+# TODO После зачета основной части приступить в симуляции.
+
+# TODO а часть с симуляцией сделать отдельно, указания я оставлю в ЛМС.
 
 # в итоге должен получится приблизительно такой код экспериментов
-# for food_incidents in range(6):  # TODO это понятно
-#   for money_incidents in range(6): # TODO это тоже
-#       life = Simulation(money_incidents, food_incidents) # TODO что такое Simulation? это это функция жизни(стр 308 - 330)
-                                                           # TODO в которую мы передаем количесто инцедентов?
-                                                           # TODO что она возвращает объект жизнь?
+# for food_incidents in range(6):
+#   for money_incidents in range(6):
+# TODO вот тут как раз мы учимся читать код, как мы видем что Simulation это класс, не функция на вход
+# TODO мы ей передаем параметры, и создаем экземпляр класса
+#       life = Simulation(money_incidents, food_incidents)
 #       for salary in range(50, 401, 50):
+# TODO вот тут запускаем у экземпляра метод experiment в который передаем зарплату.
 #           max_cats = life.experiment(salary)
 #           print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
 
