@@ -167,11 +167,11 @@ class Wife(Human):
             self.clean_house()
 
     def shopping(self):
-        if self.house.money_casket >= 50:
+        if self.house.money_casket >= 70:
             self.fullness -= 10
             self.happiness -= 10
-            self.house.eat_fridge += 50
-            self.house.money_casket -= 50
+            self.house.eat_fridge += 70
+            self.house.money_casket -= 70
             cprint('{} сходила в магазин за едой'.format(self.name), color='yellow')
         else:
             self.happiness -= 10
