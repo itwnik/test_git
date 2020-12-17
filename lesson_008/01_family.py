@@ -268,15 +268,15 @@ class Cat:
             cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
             return True
 
-# TODO хорошо делаем третью часть.
-
-
 home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 maks = Child(name='Макс', house=home)
 joe = Cat(name_cat='Джокот', house=home)
 end_day = 1
+# TODO тут делаем список из жильцов и животных
+# TODO citizens = [serge, masha, maks, joe]
+
 
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
@@ -294,6 +294,8 @@ for day in range(1, 366):
     cprint(maks, color='magenta')
     cprint(home, color='magenta')
     end_day = day
+    # TODO используем список citizens и у каждого вызываем die()
+    # TODO воспользуемся list comprehension
     if any([serge.die(), masha.die(), joe.die_cat()]):
         break
 
@@ -368,9 +370,6 @@ cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, за�
 #
 #     def sleep(self):
 #         pass
-
-
-# TODO после реализации второй части - отдать на проверку учителем две ветки
 
 
 # ####################################################### Часть третья
