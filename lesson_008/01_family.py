@@ -263,10 +263,11 @@ class Cat:
         Cat.potatie_wallpaper += 1
         cprint('Кот по имени "{}" подрал обои, проклятый клубок шерсти'.format(self.name), color='blue')
 
-    def die_cat(self):
+    def die(self):
         if self.fullness_cat <= 0:
             cprint('Кот по имени "{}" умер жаль...'.format(self.name), color='red')
             return True
+
 
 home = House()
 serge = Husband(name='Сережа', house=home)
@@ -274,9 +275,7 @@ masha = Wife(name='Маша', house=home)
 maks = Child(name='Макс', house=home)
 joe = Cat(name_cat='Джокот', house=home)
 end_day = 1
-# TODO тут делаем список из жильцов и животных
-# TODO citizens = [serge, masha, maks, joe]
-
+citizens = [serge, masha, maks, joe]
 
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='grey')
@@ -294,9 +293,7 @@ for day in range(1, 366):
     cprint(maks, color='magenta')
     cprint(home, color='magenta')
     end_day = day
-    # TODO используем список citizens и у каждого вызываем die()
-    # TODO воспользуемся list comprehension
-    if any([serge.die(), masha.die(), joe.die_cat()]):
+    if any([citizen.die() for citizen in citizens]):
         break
 
 cprint(f"За {end_day} дней съедено {Human.food_eaten} еды, заработано {Husband.make_money} денег,"
