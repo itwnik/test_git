@@ -212,11 +212,18 @@ class Cat:
 class Simulation:
 
     def __init__(self, food_incidents=0, money_incidents=0):
+        # TODO тут у нас должно быть только те параметры котоыре мы хотим использовать в симуляции
+        # TODO определяем количество инцедентов в отдельные переменные экземпляра класса с едой и деньгами,
+        # TODO пустой список с котами который мы будет потом наполнять в отдельном методе,
+        # TODO заглушки экземпляров наших классов которые нужны для работы
+        # TODO еще нужны списки с инцедентами которые мы тоже наполним позже
+
         self.salary = 150
         self.name_cat = ['Арбузик', 'Агроном', 'Анчоус', 'Апельсин']
         self.the_end = False
         self.fail_money_day = []
         self.fail_food_day = []
+        # TODO это в отдельный метод
         for _ in range(money_incidents):
             self.fail_money_day.append(randint(101, 301))
         for _ in range(food_incidents):
@@ -228,7 +235,10 @@ class Simulation:
         self.masha = Wife(name='Маша', house=self.home)
         self.maks = Child(name='Макс', house=self.home)
         self.citizens = [self.serge, self.masha, self.maks]
+        # TODO нужет либо еще метод или тут но нужно его назвать иначе
+        # TODO нам нужно сделать обнуления списка котов и списков с инцедентами
 
+    # TODO по сути вот это нужно написать в init сразу
     def restart_zero(self):
         self.home = None
         self.serge = None
@@ -246,9 +256,12 @@ class Simulation:
             for citizen in self.citizens:
                 citizen.act()
             if any([citizen.die() for citizen in self.citizens]):
+                # TODO False
                 return True
+        # TODO тут как бы наоборот если дошли до этого то True
         return False
 
+    # TODO что делает этот метод ?
     def get_pussy(self, count=1):
         for obj in range(count):
             obj = Cat(name_cat=choice(self.name_cat), house=self.home)
@@ -263,6 +276,18 @@ class Simulation:
         if day in self.fail_money_day:
             self.home.money_casket = int(self.home.money_casket/2)
 
+
+    # TODO заводим цикл по количеству котов от 10 до 0 с шагом -1
+    # TODO объявляем переменную которая будет отвечать за верификацию
+    # TODO заводим цикл по range(3)
+    # TODO обнуляемся - пересоздаем экземпляры
+    # TODO передаем ЗП
+    # TODO создаем нужное количество котов
+    # TODO генерим инциденты
+    # TODO условие запускаем цикл, если тру то
+    # TODO увеличиваем верификацию на 1
+    # TODO вложенное условие проверяем если верификацию = 2
+    # TODO то ретурним количество котов
     def experiment(self, salary):
         self.salary = salary
         self.famaly_create()
@@ -279,8 +304,9 @@ for food_incidents in range(6):
             max_cats = life.experiment(salary)
             print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
 
-# TODO код по идеи рабочий, но уверен что работает так как нужно.
-#   не совсем мону понять логику задачи. Буду благодарен за оказанное содействие.
+
+# TODO подсказал более детально по методу experiment
+# TODO название файла нужно переименовать с маленькой буквы
 
 # Усложненное задание (делать по желанию)
 #
