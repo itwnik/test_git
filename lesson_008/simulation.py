@@ -285,18 +285,6 @@ class Simulation:
                     if self.verification == 2:
                         return cats
 
-    # def test(self, salary):
-    #     self.salary = salary
-    #     self.restart_zero()
-    #     self.family_create()
-    #     self.get_pussy(count=2)
-    #     self.incidents_generation()
-    #     self.citizens.extend(self.cats)
-    #     if self.life():
-    #         print("ok")
-    #     else:
-    #         print("no ok")
-
 
 for food_incidents in range(6):
     for money_incidents in range(6):
@@ -307,10 +295,6 @@ for food_incidents in range(6):
 
 
 # TODO Благодарю. теперь логика понятна.
-
-# test = Simulation(1, 1)
-# test.test(400)
-
 
 # Усложненное задание (делать по желанию)
 #
