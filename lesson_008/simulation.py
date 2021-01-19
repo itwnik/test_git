@@ -52,9 +52,9 @@ class Human:
         self.happiness += 5
 
     def buy_food_cat(self):
-        if self.house.money_casket >= 30:
-            self.house.money_casket -= 20
-            self.house.food_cat += 20
+        if self.house.money_casket >= 50:
+            self.house.money_casket -= 40
+            self.house.food_cat += 40
             self.fullness -= 10
         else:
             self.fullness -= 10
@@ -210,7 +210,7 @@ class Simulation:
     name_cat: List[str]
 
     def __init__(self, food_incidents, money_incidents):
-        self.food_incident = food_incidents  # переменные инцедентов
+        self.food_incidents = food_incidents  # переменные инцедентов
         self.money_incidents = money_incidents  # переменные инцедентов
         self.cats = []  # список котов
         self.citizens = []
@@ -257,9 +257,9 @@ class Simulation:
             self.cats.append(obj)
 
     def incidents_generation(self):
-        for _ in range(money_incidents):
+        for _ in range(self.money_incidents):
             self.fail_money_day.append(randint(2, 356))
-        for _ in range(food_incidents):
+        for _ in range(self.food_incidents):
             self.fail_food_day.append(randint(2, 365))
 
     def food_fail(self, day):
@@ -269,7 +269,6 @@ class Simulation:
     def money_fail(self, day):
         if day in self.fail_money_day:
             self.home.money_casket = int(self.home.money_casket/2)
-
 
     def experiment(self, salary):
         self.salary = salary
@@ -286,6 +285,18 @@ class Simulation:
                     if self.verification == 2:
                         return cats
 
+    # def test(self, salary):
+    #     self.salary = salary
+    #     self.restart_zero()
+    #     self.family_create()
+    #     self.get_pussy(count=2)
+    #     self.incidents_generation()
+    #     self.citizens.extend(self.cats)
+    #     if self.life():
+    #         print("ok")
+    #     else:
+    #         print("no ok")
+
 
 for food_incidents in range(6):
     for money_incidents in range(6):
@@ -296,6 +307,9 @@ for food_incidents in range(6):
 
 
 # TODO Благодарю. теперь логика понятна.
+
+# test = Simulation(1, 1)
+# test.test(400)
 
 
 # Усложненное задание (делать по желанию)
