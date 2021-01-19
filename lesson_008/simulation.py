@@ -218,13 +218,15 @@ class Simulation:
         self.fail_food_day = []  # Список дней в которые будут происходить инцеденты
 
     def family_create(self):
+        # TODO как мы видим параметры подчеркнуты их тоже нужно по дуфолту в ините определить
         self.home = House()
         self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
         self.masha = Wife(name='Маша', house=self.home)
         self.maks = Child(name='Макс', house=self.home)
         self.citizens = [self.serge, self.masha, self.maks]
 
-    # TODO если это написать в ините, то как нам обнуляться в эксперементе?
+    # TODO обнуляться значить пересоздать экземляр у вас метод выше
+    # если это написать в ините, то как нам обнуляться в эксперементе?
     def restart_zero(self):
         self.home = None
         self.serge = None
@@ -248,11 +250,15 @@ class Simulation:
                 return False
         return True
 
-    # TODO наполняет список котами
+    # TODO подробнее написано в FAQ
     #   почему нельзя использовать слово list в названии переменных, удобно ж читать. чем его можно заменить?
+    # TODO можно просто в названии указать окончание S тем самым дать понять что это множество
     def get_pussy(self, count):
+        # TODO именя будем давать автоматически по циклу for
         self.name_cat = ['Арбузик', 'Агроном', 'Анчоус', 'Апельсин']
+        # TODO тут вы получаете obj
         for obj in range(count):
+            # TODO далее вы его переопределяете что такое вообще obj ? наверное это просто cat
             obj = Cat(name_cat=choice(self.name_cat), house=self.home)
             self.cats.append(obj)
 
@@ -271,8 +277,11 @@ class Simulation:
             self.home.money_casket = int(self.home.money_casket/2)
 
     def experiment(self, salary):
+        # TODO зарплату мы должны явно указать у экземпляра класса муж у него и параметр такой должен быть
+        # TODO это нужно делать после self.family_create()
         self.salary = salary
         for cats in range(10, 0, -1):  # заводим цикл по количеству котов от 10 до 0 с шагом -1
+            # TODO можно без self
             self.verification = 1  # объявляем переменную которая будет отвечать за верификацию
             for _ in range(3):  # заводим цикл по range(3)
                 self.restart_zero()
@@ -284,6 +293,7 @@ class Simulation:
                     self.verification += 1
                     if self.verification == 2:
                         return cats
+        # TODO тут ретуним 0
 
 
 for food_incidents in range(6):
@@ -294,7 +304,7 @@ for food_incidents in range(6):
             print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
 
 
-# TODO Благодарю. теперь логика понятна.
+
 
 # Усложненное задание (делать по желанию)
 #
