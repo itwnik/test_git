@@ -58,6 +58,7 @@ class Human:
             self.fullness -= 10
         else:
             self.fullness -= 10
+
     # --------------end_cat_act----------------------
 
     def die(self):
@@ -97,7 +98,6 @@ class Husband(Human):
 
 
 class Wife(Human):
-    quantity_fur_coat = 0
 
     def act(self):
         magic_ball = randint(1, 9)
@@ -134,7 +134,6 @@ class Wife(Human):
             self.fullness -= 10
             self.happiness += 60
             self.house.money_casket -= 350
-            Wife.quantity_fur_coat += 1
         else:
             self.happiness -= 10
 
@@ -206,7 +205,6 @@ class Cat:
 
 
 class Simulation:
-
     name_cat: List[str]
 
     def __init__(self, food_incidents, money_incidents):
@@ -216,22 +214,27 @@ class Simulation:
         self.citizens = []
         self.fail_money_day = []  # Список дней в которые будут происходить инцеденты
         self.fail_food_day = []  # Список дней в которые будут происходить инцеденты
-
-    def family_create(self):
-        # TODO как мы видим параметры подчеркнуты их тоже нужно по дуфолту в ините определить
         self.home = House()
         self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
         self.masha = Wife(name='Маша', house=self.home)
         self.maks = Child(name='Макс', house=self.home)
         self.citizens = [self.serge, self.masha, self.maks]
 
+    # def family_create(self):
+    # TODO тогда мне нужно вызывать в эксперементе не family_create, а вызывать __init__ чтоб обнулиться?
+
     # TODO обнуляться значить пересоздать экземляр у вас метод выше
-    # если это написать в ините, то как нам обнуляться в эксперементе?
+    #   если это написать в ините, то как нам обнуляться в эксперементе?
+    #   тут мы только оставляем очистку списков? или их можно прописать ?
+    #
     def restart_zero(self):
+        # TODO что значит пересоздать (обнулить) экземпляр клсасат? Его сначала нужно сначала обнулить, то есть присвоить None потом заново создать?
+        #  это нужно или нет, непойму?
         self.home = None
         self.serge = None
         self.masha = None
         self.maks = None
+        # TODO тогда это тоже в ините нужно прописать по идеи?
         self.cats.clear()  # чистим список котов
         self.citizens.clear()
         self.fail_food_day.clear()  # чистим список дней с инцедентами
@@ -250,17 +253,11 @@ class Simulation:
                 return False
         return True
 
-    # TODO подробнее написано в FAQ
-    #   почему нельзя использовать слово list в названии переменных, удобно ж читать. чем его можно заменить?
-    # TODO можно просто в названии указать окончание S тем самым дать понять что это множество
     def get_pussy(self, count):
-        # TODO именя будем давать автоматически по циклу for
         self.name_cat = ['Арбузик', 'Агроном', 'Анчоус', 'Апельсин']
-        # TODO тут вы получаете obj
-        for obj in range(count):
-            # TODO далее вы его переопределяете что такое вообще obj ? наверное это просто cat
-            obj = Cat(name_cat=choice(self.name_cat), house=self.home)
-            self.cats.append(obj)
+        for _ in range(count):  # TODO как можно еще давать именя автоматически по циклу for? У нас же цикл renge(10), а список из 4 элементов
+            auto_cat = Cat(name_cat=choice(self.name_cat), house=self.home)  # TODO чем плох вариант choice(self.name_cat)
+            self.cats.append(auto_cat)
 
     def incidents_generation(self):
         for _ in range(self.money_incidents):
@@ -270,30 +267,32 @@ class Simulation:
 
     def food_fail(self, day):
         if day in self.fail_food_day:
-            self.home.eat_fridge = int(self.home.eat_fridge/2)
+            self.home.eat_fridge = int(self.home.eat_fridge / 2)
 
     def money_fail(self, day):
         if day in self.fail_money_day:
-            self.home.money_casket = int(self.home.money_casket/2)
+            self.home.money_casket = int(self.home.money_casket / 2)
 
     def experiment(self, salary):
         # TODO зарплату мы должны явно указать у экземпляра класса муж у него и параметр такой должен быть
         # TODO это нужно делать после self.family_create()
-        self.salary = salary
+        # TODO я долго с этим голову ломал. не понимаю. мы создали экземпляр класса МУЖ. при создании зарплату ему не передали!
+        #   как мы передадим зарплату уже созданному экземпляру?
         for cats in range(10, 0, -1):  # заводим цикл по количеству котов от 10 до 0 с шагом -1
-            # TODO можно без self
-            self.verification = 1  # объявляем переменную которая будет отвечать за верификацию
+            verification = 1  # объявляем переменную которая будет отвечать за верификацию
             for _ in range(3):  # заводим цикл по range(3)
                 self.restart_zero()
-                self.family_create()
+                # self.family_create()
+                self.__init__()  # TODO что мне тогда сюда передать?
+                self.salary = salary
                 self.get_pussy(count=cats)  # создаем нужное количество котов
                 self.incidents_generation()  # генерируем дни, в которые будут происходить инцеденты
                 self.citizens.extend(self.cats)
                 if self.life():
-                    self.verification += 1
-                    if self.verification == 2:
+                    verification += 1
+                    if verification == 2:
                         return cats
-        # TODO тут ретуним 0
+        return 0
 
 
 for food_incidents in range(6):
@@ -302,9 +301,6 @@ for food_incidents in range(6):
         for salary in range(50, 401, 50):
             max_cats = life.experiment(salary)
             print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
-
-
-
 
 # Усложненное задание (делать по желанию)
 #
