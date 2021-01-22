@@ -220,21 +220,13 @@ class Simulation:
         self.maks = Child(name='Макс', house=self.home)
         self.citizens = [self.serge, self.masha, self.maks]
 
-    # def family_create(self):
-    # TODO тогда мне нужно вызывать в эксперементе не family_create, а вызывать __init__ чтоб обнулиться?
-
-    # TODO обнуляться значить пересоздать экземляр у вас метод выше
-    #   если это написать в ините, то как нам обнуляться в эксперементе?
-    #   тут мы только оставляем очистку списков? или их можно прописать ?
-    #
     def restart_zero(self):
-        # TODO что значит пересоздать (обнулить) экземпляр клсасат? Его сначала нужно сначала обнулить, то есть присвоить None потом заново создать?
-        #  это нужно или нет, непойму?
-        self.home = None
-        self.serge = None
-        self.masha = None
-        self.maks = None
-        # TODO тогда это тоже в ините нужно прописать по идеи?
+        # TODO вот так мы обнуляемся, очень просто пересоздать класс
+        # self.home = House()
+        # self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
+        # self.masha = Wife(name='Маша', house=self.home)
+        # self.maks = Child(name='Макс', house=self.home)
+        # self.citizens = [self.serge, self.masha, self.maks]
         self.cats.clear()  # чистим список котов
         self.citizens.clear()
         self.fail_food_day.clear()  # чистим список дней с инцедентами
@@ -254,9 +246,11 @@ class Simulation:
         return True
 
     def get_pussy(self, count):
+        # TODO список убираем
         self.name_cat = ['Арбузик', 'Агроном', 'Анчоус', 'Апельсин']
-        for _ in range(count):  # TODO как можно еще давать именя автоматически по циклу for? У нас же цикл renge(10), а список из 4 элементов
-            auto_cat = Cat(name_cat=choice(self.name_cat), house=self.home)  # TODO чем плох вариант choice(self.name_cat)
+        # TODO тут в цикле заводим переменную i и по ней формируем имя кот номер 0 1 2 3
+        for _ in range(count):
+            auto_cat = Cat(name_cat=choice(self.name_cat), house=self.home)  # TODO мало имен на бы 10 хотябы
             self.cats.append(auto_cat)
 
     def incidents_generation(self):
@@ -274,16 +268,16 @@ class Simulation:
             self.home.money_casket = int(self.home.money_casket / 2)
 
     def experiment(self, salary):
-        # TODO зарплату мы должны явно указать у экземпляра класса муж у него и параметр такой должен быть
-        # TODO это нужно делать после self.family_create()
-        # TODO я долго с этим голову ломал. не понимаю. мы создали экземпляр класса МУЖ. при создании зарплату ему не передали!
+        # TODO self.serge.salary = salary
+        # я долго с этим голову ломал. не понимаю. мы создали экземпляр класса МУЖ. при создании зарплату ему не передали!
         #   как мы передадим зарплату уже созданному экземпляру?
         for cats in range(10, 0, -1):  # заводим цикл по количеству котов от 10 до 0 с шагом -1
             verification = 1  # объявляем переменную которая будет отвечать за верификацию
             for _ in range(3):  # заводим цикл по range(3)
                 self.restart_zero()
                 # self.family_create()
-                self.__init__()  # TODO что мне тогда сюда передать?
+                # TODO вот тут мы пишем код которые передает зарплату
+                self.__init__()
                 self.salary = salary
                 self.get_pussy(count=cats)  # создаем нужное количество котов
                 self.incidents_generation()  # генерируем дни, в которые будут происходить инцеденты
