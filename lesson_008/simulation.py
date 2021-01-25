@@ -11,7 +11,7 @@
 запускать нашу симуляцию три раза!
 
 """
-from random import randint, choice
+from random import randint
 from typing import List
 
 
@@ -208,6 +208,7 @@ class Simulation:
     name_cat: List[str]
 
     def __init__(self, food_incidents, money_incidents):
+        self.salary = None
         self.food_incidents = food_incidents  # переменные инцедентов
         self.money_incidents = money_incidents  # переменные инцедентов
         self.cats = []  # список котов
@@ -221,14 +222,15 @@ class Simulation:
         self.citizens = [self.serge, self.masha, self.maks]
 
     def restart_zero(self):
-        # TODO вот так мы обнуляемся, очень просто пересоздать класс
-        # self.home = House()
-        # self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
-        # self.masha = Wife(name='Маша', house=self.home)
-        # self.maks = Child(name='Макс', house=self.home)
-        # self.citizens = [self.serge, self.masha, self.maks]
+        # TODO понял, т.е. нам не нужно его занулять, а просто создать новые, а когда старые не нужны бубут,
+        #  питон их сам выгрурит из памяти. НО вопрос, если мы их создаем в этом методе, зачем мы то же самое делаем
+        #  в init?
+        self.home = House()
+        self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
+        self.masha = Wife(name='Маша', house=self.home)
+        self.maks = Child(name='Макс', house=self.home)
+        self.citizens = [self.serge, self.masha, self.maks]
         self.cats.clear()  # чистим список котов
-        self.citizens.clear()
         self.fail_food_day.clear()  # чистим список дней с инцедентами
         self.fail_money_day.clear()  # чистим список дней с инцедентами
 
@@ -246,11 +248,8 @@ class Simulation:
         return True
 
     def get_pussy(self, count):
-        # TODO список убираем
-        self.name_cat = ['Арбузик', 'Агроном', 'Анчоус', 'Апельсин']
-        # TODO тут в цикле заводим переменную i и по ней формируем имя кот номер 0 1 2 3
-        for _ in range(count):
-            auto_cat = Cat(name_cat=choice(self.name_cat), house=self.home)  # TODO мало имен на бы 10 хотябы
+        for i in range(count):
+            auto_cat = Cat(name_cat=f"cat_number_{i}", house=self.home)
             self.cats.append(auto_cat)
 
     def incidents_generation(self):
@@ -267,18 +266,12 @@ class Simulation:
         if day in self.fail_money_day:
             self.home.money_casket = int(self.home.money_casket / 2)
 
-    def experiment(self, salary):
-        # TODO self.serge.salary = salary
-        # я долго с этим голову ломал. не понимаю. мы создали экземпляр класса МУЖ. при создании зарплату ему не передали!
-        #   как мы передадим зарплату уже созданному экземпляру?
+    def experiment(self, salary_experiment):
         for cats in range(10, 0, -1):  # заводим цикл по количеству котов от 10 до 0 с шагом -1
             verification = 1  # объявляем переменную которая будет отвечать за верификацию
             for _ in range(3):  # заводим цикл по range(3)
                 self.restart_zero()
-                # self.family_create()
-                # TODO вот тут мы пишем код которые передает зарплату
-                self.__init__()
-                self.salary = salary
+                self.serge.salary_man = salary_experiment
                 self.get_pussy(count=cats)  # создаем нужное количество котов
                 self.incidents_generation()  # генерируем дни, в которые будут происходить инцеденты
                 self.citizens.extend(self.cats)
