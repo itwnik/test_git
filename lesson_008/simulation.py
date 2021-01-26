@@ -222,9 +222,8 @@ class Simulation:
         self.citizens = [self.serge, self.masha, self.maks]
 
     def restart_zero(self):
-        # TODO понял, т.е. нам не нужно его занулять, а просто создать новые, а когда старые не нужны бубут,
-        #  питон их сам выгрурит из памяти. НО вопрос, если мы их создаем в этом методе, зачем мы то же самое делаем
-        #  в init?
+        # Там можно прописать заглушки типа None но, так как мы в коде используем методы класса,
+        # интерпритатор должен знать чот они есть у него и поэтому мы написали так в init
         self.home = House()
         self.serge = Husband(name='Сергей', house=self.home, salary_man=self.salary)
         self.masha = Wife(name='Маша', house=self.home)
@@ -310,3 +309,5 @@ for food_incidents in range(6):
 #       for salary in range(50, 401, 50):
 #           max_cats = life.experiment(salary)
 #           print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
+
+# зачет!
