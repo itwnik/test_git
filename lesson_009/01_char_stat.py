@@ -26,7 +26,33 @@
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
 # TODO здесь ваш код
+# class CollectingStatistics():
+#
+#     def __init__(self, file_name):
 
+statistic = {}
+count = 0
+file_name = 'voyna-i-mir-tom-1.txt'
+with open(file_name, 'r', encoding='cp1251') as file:
+    for line in file:
+        char = ' '
+        for char in line:
+            # print(char)
+            # if char in statistic:
+            #     statistic[char] = statistic.get(char) + 1
+            # else:
+            #     statistic[char] = 1
+            if char.isalpha():
+                if char.isupper():
+                    char = char.lower()
+                if char not in statistic:
+                    statistic[char] = 1
+                else:
+                    statistic[char] = statistic.get(char) + 1
+        # break
+
+    # print(statistic)
+    # print(len(statistic))
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
