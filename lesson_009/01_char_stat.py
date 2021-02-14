@@ -38,30 +38,30 @@ class CollectingStatistics:
             for line in file:
                 for self.char in line:
                     if self.char.isalpha():
-                        if self.char.isupper():
-                            self.char = self.char.lower()
+                        # if self.char.isupper():
+                        #     self.char = self.char.lower()
                         if self.char not in self.statistic:
                             self.statistic[self.char] = 1
                         else:
                             self.statistic[self.char] = self.statistic.get(self.char) + 1
 
     def output(self):
-        # print('+' * 31)
-        # print('|{txt:^14}|{txt2:^14}|'.format(txt='Буква', txt2='Частота'))
-        # print('+' * 31)
-        for count in range(len(self.statistic)):
-            print(self.statistic)
-        #     print('|{txt:^14}|{txt2:^14}|'.format(txt='Буква', txt2='Частота'))
-        # print('+' * 31)
-        # print(self.statistic)
-        # print(len(self.statistic))
+        total = 0
+        print('+' * 31)
+        print('|{txt:^14}|{txt2:^14}|'.format(txt='Буква', txt2='Частота'))
+        print('+' * 31)
+        for key in self.statistic:
+            print('|{txt:^14}|{txt2:^14}|'.format(txt=key, txt2=self.statistic[key]))
+            total = self.statistic[key] + total
+        print('+' * 31)
+        print('|{txt:^14}|{txt2:^14}|'.format(txt='Итого', txt2=total))
+        print('+' * 31)
 
 
-test = CollectingStatistics('voyna-i-mir-tom-1.txt')
-test.statistics()
-test.output()
-    # print(statistic)
-    # print(len(statistic))
+analysis = CollectingStatistics('voyna-i-mir-tom-1.txt')
+analysis.statistics()
+analysis.output()
+
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
