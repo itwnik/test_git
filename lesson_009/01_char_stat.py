@@ -25,19 +25,20 @@
 #   см https://refactoring.guru/ru/design-patterns/template-method
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
-# TODO здесь ваш код
 class CollectingStatistics:
 
     def __init__(self, file_name):
-        self.file_name = file_name #'voyna-i-mir-tom-1.txt'
+        self.file_name = file_name  # 'voyna-i-mir-tom-1.txt'
         self.statistic = {}
         self.char = ' '
 
     def statistics(self):
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
+                # TODO большая вложенность вынести внутренний метод
                 for self.char in line:
                     if self.char.isalpha():
+                        # TODO если код не нужен удаляем
                         # if self.char.isupper():
                         #     self.char = self.char.lower()
                         if self.char not in self.statistic:
@@ -45,11 +46,15 @@ class CollectingStatistics:
                         else:
                             self.statistic[self.char] = self.statistic.get(self.char) + 1
 
+    # TODO напишите метод сортировки отдельно в методе по дефолту Упорядочивание по частоте - по убыванию
+
     def output(self):
         total = 0
         print('+' * 31)
         print('|{txt:^14}|{txt2:^14}|'.format(txt='Буква', txt2='Частота'))
         print('+' * 31)
+        # TODO переменные называйте более развернуто, сразу в заголовке цикла получайте
+        # TODO символ и его количество
         for key in self.statistic:
             print('|{txt:^14}|{txt2:^14}|'.format(txt=key, txt2=self.statistic[key]))
             total = self.statistic[key] + total
@@ -58,6 +63,7 @@ class CollectingStatistics:
         print('+' * 31)
 
 
+# TODO файла не в корне, перенести
 analysis = CollectingStatistics('voyna-i-mir-tom-1.txt')
 analysis.statistics()
 analysis.output()
