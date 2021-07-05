@@ -38,9 +38,6 @@ class CollectingStatistics:
                 # TODO большая вложенность вынести внутренний метод
                 for self.char in line:
                     if self.char.isalpha():
-                        # TODO если код не нужен удаляем
-                        # if self.char.isupper():
-                        #     self.char = self.char.lower()
                         if self.char not in self.statistic:
                             self.statistic[self.char] = 1
                         else:
@@ -63,7 +60,6 @@ class CollectingStatistics:
         print('+' * 31)
 
 
-# TODO файла не в корне, перенести
 analysis = CollectingStatistics('voyna-i-mir-tom-1.txt')
 analysis.statistics()
 analysis.output()
