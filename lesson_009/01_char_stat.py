@@ -47,7 +47,8 @@ class CollectingStatistics:
 
     def sorting_item(self):
         dictionary_in_list = list(self.statistic.items())
-        # TODO всю голову сломал как назвать эту переменную. Так можно?
+        # TODO list set dict tuple в именовании переменных не используем
+        # TODO выходные данные назовите и все
         dictionary_in_list.sort(key=lambda element: element[1])
         self.statistic = dict(dictionary_in_list)
 
@@ -73,3 +74,5 @@ analysis.output()
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
 #  - по алфавиту по убыванию
+
+# TODO итог не полный символов гораздо больше
