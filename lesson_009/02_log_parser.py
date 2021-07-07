@@ -40,6 +40,8 @@ class LogParsing:
             else:
                 self.event_counter[event] = self.event_counter.get(event) + 1
 
+    # TODO как и ранее все логика по дефолту должна быть в этом классе
+    # TODO вам нужно написать или вынести часть кода в отдельный метод сортировки
 
 class FileWorks(LogParsing):
 
@@ -49,11 +51,12 @@ class FileWorks(LogParsing):
                 self.parsing(line)
 
     def writing_file(self):
+        # TODO почему используйте кодировку cp1251 ? используем utf8
         with open('parsing_file_out.txt', 'w', encoding='cp1251') as out:
             for error_time, errors_count in self.event_counter.items():
                 out.write(f"{error_time}] {errors_count} \n")
-            out.write(f" Общее количество ошиибок {self.count}")  # TODO тут какой-то глюк с буквой "О" на выводе.
-        print("Parsing Done!")                                    # TODO В чем причина?
+            out.write(f" Общее количество ошиибок {self.count}")
+        print("Parsing Done!")
 
 
 parsing_file = FileWorks('events.txt')
