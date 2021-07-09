@@ -40,29 +40,44 @@ class LogParsing:
             else:
                 self.event_counter[event] = self.event_counter.get(event) + 1
 
-    # TODO как и ранее все логика по дефолту должна быть в этом классе
-    # TODO вам нужно написать или вынести часть кода в отдельный метод сортировки
-
-class FileWorks(LogParsing):
-
     def reading_file(self):
         with open(self.log_name, 'r') as file:  # 'events.txt'
             for line in file:
                 self.parsing(line)
 
     def writing_file(self):
-        # TODO почему используйте кодировку cp1251 ? используем utf8
-        with open('parsing_file_out.txt', 'w', encoding='cp1251') as out:
+        self.sorting(self.select_sort_from_user())
+        with open('parsing_file_out.txt', 'w', encoding='utf8') as out:
             for error_time, errors_count in self.event_counter.items():
                 out.write(f"{error_time}] {errors_count} \n")
             out.write(f" Общее количество ошиибок {self.count}")
         print("Parsing Done!")
 
+    def select_sort_from_user(self):
+        while True:
+            user_select = input(f"Выбирите группировку: \n [1] - по часам \n [2] - по месяцу \n [3] - по году \n")
+            if user_select.isdigit() and 1 <= int(user_select) <= 3:
+                return user_select
+            print(f"Ошибка! повторите ввод!")
 
-parsing_file = FileWorks('events.txt')
+    def sorting(self, user_select):
+        if user_select == '1':  # по часу
+            start_sorting_position, end_sorting_position = 12, 14
+        elif user_select == '2':  # по месяцу
+            start_sorting_position, end_sorting_position = 6, 8
+        elif user_select == '3':  # по году
+            start_sorting_position, end_sorting_position = 1, 5
+        output_data_sorting = list(self.event_counter.items())
+        output_data_sorting.sort(key=lambda element: element[0][start_sorting_position:end_sorting_position])
+        self.event_counter = dict(output_data_sorting)
+
+    # TODO т.е. у нас будет 1 класс? и внем отдельно меттод сортировки? так?
+    # TODO тогда в чем фишка шаблонного метода?
+
+
+parsing_file = LogParsing('events.txt')
 parsing_file.reading_file()
 parsing_file.writing_file()
-
 
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
