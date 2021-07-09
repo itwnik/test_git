@@ -46,11 +46,9 @@ class CollectingStatistics:
                 self.statistic[self.char] = self.statistic.get(self.char) + 1
 
     def sorting_item(self):
-        dictionary_in_list = list(self.statistic.items())
-        # TODO list set dict tuple в именовании переменных не используем
-        # TODO выходные данные назовите и все
-        dictionary_in_list.sort(key=lambda element: element[1])
-        self.statistic = dict(dictionary_in_list)
+        output_data = list(self.statistic.items())
+        output_data.sort(key=lambda element: element[1])
+        self.statistic = dict(output_data)
 
     def output(self):
         self.sorting_item()
@@ -75,4 +73,4 @@ analysis.output()
 #  - по алфавиту по возрастанию
 #  - по алфавиту по убыванию
 
-# TODO итог не полный символов гораздо больше
+# TODO Да, символов гораздо больше, но мы же считаем буквы алфавита используя метод isalpha()
