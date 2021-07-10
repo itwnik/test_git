@@ -53,6 +53,7 @@ class LogParsing:
             out.write(f" Общее количество ошиибок {self.count}")
         print("Parsing Done!")
 
+    # TODO этот метод нам не нужен
     def select_sort_from_user(self):
         while True:
             user_select = input(f"Выбирите группировку: \n [1] - по часам \n [2] - по месяцу \n [3] - по году \n")
@@ -60,6 +61,7 @@ class LogParsing:
                 return user_select
             print(f"Ошибка! повторите ввод!")
 
+    # TODO в этот методе должна быть только одна по дефолту сортировка
     def sorting(self, user_select):
         if user_select == '1':  # по часу
             start_sorting_position, end_sorting_position = 12, 14
@@ -71,10 +73,12 @@ class LogParsing:
         output_data_sorting.sort(key=lambda element: element[0][start_sorting_position:end_sorting_position])
         self.event_counter = dict(output_data_sorting)
 
-    # TODO т.е. у нас будет 1 класс? и внем отдельно меттод сортировки? так?
-    # TODO тогда в чем фишка шаблонного метода?
+    # т.е. у нас будет 1 класс? и внем отдельно меттод сортировки? так?
+    # тогда в чем фишка шаблонного метода?
+    # TODO чтобы в дочерних классах переопределить только этот метод и не более
+    # TODO https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
-
+# TODO Сделайте сначала первый этап
 parsing_file = LogParsing('events.txt')
 parsing_file.reading_file()
 parsing_file.writing_file()
