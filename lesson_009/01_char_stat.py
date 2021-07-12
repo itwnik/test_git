@@ -45,6 +45,7 @@ class CollectingStatistics:
             else:
                 self.statistic[self.char] = self.statistic.get(self.char) + 1
 
+
     def sorting_item(self):
         output_data = list(self.statistic.items())
         output_data.sort(key=lambda element: element[1])
@@ -75,8 +76,14 @@ analysis.output()
 
 # Да, символов гораздо больше, но мы же считаем буквы алфавита используя метод isalpha()
 
-# TODO символы считаются не полностью
-# TODO общий итог должен быть 2374216
+# символы считаются не полностью
+# общий итог должен быть 2374216
+
+# TODO Мы видимо смотрим с Вами разные файлы. У меня в файле всего 736 519 символов.
+# TODO ссылка на прув http://joxi.ru/Y2L1RL9SMLXGOA
+# TODO буквенных символов 566 576
+# TODO Вот для примера подсчет буквы "ъ" http://joxi.ru/823GReBsa4kOx2
+
 
 # |    щ    |    6797 |
 # |    ъ    |     986 |
