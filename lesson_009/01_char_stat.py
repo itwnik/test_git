@@ -65,6 +65,7 @@ class CollectingStatistics:
         print('+' * 31)
 
 
+# TODO вы его взяли из сниппетов ? распаковали и перенесли в корень
 analysis = CollectingStatistics('voyna-i-mir-tom-1.txt')
 analysis.file_work()
 analysis.output()
@@ -79,10 +80,10 @@ analysis.output()
 # символы считаются не полностью
 # общий итог должен быть 2374216
 
-# TODO Мы видимо смотрим с Вами разные файлы. У меня в файле всего 736 519 символов.
-# TODO ссылка на прув http://joxi.ru/Y2L1RL9SMLXGOA
-# TODO буквенных символов 566 576
-# TODO Вот для примера подсчет буквы "ъ" http://joxi.ru/823GReBsa4kOx2
+#  Мы видимо смотрим с Вами разные файлы. У меня в файле всего 736 519 символов.
+#  ссылка на прув http://joxi.ru/Y2L1RL9SMLXGOA
+#  буквенных символов 566 576
+#  Вот для примера подсчет буквы "ъ" http://joxi.ru/823GReBsa4kOx2
 
 
 # |    щ    |    6797 |
