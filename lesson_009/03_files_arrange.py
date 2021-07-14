@@ -75,6 +75,7 @@ class FileInYears:
                 self.copy_file(full_file_path, file)
 
 
+# TODO есть недочеты по PEP8 поправить
 copy_file = FileInYears()
 copy_file.parsing_dir()
 
