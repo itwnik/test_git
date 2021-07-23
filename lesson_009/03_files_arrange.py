@@ -46,7 +46,7 @@ import time
 import shutil
 
 
-class FileInYears:
+class FileYears:
 
     def __init__(self):
         self.input_path = 'icons'
@@ -75,8 +75,7 @@ class FileInYears:
                 self.copy_file(full_file_path, file)
 
 
-# TODO есть недочеты по PEP8 поправить
-copy_file = FileInYears()
+copy_file = FileYears()
 copy_file.parsing_dir()
 
 
