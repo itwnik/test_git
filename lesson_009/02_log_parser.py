@@ -54,10 +54,7 @@ class LogParsing:
         print("Parsing Done!")
 
     def sorting(self):
-        # TODO попробуйте сократить до одной строки, как бы много преобразований
-        output_data_sorting = list(self.event_counter.items())
-        output_data_sorting.sort(key=lambda element: element[0][1:5])  # сортировка по году
-        self.event_counter = dict(output_data_sorting)
+        self.event_counter = dict(sorted(self.event_counter.items(), key=lambda element: element[0][1:5]))
 
 
 parsing_file = LogParsing('events.txt')
