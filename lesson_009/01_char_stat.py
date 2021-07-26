@@ -40,6 +40,7 @@ class CollectingStatistics:
             for line in file:
                 for self.char in line:
                     self.statistics()
+                    # TODO я правильно понял метод self.statistics() остается тут или его нужно вынести в шаблонный метод?
 
     def statistics(self):
         if self.char.isalpha():
@@ -49,9 +50,7 @@ class CollectingStatistics:
                 self.statistic[self.char] = self.statistic.get(self.char) + 1
 
     def sorting_item(self):
-        output_data = list(self.statistic.items())
-        output_data.sort(key=lambda element: element[1])
-        self.statistic = dict(output_data)
+        self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[1]))
 
     def output(self):
         total_quantity_char = 0
@@ -67,7 +66,6 @@ class CollectingStatistics:
 
     def starting(self):
         self.file_work()
-        self.statistics()
         self.sorting_item()
         self.output()
 
