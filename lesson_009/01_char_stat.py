@@ -39,7 +39,6 @@ class CollectingStatistics:
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
                 for self.char in line:
-                    # TODO да метод на своем месте
                     self.statistics()
 
     def statistics(self):
@@ -49,7 +48,6 @@ class CollectingStatistics:
             else:
                 self.statistic[self.char] = self.statistic.get(self.char) + 1
 
-    # TODO в шаблонном методе переопределяем только этот метод
     def sorting_item(self):
         self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[1]))
 
