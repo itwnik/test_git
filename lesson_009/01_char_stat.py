@@ -39,8 +39,8 @@ class CollectingStatistics:
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
                 for self.char in line:
+                    # TODO да метод на своем месте
                     self.statistics()
-                    # TODO я правильно понял метод self.statistics() остается тут или его нужно вынести в шаблонный метод?
 
     def statistics(self):
         if self.char.isalpha():
@@ -49,6 +49,7 @@ class CollectingStatistics:
             else:
                 self.statistic[self.char] = self.statistic.get(self.char) + 1
 
+    # TODO в шаблонном методе переопределяем только этот метод
     def sorting_item(self):
         self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[1]))
 
@@ -72,8 +73,6 @@ class CollectingStatistics:
 
 analysis = CollectingStatistics(BOOK)
 analysis.starting()
-
-# TODO Благодарю за разъяснения. Поправил в соответствии с рекоммендациями.
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
