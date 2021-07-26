@@ -45,19 +45,23 @@ import os
 import time
 import shutil
 
+LNPUT_PATH = 'icons'
+OUTPUT_PATH = 'icons_by_year'
+
 
 class FileYears:
 
-    def __init__(self):
-        self.input_path = 'icons'
-        self.out_path = 'icons_by_year'
+    def __init__(self, input_path, out_path):
+        self.input_path = input_path
+        self.out_path = out_path
 
     def normalize_path(self):
         self.input_path_for_sort = os.path.normpath(os.path.join(os.path.dirname(__file__), self.input_path))
         self.out_path_for_sort = os.path.normpath(os.path.join(os.path.dirname(__file__), self.out_path))
 
     def create_dir(self, file_mod_time):
-        self.full_file_path_out = os.path.join(self.out_path_for_sort, str(file_mod_time.tm_year), str(file_mod_time.tm_mon))
+        self.full_file_path_out = os.path.join(self.out_path_for_sort, str(file_mod_time.tm_year),
+                                               str(file_mod_time.tm_mon))
         if not os.path.exists(self.full_file_path_out):
             os.makedirs(self.full_file_path_out)
 
@@ -66,7 +70,6 @@ class FileYears:
         print(f"Copy file '{file}' completed!!!")
 
     def parsing_dir(self):
-        self.normalize_path()
         for self.dir_path, self.dir_names, self.file_names in os.walk(self.input_path_for_sort):
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
@@ -74,10 +77,13 @@ class FileYears:
                 self.create_dir(file_mod_time)
                 self.copy_file(full_file_path, file)
 
+    def starting(self):
+        self.normalize_path()
+        self.parsing_dir()
 
-copy_file = FileYears()
-copy_file.parsing_dir()
 
+copy_file = FileYears(LNPUT_PATH, OUTPUT_PATH)
+copy_file.starting()
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
