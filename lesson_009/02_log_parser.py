@@ -23,35 +23,37 @@
 #   см https://refactoring.guru/ru/design-patterns/template-method
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
+LOG_NAME = 'events.txt'
+PARSING_PARAMETER = 'NOK'
+
+
 class LogParsing:
 
-    def __init__(self, log_name):
+    def __init__(self, log_name, parsing_param):
         self.log_name = log_name
         self.event_counter = {}
-        self.pars_param = 'NOK'
+        self.pars_param = parsing_param
+        self.pars_string = ''
         self.count = 0
 
-    def parsing(self, line):
-        if line[29:32] == self.pars_param:
-            self.count += 1
-            event = line[0:17]
-            # TODO "Ключом времени" для группировки является этот срез, именно его параметры будут переопределяться
-            #  во второй части задачи. Поэтому: 1) cоздайте атрибут для хранения правой границы среза;
-            #  2) создайте метод для присваивания атрибуту конкретного значения.
-            #  Этот метод будем переопределять для других видов группировки событий в наследниках класса.
-            #  Не забудьте вызвать метод в шаблонном методе
-            if event not in self.event_counter:
-                self.event_counter[event] = 1
-            else:
-                self.event_counter[event] = self.event_counter.get(event) + 1
-
     def reading_file(self):
-        with open(self.log_name, 'r') as file:  # 'events.txt'
+        with open(self.log_name, 'r') as file:
             for line in file:
-                self.parsing(line)
+                if line[29:32] == self.pars_param:
+                    self.pars_string_information(line)
+                    self.parsing(self.pars_string)
+
+    def pars_string_information(self, line):
+        self.pars_string = line[0:17]
+
+    def parsing(self, cropped_line):
+            self.count += 1
+            if cropped_line not in self.event_counter:
+                self.event_counter[cropped_line] = 1
+            else:
+                self.event_counter[cropped_line] = self.event_counter.get(cropped_line) + 1
 
     def writing_file(self):
-        self.sorting()
         with open('parsing_file_out.txt', 'w', encoding='utf8') as out:
             for error_time, errors_count in self.event_counter.items():
                 out.write(f"{error_time}] {errors_count} \n")
@@ -60,11 +62,18 @@ class LogParsing:
 
     def sorting(self):
         self.event_counter = dict(sorted(self.event_counter.items(), key=lambda element: element[0][1:5]))
+        # TODO Поправил в соответствии с Вашими требованиями. НО! Для чего создавать новый метод? Есть же метод sorting,
+        #   он как раз и сортирует данные, в текущей версии, по году. Можено его переопределить для сортировки по месяцу
+        #   и часам. Сортировка и групперовка это по сути одно и тоже?
+
+    def starting(self):
+        self.reading_file()
+        self.sorting()
+        self.writing_file()
 
 
-parsing_file = LogParsing('events.txt')
-parsing_file.reading_file()
-parsing_file.writing_file()
+parsing_file = LogParsing(LOG_NAME, PARSING_PARAMETER)
+parsing_file.starting()
 
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
