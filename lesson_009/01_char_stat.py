@@ -72,6 +72,8 @@ class CollectingStatistics:
 analysis = CollectingStatistics(BOOK)
 analysis.starting()
 
+# TODO можно делать вторую часть
+
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
