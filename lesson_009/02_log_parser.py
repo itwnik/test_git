@@ -47,6 +47,7 @@ class LogParsing:
         self.pars_string = line[0:17]
 
     def parsing(self, cropped_line):
+        # TODO поправить отступы
             self.count += 1
             if cropped_line not in self.event_counter:
                 self.event_counter[cropped_line] = 1
@@ -60,11 +61,10 @@ class LogParsing:
             out.write(f" Общее количество ошиибок {self.count}")
         print("Parsing Done!")
 
+    # TODO по сути этот метод у нас уже есть pars_string_information - группировки\сортировки
+    # TODO примените шаблонный метод и там переопределите pars_string_information с нужным срезом
     def sorting(self):
         self.event_counter = dict(sorted(self.event_counter.items(), key=lambda element: element[0][1:5]))
-        # TODO Поправил в соответствии с Вашими требованиями. НО! Для чего создавать новый метод? Есть же метод sorting,
-        #   он как раз и сортирует данные, в текущей версии, по году. Можено его переопределить для сортировки по месяцу
-        #   и часам. Сортировка и групперовка это по сути одно и тоже?
 
     def starting(self):
         self.reading_file()
@@ -75,6 +75,8 @@ class LogParsing:
 parsing_file = LogParsing(LOG_NAME, PARSING_PARAMETER)
 parsing_file.starting()
 
+
+# TODO делайте вторую часть
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
 #  - по месяцу
