@@ -76,19 +76,11 @@ class CollectingStatisticsTwo(CollectingStatistics):
         # self.file_name = file_name
         self.flag = flag
 
-    def sorting_item_ab(self):
-        self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=True))  # воз
-
-    def sorting_item_ba(self):
-        self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=False))  # убыв
-
-    def starting(self):
-        self.file_work()
+    def sorting_item(self):
         if self.flag == '2':
-            self.sorting_item_ab()
+            self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=True))  # воз
         else:
-            self.sorting_item_ba()
-        self.output()
+            self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=False))  # убыв
 
 
 def select_sort_from_user():
