@@ -85,7 +85,7 @@ class CollectingStatisticsTwo(CollectingStatistics):
 
 def select_sort_from_user():
     while True:
-        user_select_f = input(f"Выбирите группировку:\n "
+        user_select_f = input(f"Выберите группировку:\n "
                               f"[1] - по частоте по возрастанию \n"
                               f"[2] - по алфавиту по возрастанию \n"
                               f"[3] - по алфавиту по убыванию \n"
