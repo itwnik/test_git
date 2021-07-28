@@ -47,12 +47,11 @@ class LogParsing:
         self.pars_string = line[0:17]
 
     def parsing(self, cropped_line):
-        # TODO поправить отступы
-            self.count += 1
-            if cropped_line not in self.event_counter:
-                self.event_counter[cropped_line] = 1
-            else:
-                self.event_counter[cropped_line] = self.event_counter.get(cropped_line) + 1
+        self.count += 1
+        if cropped_line not in self.event_counter:
+            self.event_counter[cropped_line] = 1
+        else:
+            self.event_counter[cropped_line] = self.event_counter.get(cropped_line) + 1
 
     def writing_file(self):
         with open('parsing_file_out.txt', 'w', encoding='utf8') as out:
@@ -61,22 +60,47 @@ class LogParsing:
             out.write(f" Общее количество ошиибок {self.count}")
         print("Parsing Done!")
 
-    # TODO по сути этот метод у нас уже есть pars_string_information - группировки\сортировки
-    # TODO примените шаблонный метод и там переопределите pars_string_information с нужным срезом
-    def sorting(self):
-        self.event_counter = dict(sorted(self.event_counter.items(), key=lambda element: element[0][1:5]))
-
     def starting(self):
         self.reading_file()
-        self.sorting()
         self.writing_file()
 
 
-parsing_file = LogParsing(LOG_NAME, PARSING_PARAMETER)
-parsing_file.starting()
+class LogParsingTwo(LogParsing):
+    
+    def __init__(self, log_name, parsing_param, flag):
+        super(LogParsingTwo, self).__init__(log_name, parsing_param)
+        self.flag = flag
+
+    def pars_string_information(self, line):
+        if self.flag == '1':
+            self.pars_string = line[0:14]
+        elif self.flag == '2':
+            self.pars_string = line[0:8]
+        elif self.flag == '3':
+            self.pars_string = line[0:5]
 
 
-# TODO делайте вторую часть
+def select_sort_from_user():
+    while True:
+        user_select_f = input(f"Выберите группировку: \n "
+                              f"[1] - по часам \n [2] - по месяцу \n [3] - по году \n [4] - по минутам \n")
+        if user_select_f.isdigit() and 1 <= int(user_select_f) <= 4:
+            return user_select_f
+        print(f"Ошибка! повторите ввод!")
+
+
+if __name__ == '__main__':
+    user_select = select_sort_from_user()
+    if user_select == '1':  # по часам
+        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+    elif user_select == '2':  # по месяцу
+        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+    elif user_select == '3':  # по году
+        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+    else:
+        parsing_file = LogParsing(LOG_NAME, PARSING_PARAMETER)
+    parsing_file.starting()
+
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
 #  - по месяцу
