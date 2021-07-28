@@ -69,10 +69,51 @@ class CollectingStatistics:
         self.output()
 
 
-analysis = CollectingStatistics(BOOK)
-analysis.starting()
+class CollectingStatisticsTwo(CollectingStatistics):
 
-# TODO можно делать вторую часть
+    def __init__(self, file_name, flag):
+        super().__init__(file_name)
+        # self.file_name = file_name
+        self.flag = flag
+
+    def sorting_item_ab(self):
+        self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=True))  # воз
+
+    def sorting_item_ba(self):
+        self.statistic = dict(sorted(self.statistic.items(), key=lambda element: element[0], reverse=False))  # убыв
+
+    def starting(self):
+        self.file_work()
+        if self.flag == '2':
+            self.sorting_item_ab()
+        else:
+            self.sorting_item_ba()
+        self.output()
+
+
+def select_sort_from_user():
+    while True:
+        user_select_f = input(f"Выбирите группировку:\n "
+                              f"[1] - по частоте по возрастанию \n"
+                              f"[2] - по алфавиту по возрастанию \n"
+                              f"[3] - по алфавиту по убыванию \n"
+                              )
+        if user_select_f.isdigit() and 1 <= int(user_select_f) <= 3:
+            return user_select_f
+        print(f"Ошибка! повторите ввод!")
+
+
+if __name__ == '__main__':
+    user_select = select_sort_from_user()
+    if user_select == '1':  # по частоте по возрастанию
+        analysis = CollectingStatistics(BOOK)
+    elif user_select == '2':  # по алфавиту по возрастанию
+        analysis = CollectingStatisticsTwo(BOOK, user_select)
+    else:  # по алфавиту по убыванию
+        analysis = CollectingStatisticsTwo(BOOK, user_select)
+    analysis.starting()
+
+# TODO метод сортировки долго работает. Как его можно ускорить?
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
