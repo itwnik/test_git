@@ -65,6 +65,7 @@ class LogParsing:
         self.writing_file()
 
 
+# TODO аналогично от 01 задания
 class LogParsingTwo(LogParsing):
     
     def __init__(self, log_name, parsing_param, flag):
