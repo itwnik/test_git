@@ -65,20 +65,22 @@ class LogParsing:
         self.writing_file()
 
 
-# TODO аналогично от 01 задания
 class LogParsingTwo(LogParsing):
-    
-    def __init__(self, log_name, parsing_param, flag):
-        super(LogParsingTwo, self).__init__(log_name, parsing_param)
-        self.flag = flag
 
     def pars_string_information(self, line):
-        if self.flag == '1':
-            self.pars_string = line[0:14]
-        elif self.flag == '2':
-            self.pars_string = line[0:8]
-        elif self.flag == '3':
-            self.pars_string = line[0:5]
+        self.pars_string = line[0:14]  # по часу
+
+
+class LogParsingThree(LogParsing):
+
+    def pars_string_information(self, line):
+        self.pars_string = line[0:8]  # по месяц
+
+
+class LogParsingFour(LogParsing):
+
+    def pars_string_information(self, line):
+        self.pars_string = line[0:5]  # по году
 
 
 def select_sort_from_user():
@@ -93,11 +95,11 @@ def select_sort_from_user():
 if __name__ == '__main__':
     user_select = select_sort_from_user()
     if user_select == '1':  # по часам
-        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER)
     elif user_select == '2':  # по месяцу
-        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+        parsing_file = LogParsingThree(LOG_NAME, PARSING_PARAMETER)
     elif user_select == '3':  # по году
-        parsing_file = LogParsingTwo(LOG_NAME, PARSING_PARAMETER, user_select)
+        parsing_file = LogParsingFour(LOG_NAME, PARSING_PARAMETER)
     else:
         parsing_file = LogParsing(LOG_NAME, PARSING_PARAMETER)
     parsing_file.starting()
