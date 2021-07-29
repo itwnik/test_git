@@ -44,9 +44,11 @@
 import os
 import time
 import shutil
+import zipfile
 
 
 INPUT_PATH = 'icons'
+INPUT_ZIP_PATH = 'icons.zip'
 OUTPUT_PATH = 'icons_by_year'
 
 
@@ -58,6 +60,7 @@ class FileYears:
         self.input_path_sort = ''
         self.out_path_sort = ''
         self.full_file_path_out = ''
+        self.count = 0
 
     def normalize_path(self):
         self.input_path_sort = os.path.normpath(os.path.join(os.path.dirname(__file__), self.input_path))
@@ -74,22 +77,49 @@ class FileYears:
         print(f"Copy file '{file}' completed!")
 
     def parsing_dir(self):
+
         for self.dir_path, self.dir_names, self.file_names in os.walk(self.input_path_sort):
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
                 file_mod_time = time.gmtime(os.path.getmtime(full_file_path))
                 self.create_dir(file_mod_time)
                 self.copy_file(full_file_path, file)
+                self.count += 1
+        print(f"Обработанных файлов: {self.count}")
 
     def starting(self):
         self.normalize_path()
         self.parsing_dir()
 
 
-copy_file = FileYears(INPUT_PATH, OUTPUT_PATH)
-copy_file.starting()
+class ZipYears(FileYears):
 
-# TODO предлагаю вам сделать вторую часть
+    def parsing_dir(self):
+        with zipfile.ZipFile(self.input_path) as zf:
+            for zip_info in zf.infolist():
+                if os.path.isfile(zip_info.filename):
+                    file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
+                    self.create_dir(file_mod_time)
+                    zip_info.filename = os.path.basename(zip_info.filename)
+                    zf.extract(zip_info, self.full_file_path_out)
+                    self.count += 1
+                    print(f"Zip archive file '{zip_info.filename}' extract!")
+        print(f"Обработанных файлов: {self.count}")
+
+
+if __name__ == '__main__':
+    while True:
+        user_select_f = input(f"Извлечь из архива? (да/нет) >>> ")
+        if user_select_f == "да":
+            copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
+            copy_files.starting()
+            break
+        elif user_select_f == "нет":
+            copy_files = FileYears(INPUT_PATH, OUTPUT_PATH)
+            copy_files.starting()
+            break
+        else:
+            print(f"Ошибка! повторите ввод!")
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
