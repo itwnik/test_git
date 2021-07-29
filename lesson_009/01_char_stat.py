@@ -56,6 +56,10 @@ class CollectingStatistics:
         print('+' * 31)
         print('|{cell_1:^14}|{cell_2:^14}|'.format(cell_1='Буква', cell_2='Частота'))
         print('+' * 31)
+        # TODO вот эту часть кода (только цикл) можно вынести сразу в sorting_item
+        # TODO тут только вызвать метод self.sorting_item()
+        # TODO в самом цикле self.statistic.items() заменить на
+        # TODO sorted(self.statistic.items(), key=lambda element: element[1]) который вернут тьюпол
         for char_key, frequency in self.statistic.items():
             print('|{cell_1:^14}|{cell_2:^14}|'.format(cell_1=char_key, cell_2=frequency))
             total_quantity_char = self.statistic[char_key] + total_quantity_char
@@ -68,6 +72,12 @@ class CollectingStatistics:
         self.sorting_item()
         self.output()
 
+
+# TODO у нас должно получится что с похожей структурой
+#   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
+
+# TODO три дочерних класса в который переопределен только один метод сортировки
+# TODO если нужно поправить родительский класс!
 
 class CollectingStatisticsTwo(CollectingStatistics):
 
@@ -105,7 +115,8 @@ if __name__ == '__main__':
         analysis = CollectingStatisticsTwo(BOOK, user_select)
     analysis.starting()
 
-# TODO метод сортировки долго работает. Как его можно ускорить?
+# метод сортировки долго работает. Как его можно ускорить?
+# TODO сильно много преобразований
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
