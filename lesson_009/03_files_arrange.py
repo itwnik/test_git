@@ -46,7 +46,6 @@ import time
 import shutil
 import zipfile
 
-
 INPUT_PATH = 'icons'
 INPUT_ZIP_PATH = 'icons.zip'
 OUTPUT_PATH = 'icons_by_year'
@@ -72,18 +71,17 @@ class FileYears:
         if not os.path.exists(self.full_file_path_out):
             os.makedirs(self.full_file_path_out)
 
-    def copy_file(self, full_file_path, file):
-        shutil.copy2(full_file_path, self.full_file_path_out)
+    def copy_file(self, full_file_in, full_file_out, file):
+        shutil.copy2(full_file_in, full_file_out)
         print(f"Copy file '{file}' completed!")
 
     def parsing_dir(self):
-
         for self.dir_path, self.dir_names, self.file_names in os.walk(self.input_path_sort):
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
                 file_mod_time = time.gmtime(os.path.getmtime(full_file_path))
                 self.create_dir(file_mod_time)
-                self.copy_file(full_file_path, file)
+                self.copy_file(full_file_path, self.full_file_path_out, file)
                 self.count += 1
         print(f"Обработанных файлов: {self.count}")
 
@@ -94,17 +92,32 @@ class FileYears:
 
 class ZipYears(FileYears):
 
+    # TODO Вот мой вариант без открытия распаковки.
+    # def parsing_dir(self):
+    #     with zipfile.ZipFile(self.input_path) as zf:
+    #         for zip_info in zf.infolist():
+    #             if os.path.isfile(zip_info.filename):
+    #                 file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
+    #                 self.create_dir(file_mod_time)
+    #                 self.copy_file(zip_info.filename, self.full_file_path_out, os.path.basename(zip_info.filename))
+    #                 self.count += 1
+    #     print(f"Обработанных файлов: {self.count}")
+
     def parsing_dir(self):
         with zipfile.ZipFile(self.input_path) as zf:
-            for zip_info in zf.infolist():
-                if os.path.isfile(zip_info.filename):
-                    file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
+            for zip_name in zf.namelist():
+                if os.path.isfile(zip_name):
+                    file_mod_time = time.gmtime(os.path.getmtime(zip_name))
                     self.create_dir(file_mod_time)
-                    zip_info.filename = os.path.basename(zip_info.filename)
-                    zf.extract(zip_info, self.full_file_path_out)
+                    out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
+                    with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
+                        self.copy_file(fz, ff, os.path.basename(zip_name))
                     self.count += 1
-                    print(f"Zip archive file '{zip_info.filename}' extract!")
         print(f"Обработанных файлов: {self.count}")
+
+    def copy_file(self, full_file_in, full_file_out, file):
+        shutil.copyfileobj(full_file_in, full_file_out)
+        print(f"Copy file '{file}' from zip completed!")
 
 
 if __name__ == '__main__':
@@ -120,9 +133,6 @@ if __name__ == '__main__':
             break
         else:
             print(f"Ошибка! повторите ввод!")
-
-# TODO когда делаем эту часть не нужно распаковывать архив
-# TODO работаем с запакованным, вытаскиваем объект файла и копируем его как объект используем shutil.copyfileobj
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
