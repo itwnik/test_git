@@ -68,21 +68,10 @@ class CollectingStatistics:
         self.output()
 
 
-# TODO  Упорядочивание по частоте - по убыванию это в родительском классе
-# TODO далее три дочерних
-# TODO
-#   - по частоте по возрастанию
-#   - по алфавиту по возрастанию
-#   - по алфавиту по убыванию
-
-#  Почему три дочерних класса? сортировка по частоте у нас в родительском классе.
-#  и 2 дочерних "по алфавиту возрастанию" и "по по алфавиту по убыванию". Так ведь?
-
-
 class CollectingStatisticsTwo(CollectingStatistics):
 
     def sorting_item(self):
-        for char_key, frequency in sorted(self.statistic.items(), key=lambda element: element[0], reverse=True):  # воз
+        for char_key, frequency in sorted(self.statistic.items(), key=lambda element: element[1], reverse=True):  # воз
             print('|{cell_1:^14}|{cell_2:^14}|'.format(cell_1=char_key, cell_2=frequency))
             self.total_quantity_char = self.statistic[char_key] + self.total_quantity_char
 
@@ -90,7 +79,15 @@ class CollectingStatisticsTwo(CollectingStatistics):
 class CollectingStatisticsThree(CollectingStatistics):
 
     def sorting_item(self):
-        for char_key, frequency in sorted(self.statistic.items(), key=lambda element: element[0], reverse=False):  # уб
+        for char_key, frequency in sorted(self.statistic.items(), key=lambda element: element[0], reverse=False):  # воз
+            print('|{cell_1:^14}|{cell_2:^14}|'.format(cell_1=char_key, cell_2=frequency))
+            self.total_quantity_char = self.statistic[char_key] + self.total_quantity_char
+
+
+class CollectingStatisticsFour(CollectingStatistics):
+
+    def sorting_item(self):
+        for char_key, frequency in sorted(self.statistic.items(), key=lambda element: element[0], reverse=True):  # уб
             print('|{cell_1:^14}|{cell_2:^14}|'.format(cell_1=char_key, cell_2=frequency))
             self.total_quantity_char = self.statistic[char_key] + self.total_quantity_char
 
@@ -99,10 +96,11 @@ def select_sort_from_user():
     while True:
         user_select_f = input(f"Выберите группировку:\n "
                               f"[1] - по частоте по возрастанию \n"
-                              f"[2] - по алфавиту по возрастанию \n"
-                              f"[3] - по алфавиту по убыванию \n"
+                              f"[2] - по частоте по убыванию \n"
+                              f"[3] - по алфавиту по возрастанию \n"
+                              f"[4] - по алфавиту по убыванию \n"
                               )
-        if user_select_f.isdigit() and 1 <= int(user_select_f) <= 3:
+        if user_select_f.isdigit() and 1 <= int(user_select_f) <= 4:
             return user_select_f
         print(f"Ошибка! повторите ввод!")
 
@@ -111,10 +109,12 @@ if __name__ == '__main__':
     user_select = select_sort_from_user()
     if user_select == '1':  # по частоте по возрастанию
         analysis = CollectingStatistics(BOOK)
-    elif user_select == '2':  # по алфавиту по возрастанию
+    elif user_select == '2':  # по частоте по убыванию
         analysis = CollectingStatisticsTwo(BOOK)
-    else:  # по алфавиту по убыванию
+    elif user_select == '3':  # по алфавиту по возрастанию
         analysis = CollectingStatisticsThree(BOOK)
+    elif user_select == '4':  # по алфавиту по убыванию
+        analysis = CollectingStatisticsFour(BOOK)
     analysis.starting()
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
