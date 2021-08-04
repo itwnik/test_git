@@ -114,9 +114,9 @@ class ZipYears(FileYears):
     #                 self.count += 1
     #     print(f"Обработанных файлов: {self.count}")
 
-    def copy_file(self, full_file_in, full_file_out, file):
-        shutil.copyfileobj(full_file_in, full_file_out)
-        print(f"Copy file '{file}' from zip completed!")
+    # def copy_file(self, full_file_in, full_file_out, file):
+    #     shutil.copyfileobj(full_file_in, full_file_out)
+    #     print(f"Copy file '{file}' from zip completed!")
 
 
 if __name__ == '__main__':
@@ -134,7 +134,7 @@ if __name__ == '__main__':
             print(f"Ошибка! повторите ввод!")
 
 
-# TODO напишите как запустить ваш код
+# TODO мой код берет copy_file у родительского класса.
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
