@@ -12,15 +12,11 @@ def five_element():
     print(f'- Leeloo Dallas! Multi-pass № {result}!')
 
 
-# TODO сделайте на оборот
-# TODO while flag:
-# TODO пока flag равен 1 то работает
-
-flag = 0
-while flag == 0:
+flag = 1
+while flag:
     try:
         five_element()
-        flag = 1
+        flag = 0
     except IndexError as exc:
         print(f"невозможно преобразовать к числу: {exc}")
     except ValueError as exc:
