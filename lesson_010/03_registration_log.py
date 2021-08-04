@@ -33,6 +33,7 @@ class NotEmailError(ValueError):
     pass
 
 
+# TODO переменная line не должна быть названа одинакова с глобальной
 def file_check(line):
     global msg
     pars_text = line.split(' ')
@@ -52,6 +53,7 @@ def file_check(line):
         msg = " ".join(pars_text)
 
 
+# TODO написать одну общею функцию записи
 def output_good(out_line):
     with open('registrations_good.log', 'w', encoding='utf8') as out:
         for item in out_line:
@@ -64,6 +66,7 @@ def output_bad(out_line):
             out.write(f"{item}")
 
 
+# TODO сокращения переменных в коде быть не должно
 msg = ''
 good = []
 bad = []
