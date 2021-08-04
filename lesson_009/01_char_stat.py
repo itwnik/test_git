@@ -115,6 +115,7 @@ if __name__ == '__main__':
         analysis = CollectingStatisticsThree(BOOK)
     elif user_select == '4':  # по алфавиту по убыванию
         analysis = CollectingStatisticsFour(BOOK)
+    # TODO analysis не в области видимости
     analysis.starting()
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
