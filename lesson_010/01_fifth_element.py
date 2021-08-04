@@ -12,6 +12,10 @@ def five_element():
     print(f'- Leeloo Dallas! Multi-pass № {result}!')
 
 
+# TODO сделайте на оборот
+# TODO while flag:
+# TODO пока flag равен 1 то работает
+
 flag = 0
 while flag == 0:
     try:
