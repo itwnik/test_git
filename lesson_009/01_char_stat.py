@@ -113,9 +113,9 @@ if __name__ == '__main__':
         analysis = CollectingStatisticsTwo(BOOK)
     elif user_select == '3':  # по алфавиту по возрастанию
         analysis = CollectingStatisticsThree(BOOK)
-    elif user_select == '4':  # по алфавиту по убыванию
+    else:  # по алфавиту по убыванию
         analysis = CollectingStatisticsFour(BOOK)
-    # TODO analysis не в области видимости
+    # TODO можно так, или можно поместить под каждый if, но это увеличит код. Как правильне?
     analysis.starting()
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
