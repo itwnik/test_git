@@ -47,6 +47,9 @@ class SuicideError(FileExistsError):
 
 count = 0
 karma_quantity = 0
+
+# TODO создайте константу список в котором будут храниться имена class ов чтобы их потом можно было выбрать и вызвать!
+# TODO имена классов храним без их вызовов () и сообщений, сами сообщения будем формировать в главном цикле
 error = [IamGodError('Эта Ошибка Божествнна!'),
          DrunkError('Ошибка: Балтика 9! И пусть весь мир подождет'),
          CarCrashError('Ошибка: была когда ты сел за руль этой Калины!'),
@@ -55,7 +58,14 @@ error = [IamGodError('Эта Ошибка Божествнна!'),
          SuicideError('Они убили Кенни')]
 
 
+# TODO функция one_day() должна возвращать карму от 1 до 7 или рейзит ошибку из расчета 1 к 13
+# TODO мы можем объявить 2 переменные это карма равная рендинт от 1 до 7 и
+# TODO сам еррор который тоже равен рендинт от 1 до 13
+# TODO далее условие если еррор равен 13 то мы choice выбираем случайное исключение из списка
+# TODO и его рейзим как объект используя ()
+# TODO если условие не сработало то мы ретурним карму
 def one_day():
+    # TODO без глобал
     global karma_quantity
     karma_quantity += rd.randint(1, 7)
     probability = rd.randint(1, 13)
@@ -63,13 +73,17 @@ def one_day():
         raise rd.choice(error)
 
 
-while karma_quantity <= ENLIGHTENMENT_CARMA_LEVEL:
+ while karma_quantity <= ENLIGHTENMENT_CARMA_LEVEL:
     try:
         one_day()
+    # TODO написать отдельную функцию записи, тут будем наполнять список, формируя нужную стоку
+    # TODO в конце цикла нужно запустить функцию записи
+    # TODO строку формируем на каждой ошибке свою
     except (IamGodError, DrunkError, CarCrashError, GluttonyError, DepressionError, SuicideError) as exc:
         count += 1
         print(f"{count}. Error Detected {type(exc)}: {exc}, Карма = {karma_quantity}")
-    # TODO как убрать "<class '__main__." в выводе типа своей ошибки?
+    # TODO можно достучаться до имени класса через меджик метод __init__
+    # как убрать "<class '__main__." в выводе типа своей ошибки?
 print(f"Количество зарегистрированных ошибок: {count}")
 print(f"Карма достикла уровня ПРОСВЕТЛЕНИЯ и = {karma_quantity}, день сурка закончен!")
 
