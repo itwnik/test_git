@@ -92,31 +92,31 @@ class FileYears:
 
 class ZipYears(FileYears):
 
-    def parsing_dir(self):
-        with zipfile.ZipFile(self.input_path) as zf:
-            for zip_info in zf.infolist():
-                if os.path.isfile(zip_info.filename):
-                    file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
-                    self.create_dir(file_mod_time)
-                    self.copy_file(zip_info.filename, self.full_file_path_out, os.path.basename(zip_info.filename))
-                    self.count += 1
-        print(f"Обработанных файлов: {self.count}")
-
     # def parsing_dir(self):
     #     with zipfile.ZipFile(self.input_path) as zf:
-    #         for zip_name in zf.namelist():
-    #             if os.path.isfile(zip_name):
-    #                 file_mod_time = time.gmtime(os.path.getmtime(zip_name))
+    #         for zip_info in zf.infolist():
+    #             if os.path.isfile(zip_info.filename):
+    #                 file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
     #                 self.create_dir(file_mod_time)
-    #                 out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
-    #                 with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
-    #                     self.copy_file(fz, ff, os.path.basename(zip_name))
+    #                 self.copy_file(zip_info.filename, self.full_file_path_out, os.path.basename(zip_info.filename))
     #                 self.count += 1
     #     print(f"Обработанных файлов: {self.count}")
 
-    # def copy_file(self, full_file_in, full_file_out, file):
-    #     shutil.copyfileobj(full_file_in, full_file_out)
-    #     print(f"Copy file '{file}' from zip completed!")
+    def parsing_dir(self):
+        with zipfile.ZipFile(self.input_path) as zf:
+            for zip_name in zf.namelist():
+                if os.path.isfile(zip_name):
+                    file_mod_time = time.gmtime(os.path.getmtime(zip_name))
+                    self.create_dir(file_mod_time)
+                    out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
+                    with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
+                        self.copy_file(fz, ff, os.path.basename(zip_name))
+                    self.count += 1
+        print(f"Обработанных файлов: {self.count}")
+
+    def copy_file(self, full_file_in, full_file_out, file):
+        shutil.copyfileobj(full_file_in, full_file_out)
+        print(f"Copy file '{file}' from zip completed!")
 
 
 if __name__ == '__main__':
@@ -134,18 +134,16 @@ if __name__ == '__main__':
             print(f"Ошибка! повторите ввод!")
 
 
-# TODO при запуске вашего кода в условии я пишу нет, ничего не происходит!
-# TODO при повторном запуске если поставить да то он распаковывает архив, для второй части это не приемлемо.
+# TODO:
+#   У Вас лежит в корне папки "lesson_009" архив с названием 'icons.zip' и папка 'icons'.
+#   архив вроде есть на гите, а папки нет. Код вернул. Но при копировании у меня дата изменения меняется. как поправить?
 
-# TODO как писал ранее закоментируйте условия выше что бы можно было без проблем запустить ваш код для проверки
-# TODO хочется увидеть работу скрипта которые не распаковывая архив извлекает от туда объекты и их сортирует
-# TODO также должна сохраняться дата создания файла которая была у файла в архиве.
-
-# Извлечь из архива? (да/нет) >>> да
-# Обработанных файлов: 0
-#
-# Извлечь из архива? (да/нет) >>> нет
-# Обработанных файлов: 0
+# TODO странно у меня код работает мой код. http://joxi.ru/ZrJxZW9CbRGyN2 и http://joxi.ru/D2PNXR9cBl9E9r
+#   в своем коде я не использую метод я не использую метод extract(), насколько я понимаю,
+#   мой код открывает архив передает объект infolist и путь для копирования в метод copy_files
+#   и метод copy_files ккопирует объект zip infolist по пути который мы передали. или я что то не так понимаю?
+#   погуглил. на ум приходит только в наглую подставить дату изменения в файл при его создании.
+#   Я правильно думаю?
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
