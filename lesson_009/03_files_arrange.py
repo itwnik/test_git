@@ -80,6 +80,7 @@ class FileYears:
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
                 file_mod_time = time.gmtime(os.path.getmtime(full_file_path))
+                print(type(file_mod_time))
                 self.create_dir(file_mod_time)
                 self.copy_file(full_file_path, self.full_file_path_out, file)
                 self.count += 1
@@ -104,19 +105,60 @@ class ZipYears(FileYears):
 
     def parsing_dir(self):
         with zipfile.ZipFile(self.input_path) as zf:
-            for zip_name in zf.namelist():
-                if os.path.isfile(zip_name):
-                    file_mod_time = time.gmtime(os.path.getmtime(zip_name))
-                    self.create_dir(file_mod_time)
-                    out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
-                    with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
-                        self.copy_file(fz, ff, os.path.basename(zip_name))
-                    self.count += 1
+            for zip_info in zf.infolist():
+                if zip_info.filename[-1] == '/':
+                    continue
+                file_mod_time = zip_info.date_time
+                self.create_dir(file_mod_time)
+                out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_info.filename))
+                with zf.open(zip_info, 'r') as fz, open(out_path, 'wb') as ff:
+                    self.copy_file(fz, ff, zip_info.filename)
+                temp_struct_time = ",".join([str(file_mod_time[0]), str(file_mod_time[1]), str(file_mod_time[2]),
+                                             str(file_mod_time[3]), str(file_mod_time[4]), str(file_mod_time[5])])
+                timestruct = time.strptime(temp_struct_time, "%Y,%m,%d,%H,%M,%S")
+                zip_file_era = time.mktime(timestruct)
+                os.utime(path=out_path, times=(zip_file_era, zip_file_era))
+
+
+
+
+                # print(os.stat(out_path).st_atime, time.gmtime(os.stat(out_path).st_atime))
+                # aa = time.gmtime(os.stat(out_path).st_atime)  # time.struct_time(tm_year=2007, tm_mon=5, tm_mday=5, tm_hour=5, tm_min=55, tm_sec=2, tm_wday=4, tm_yday=218, tm_isdst=0)
+                # print(aa)
+                # aa1 = time.strftime("%Y", str(file_mod_time[0]))  #("%Y,%m,%d,%H,%M,%S",p_tuple file_mod_time)
+                # print(aa1)
+                # aa -= 60 * 60 * 24 * 2
+                # print(aa)
+                # os.utime(out_path, times=file_mod_time)
+                self.count += 1
         print(f"Обработанных файлов: {self.count}")
+
+
+            # for zip_name in zf.namelist():
+            #     # if os.path.isfile(zip_name):
+            #     if zip_name[-1] == '/':
+            #         continue
+            #     # file_mod_time = time.gmtime(os.path.getmtime(zip_name))
+            #     # self.create_dir(file_mod_time)
+            #     out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
+            #     with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
+            #         fz1 = fz.read(zip_name)
+            #         file_mod_time = time.gmtime(os.path.getmtime(fz1))
+            #         self.create_dir(file_mod_time)
+            #         # out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
+            #         self.copy_file(fz, ff, os.path.basename(zip_name))
+            #     self.count += 1
+        # print(f"Обработанных файлов: {self.count}")
 
     def copy_file(self, full_file_in, full_file_out, file):
         shutil.copyfileobj(full_file_in, full_file_out)
         print(f"Copy file '{file}' from zip completed!")
+
+    def create_dir(self, file_mod_time):
+        self.full_file_path_out = os.path.join(self.out_path_sort, str(file_mod_time[0]),
+                                               str(file_mod_time[1]))
+        if not os.path.exists(self.full_file_path_out):
+            os.makedirs(self.full_file_path_out)
 
 
 if __name__ == '__main__':
