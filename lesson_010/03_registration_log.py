@@ -54,9 +54,9 @@ def file_check(check_line):
         message = " ".join(pars_text)
 
 
-# TODO наверно лучше открыть каждый файл для записи, а не 2 сразу?
-#   если все же получается длинная строка, как ее переносить на другую? так же как предлогает PyCharm через "\"?
+# TODO функция должна принимать на вход одно имя и один список
 def output_files(out_good, out_bad):
+    # TODO записывать только один файл
     with open('registrations_good.log', 'w', encoding='utf8') as out_good_log,\
          open('registrations_bad.log', 'w', encoding='utf8') as out_bad_log:
         for item in out_good:
@@ -66,6 +66,7 @@ def output_files(out_good, out_bad):
 
 
 message = ''
+# TODO принято добавлять S в конец имени чтобы было понятно что это список, и назвать более развернуто
 good = []
 bad = []
 
@@ -77,5 +78,7 @@ with open(FILE, 'r', encoding='utf-8') as file:
         except (ValueError, NotNameError, NotEmailError) as exc:
             out_test = " {} {} {}\n".format(message.rstrip('\n'), str(type(exc)),  str(exc.args[0]))
             bad.append(out_test)
+
+# TODO но в коде вот тут нужно вызывать ее 2 раза с разными именами и данными на запись
 output_files(good, bad)
 print("Parsing done!")
