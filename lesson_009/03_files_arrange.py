@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+"""
 # import os
 # import time
 # import shutil
@@ -39,7 +40,7 @@
 # Для этого пригодится шаблон проектирование "Шаблонный метод"
 #   см https://refactoring.guru/ru/design-patterns/template-method
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
-
+"""
 
 import os
 import time
@@ -66,8 +67,8 @@ class FileYears:
         self.out_path_sort = os.path.normpath(os.path.join(os.path.dirname(__file__), self.out_path))
 
     def create_dir(self, file_mod_time):
-        self.full_file_path_out = os.path.join(self.out_path_sort, str(file_mod_time.tm_year),
-                                               str(file_mod_time.tm_mon))
+        self.full_file_path_out = os.path.join(self.out_path_sort, str(file_mod_time[0]),
+                                               str(file_mod_time[1]))
         if not os.path.exists(self.full_file_path_out):
             os.makedirs(self.full_file_path_out)
 
@@ -80,7 +81,7 @@ class FileYears:
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
                 file_mod_time = time.gmtime(os.path.getmtime(full_file_path))
-                print(type(file_mod_time))
+                # print(type(file_mod_time))
                 self.create_dir(file_mod_time)
                 self.copy_file(full_file_path, self.full_file_path_out, file)
                 self.count += 1
@@ -93,16 +94,6 @@ class FileYears:
 
 class ZipYears(FileYears):
 
-    # def parsing_dir(self):
-    #     with zipfile.ZipFile(self.input_path) as zf:
-    #         for zip_info in zf.infolist():
-    #             if os.path.isfile(zip_info.filename):
-    #                 file_mod_time = time.gmtime(os.path.getmtime(zip_info.filename))
-    #                 self.create_dir(file_mod_time)
-    #                 self.copy_file(zip_info.filename, self.full_file_path_out, os.path.basename(zip_info.filename))
-    #                 self.count += 1
-    #     print(f"Обработанных файлов: {self.count}")
-
     def parsing_dir(self):
         with zipfile.ZipFile(self.input_path) as zf:
             for zip_info in zf.infolist():
@@ -112,53 +103,18 @@ class ZipYears(FileYears):
                 self.create_dir(file_mod_time)
                 out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_info.filename))
                 with zf.open(zip_info, 'r') as fz, open(out_path, 'wb') as ff:
-                    self.copy_file(fz, ff, zip_info.filename)
+                    self.copy_file(fz, ff, os.path.basename(zip_info.filename))
                 temp_struct_time = ",".join([str(file_mod_time[0]), str(file_mod_time[1]), str(file_mod_time[2]),
                                              str(file_mod_time[3]), str(file_mod_time[4]), str(file_mod_time[5])])
-                timestruct = time.strptime(temp_struct_time, "%Y,%m,%d,%H,%M,%S")
-                zip_file_era = time.mktime(timestruct)
+                time_struct = time.strptime(temp_struct_time, "%Y,%m,%d,%H,%M,%S")
+                zip_file_era = time.mktime(time_struct)
                 os.utime(path=out_path, times=(zip_file_era, zip_file_era))
-
-
-
-
-                # print(os.stat(out_path).st_atime, time.gmtime(os.stat(out_path).st_atime))
-                # aa = time.gmtime(os.stat(out_path).st_atime)  # time.struct_time(tm_year=2007, tm_mon=5, tm_mday=5, tm_hour=5, tm_min=55, tm_sec=2, tm_wday=4, tm_yday=218, tm_isdst=0)
-                # print(aa)
-                # aa1 = time.strftime("%Y", str(file_mod_time[0]))  #("%Y,%m,%d,%H,%M,%S",p_tuple file_mod_time)
-                # print(aa1)
-                # aa -= 60 * 60 * 24 * 2
-                # print(aa)
-                # os.utime(out_path, times=file_mod_time)
                 self.count += 1
         print(f"Обработанных файлов: {self.count}")
-
-
-            # for zip_name in zf.namelist():
-            #     # if os.path.isfile(zip_name):
-            #     if zip_name[-1] == '/':
-            #         continue
-            #     # file_mod_time = time.gmtime(os.path.getmtime(zip_name))
-            #     # self.create_dir(file_mod_time)
-            #     out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
-            #     with zf.open(zip_name, 'r') as fz, open(out_path, 'wb') as ff:
-            #         fz1 = fz.read(zip_name)
-            #         file_mod_time = time.gmtime(os.path.getmtime(fz1))
-            #         self.create_dir(file_mod_time)
-            #         # out_path = os.path.join(self.full_file_path_out, os.path.basename(zip_name))
-            #         self.copy_file(fz, ff, os.path.basename(zip_name))
-            #     self.count += 1
-        # print(f"Обработанных файлов: {self.count}")
 
     def copy_file(self, full_file_in, full_file_out, file):
         shutil.copyfileobj(full_file_in, full_file_out)
         print(f"Copy file '{file}' from zip completed!")
-
-    def create_dir(self, file_mod_time):
-        self.full_file_path_out = os.path.join(self.out_path_sort, str(file_mod_time[0]),
-                                               str(file_mod_time[1]))
-        if not os.path.exists(self.full_file_path_out):
-            os.makedirs(self.full_file_path_out)
 
 
 if __name__ == '__main__':
@@ -176,19 +132,17 @@ if __name__ == '__main__':
             print(f"Ошибка! повторите ввод!")
 
 
-# TODO:
-#   У Вас лежит в корне папки "lesson_009" архив с названием 'icons.zip' и папка 'icons'.
-#   архив вроде есть на гите, а папки нет. Код вернул. Но при копировании у меня дата изменения меняется. как поправить?
+# TODO Вы правы, мой код (ни один не второй) не работал корректно. сейчас все поправил.
 
-# TODO странно у меня код работает мой код. http://joxi.ru/ZrJxZW9CbRGyN2 и http://joxi.ru/D2PNXR9cBl9E9r
-#   в своем коде я не использую метод я не использую метод extract(), насколько я понимаю,
+# TODO От своего кода я отказался так как сделал круче. но вопрос остался:
+#   в своем коде я не использовал метод extract(), насколько я понимаю,
 #   мой код открывает архив передает объект infolist и путь для копирования в метод copy_files
-#   и метод copy_files ккопирует объект zip infolist по пути который мы передали. или я что то не так понимаю?
-#   погуглил. на ум приходит только в наглую подставить дату изменения в файл при его создании.
-#   Я правильно думаю?
+#   и метод copy_files копирует объект zip infolist по пути который мы передали. или я что то не так понимаю?
 
+"""
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
 # Это относится только к чтению файлов в архиве. В случае паттерна "Шаблонный метод" изменяется способ
 # получения данных (читаем os.walk() или zip.namelist и т.д.)
 # Документация по zipfile: API https://docs.python.org/3/library/zipfile.html
+"""
