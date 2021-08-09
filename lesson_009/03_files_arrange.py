@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
 # import os
 # import time
 # import shutil
@@ -40,7 +39,7 @@
 # Для этого пригодится шаблон проектирование "Шаблонный метод"
 #   см https://refactoring.guru/ru/design-patterns/template-method
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
-"""
+
 
 import os
 import time
@@ -81,7 +80,6 @@ class FileYears:
             for file in self.file_names:
                 full_file_path = os.path.join(self.dir_path, file)
                 file_mod_time = time.gmtime(os.path.getmtime(full_file_path))
-                # print(type(file_mod_time))
                 self.create_dir(file_mod_time)
                 self.copy_file(full_file_path, self.full_file_path_out, file)
                 self.count += 1
@@ -117,19 +115,26 @@ class ZipYears(FileYears):
         print(f"Copy file '{file}' from zip completed!")
 
 
-if __name__ == '__main__':
-    while True:
-        user_select_f = input(f"Извлечь из архива? (да/нет) >>> ")
-        if user_select_f == "да":
-            copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
-            copy_files.starting()
-            break
-        elif user_select_f == "нет":
-            copy_files = FileYears(INPUT_PATH, OUTPUT_PATH)
-            copy_files.starting()
-            break
-        else:
-            print(f"Ошибка! повторите ввод!")
+# if __name__ == '__main__':
+#     while True:
+#         user_select_f = input(f"Извлечь из архива? (да/нет) >>> ")
+#         if user_select_f == "да":
+#             copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
+#             copy_files.starting()
+#             break
+#         elif user_select_f == "нет":
+#             copy_files = FileYears(INPUT_PATH, OUTPUT_PATH)
+#             copy_files.starting()
+#             break
+#         else:
+#             print(f"Ошибка! повторите ввод!")
+
+# TODO пусть вторая часть задания запускается вот так в корне не должно быть папок icons icons_by_year
+# TODO только архив
+# TODO не забываем что нужно перенести дату создания файла в новый объект, есть метод os.utime()
+
+copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
+copy_files.starting()
 
 
 # TODO Вы правы, мой код (ни один не второй) не работал корректно. сейчас все поправил.
