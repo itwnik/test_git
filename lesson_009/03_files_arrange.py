@@ -119,26 +119,35 @@ class ZipYears(FileYears):
         print(f"Copy file '{file}' from zip completed!")
 
 
-if __name__ == '__main__':
-    while True:
-        user_select_f = input(f"Извлечь из архива? (да/нет) >>> ")
-        if user_select_f == "да":
-            copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
-            copy_files.starting()
-            break
-        elif user_select_f == "нет":
-            copy_files = FileYears(INPUT_PATH, OUTPUT_PATH)
-            copy_files.starting()
-            break
-        else:
-            print(f"Ошибка! повторите ввод!")
+# if __name__ == '__main__':
+#     while True:
+#         user_select_f = input(f"Извлечь из архива? (да/нет) >>> ")
+#         if user_select_f == "да":
+#             copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
+#             copy_files.starting()
+#             break
+#         elif user_select_f == "нет":
+#             copy_files = FileYears(INPUT_PATH, OUTPUT_PATH)
+#             copy_files.starting()
+#             break
+#         else:
+#             print(f"Ошибка! повторите ввод!")
+
+# TODO пусть вторая часть задания запускается вот так в корне не должно быть папок icons icons_by_year
+# TODO только архив
+# TODO не забываем что нужно перенести дату создания файла в новый объект, есть метод os.utime()
+
+copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
+copy_files.starting()
 
 
-# TODO:
+#  TODO папки icons нет и ее быть не должно, по скольку мы работаем только с icons.zip
+
 #   У Вас лежит в корне папки "lesson_009" архив с названием 'icons.zip' и папка 'icons'.
 #   архив вроде есть на гите, а папки нет. Код вернул. Но при копировании у меня дата изменения меняется. как поправить?
 
-# TODO странно у меня код работает мой код. http://joxi.ru/ZrJxZW9CbRGyN2 и http://joxi.ru/D2PNXR9cBl9E9r
+
+#  странно у меня код работает мой код. http://joxi.ru/ZrJxZW9CbRGyN2 и http://joxi.ru/D2PNXR9cBl9E9r
 #   в своем коде я не использую метод я не использую метод extract(), насколько я понимаю,
 #   мой код открывает архив передает объект infolist и путь для копирования в метод copy_files
 #   и метод copy_files ккопирует объект zip infolist по пути который мы передали. или я что то не так понимаю?
