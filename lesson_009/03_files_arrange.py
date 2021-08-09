@@ -132,7 +132,6 @@ class ZipYears(FileYears):
 copy_files = ZipYears(INPUT_ZIP_PATH, OUTPUT_PATH)
 copy_files.starting()
 
-# TODO Вы правы, мой код (ни один не второй) не работал корректно. сейчас все поправил.
 
 """
 # Усложненное задание (делать по желанию)
@@ -141,3 +140,5 @@ copy_files.starting()
 # получения данных (читаем os.walk() или zip.namelist и т.д.)
 # Документация по zipfile: API https://docs.python.org/3/library/zipfile.html
 """
+
+# зачет!
