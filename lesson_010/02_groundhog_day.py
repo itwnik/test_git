@@ -77,6 +77,8 @@ def error_log(error_code):
     elif error_code.__class__.__name__ == 'SuicideError':
         message = 'Они убили Кенни!'
     error_logs.append(f"{count}. Error Detected {exc.__class__.__name__}: {message}, Карма = {karma}")
+    # TODO код на запись выносим в отдельную функцию вызываем после главного цикла передаем список на запись
+    # TODO добавить аргумент encoding='utf8'
     with open('error.log', 'w') as file:
         for item in error_logs:
             file.write(f"{item}\n")
@@ -89,9 +91,7 @@ while karma <= ENLIGHTENMENT_CARMA_LEVEL:
         count += 1
         error_log(exc)
 
-    # TODO как через __init__? В сети нашел так __class__.__name__
-    # можно достучаться до имени класса через меджик метод __init__
-    # как убрать "<class '__main__." в выводе типа своей ошибки?
+# все верно
 
 print(f"Количество зарегистрированных ошибок: {count}")
 print(f"Карма достикла уровня ПРОСВЕТЛЕНИЯ и = {karma}, день сурка закончен!")
