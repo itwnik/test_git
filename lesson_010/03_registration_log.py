@@ -47,38 +47,31 @@ def file_check(check_line):
     elif pars_text[1].count('@') != 1 and pars_text[1].count('.') != 1:
         message = " ".join(pars_text)
         raise NotEmailError('поле емейл НЕ содержит @ и .(точку)')
-    elif int(pars_text[2]) <= 10 or int(pars_text[2]) >= 99:
+    elif int(pars_text[2]) < 10 or int(pars_text[2]) > 99:
         message = " ".join(pars_text)
         raise ValueError('поле возраст НЕ является числом от 10 до 99')
     else:
         message = " ".join(pars_text)
 
 
-# TODO функция должна принимать на вход одно имя и один список
-def output_files(out_good, out_bad):
-    # TODO записывать только один файл
-    with open('registrations_good.log', 'w', encoding='utf8') as out_good_log,\
-         open('registrations_bad.log', 'w', encoding='utf8') as out_bad_log:
-        for item in out_good:
-            out_good_log.write(f"{item}")
-        for item in out_bad:
-            out_bad_log.write(f"{item}")
+def output_files(out_log_name, outs_log):
+    with open(out_log_name, 'w', encoding='utf8') as out_log_file:
+        for item in outs_log:
+            out_log_file.write(f"{item}")
 
 
 message = ''
-# TODO принято добавлять S в конец имени чтобы было понятно что это список, и назвать более развернуто
-good = []
-bad = []
+goods_log = []
+bads_log = []
 
 with open(FILE, 'r', encoding='utf-8') as file:
     for line in file:
         try:
             file_check(line)
-            good.append(message)
+            goods_log.append(message)
         except (ValueError, NotNameError, NotEmailError) as exc:
             out_test = " {} {} {}\n".format(message.rstrip('\n'), str(type(exc)),  str(exc.args[0]))
-            bad.append(out_test)
-
-# TODO но в коде вот тут нужно вызывать ее 2 раза с разными именами и данными на запись
-output_files(good, bad)
+            bads_log.append(out_test)
+output_files('registrations_good.log', goods_log)
+output_files('registrations_bad.log', bads_log)
 print("Parsing done!")
