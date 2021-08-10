@@ -99,3 +99,5 @@ print(f"Карма достикла уровня ПРОСВЕТЛЕНИЯ и = {
 os.startfile('error.log')
 
 # https://goo.gl/JnsDqu
+
+# зачет!
