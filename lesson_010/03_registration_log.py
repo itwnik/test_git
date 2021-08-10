@@ -75,3 +75,5 @@ with open(FILE, 'r', encoding='utf-8') as file:
 output_files('registrations_good.log', goods_log)
 output_files('registrations_bad.log', bads_log)
 print("Parsing done!")
+
+# зачет!
