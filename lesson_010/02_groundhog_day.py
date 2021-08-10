@@ -77,11 +77,13 @@ def error_log(error_code):
     elif error_code.__class__.__name__ == 'SuicideError':
         message = 'Они убили Кенни!'
     error_logs.append(f"{count}. Error Detected {exc.__class__.__name__}: {message}, Карма = {karma}")
-    # TODO код на запись выносим в отдельную функцию вызываем после главного цикла передаем список на запись
-    # TODO добавить аргумент encoding='utf8'
-    with open('error.log', 'w') as file:
-        for item in error_logs:
+
+
+def error_log_write(errors_logs):
+    with open('error.log', 'w', encoding='utf8') as file:
+        for item in errors_logs:
             file.write(f"{item}\n")
+    print("log create!")
 
 
 while karma <= ENLIGHTENMENT_CARMA_LEVEL:
@@ -90,12 +92,10 @@ while karma <= ENLIGHTENMENT_CARMA_LEVEL:
     except (IamGodError, DrunkError, CarCrashError, GluttonyError, DepressionError, SuicideError) as exc:
         count += 1
         error_log(exc)
-
-# все верно
+error_log_write(error_logs)
 
 print(f"Количество зарегистрированных ошибок: {count}")
 print(f"Карма достикла уровня ПРОСВЕТЛЕНИЯ и = {karma}, день сурка закончен!")
-print("log create!")
 os.startfile('error.log')
 
 # https://goo.gl/JnsDqu
