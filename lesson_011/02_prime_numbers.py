@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
 # Есть функция генерации списка простых чисел
-
 
 def get_prime_numbers(n):
     prime_numbers = []
@@ -22,8 +20,31 @@ def get_prime_numbers(n):
 
 
 class PrimeNumbers:
-    pass
-    # TODO здесь ваш код
+    def __init__(self, n):
+        self.n = n
+        self.prime_numbers = []
+        self.new_start = 2
+
+    def __iter__(self):
+        self.iter_num = -1
+        return self
+
+    def __next__(self):
+        self.iter_num += 1
+        # TODO если тут оставить range(2, n + 1) то при каждой итерации цикл повторяется от 2 до н+1
+        #   поэтому завел переменную self.new_start
+        for self.number in range(self.new_start, self.n + 1):
+            for prime in self.prime_numbers:
+                if self.number % prime == 0:
+                    break
+            else:
+                self.prime_numbers.append(self.number)
+                # TODO которой тут присвоил значение которое получилось при выходе из цикла, чтоб при вхождении
+                #  в итеррацию начинать не с начал, а с того момента где остановилась прошлая итеррация.
+                #  Надеюсь это правильно? или есть другой способ?
+                self.new_start = self.number
+                return self.prime_numbers[self.iter_num]
+        raise StopIteration()
 
 
 prime_number_iterator = PrimeNumbers(n=10000)
@@ -37,13 +58,13 @@ for number in prime_number_iterator:
 # Распечатать все простые числа до 10000 в столбик
 
 
-def prime_numbers_generator(n):
-    pass
+# def prime_numbers_generator(n):
+#     pass
     # TODO здесь ваш код
 
 
-for number in prime_numbers_generator(n=10000):
-    print(number)
+# for number in prime_numbers_generator(n=10000):
+#     print(number)
 
 
 # Часть 3
