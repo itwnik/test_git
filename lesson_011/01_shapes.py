@@ -14,12 +14,19 @@ import simple_draw as sd
 
 
 def get_polygon(n):
-    pass
-    # TODO здесь ваш код
+    def draw_shape(current_point_shape, ange_tilt, length_side, ):
+        point_start = current_point_shape
+        angle_draw_shape = int(360/n)
+        for angle_shape in range(0, 360 - angle_draw_shape, angle_draw_shape):
+            vector_shape = sd.get_vector(start_point=current_point_shape,
+                                         angle=angle_shape + ange_tilt, length=length_side, width=2)
+            vector_shape.draw()
+            current_point_shape = vector_shape.end_point
+        sd.line(current_point_shape, point_start, color=sd.COLOR_YELLOW, width=2)
+    return draw_shape
 
 
 draw_triangle = get_polygon(n=3)
-draw_triangle(point=sd.get_point(200, 200), angle=13, length=100)
-
+draw_triangle(current_point_shape=sd.get_point(200, 200), ange_tilt=13, length_side=100)
 
 sd.pause()
