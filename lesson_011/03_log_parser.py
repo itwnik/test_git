@@ -38,6 +38,7 @@ PARSING_PARAMETER = 'NOK'
 
 
 ### Iterator ###
+# TODO нейминг класса
 class event_gen:
 
     def __init__(self, log_name):
@@ -74,3 +75,5 @@ class event_gen:
 grouped_events = event_gen(LOG_NAME)
 for group_time, event_count in grouped_events:
     print(f'{group_time}] {event_count}')
+
+# TODO поправить по коду переменные в сокращенной форме
