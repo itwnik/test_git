@@ -11,20 +11,16 @@
 def log_errors(func):
     def log_write(*args, **kwargs):
         try:
-            # TODO записать результат в переменную
-            func(*args, **kwargs)
-            # TODO вернуть ее ректурном тут
+            result = func(*args, **kwargs)
+            return result
         except Exception as exc2:
             with open('function_errors.log', 'a', encoding='utf-8') as file:
                 file.write(f'Error! <имя функции>: {func.__name__}, <параметры вызова>: {args, kwargs} '
                            f'<тип ошибки>: {exc2.__class__.__name__} <текст ошибки>: {exc2}\n')
-            # райсе только вот тут
             raise exc2
     return log_write
 
-# TODO отлогировать в файл и все
-# непонимаю, ZeroDivisionError нужно как то обрабатывать? или просто в файл вывести?
-# Проверить работу на следующих функциях
+
 @log_errors
 def perky(param):
     return param / 0
