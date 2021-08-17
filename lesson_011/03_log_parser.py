@@ -17,9 +17,9 @@
 LOG_NAME = 'events.txt'
 PARSING_PARAMETER = 'NOK'
 
-### Generator ###
-# def event_gen(log_name):
-#     count_gen = 0
+# ## Generator ##
+# def event_generator(log_name):
+#     count_generator = 0
 #     current_date = ''
 #     previous_date = ''
 #     with open(log_name, 'r', encoding='utf-8') as file_event:
@@ -29,23 +29,22 @@ PARSING_PARAMETER = 'NOK'
 #                 if previous_date == '':
 #                     previous_date = current_date
 #                 if current_date == previous_date:
-#                     count_gen += 1
+#                     count_generator += 1
 #                 else:
-#                     yield previous_date, count_gen
-#                     count_gen = 1
+#                     yield previous_date, count_generator
+#                     count_generator = 1
 #                     previous_date = current_date
-#         yield current_date, count_gen
+#         yield current_date, count_generator
 
 
-### Iterator ###
-# TODO нейминг класса
-class event_gen:
+# ## Iterator ##
+class EventGenerator:
 
     def __init__(self, log_name):
         self.log_name = log_name
 
     def __iter__(self):
-        self.count_gen = 0
+        self.count_generator = 0
         self.current_date = ''
         self.previous_date = ''
         self.file_event = open(self.log_name, 'r', encoding='utf-8')
@@ -60,20 +59,23 @@ class event_gen:
                 if self.previous_date == '':
                     self.previous_date = self.current_date
                 if self.current_date == self.previous_date:
-                    self.count_gen += 1
+                    self.count_generator += 1
                     self.previous_date = self.current_date
                 else:
-                    mem1 = self.count_gen
-                    mem2 = self.previous_date
-                    self.count_gen = 1
+                    memory1 = self.count_generator
+                    memory2 = self.previous_date
+                    self.count_generator = 1
                     self.previous_date = self.current_date
-                    return mem2, mem1
+                    return memory2, memory1
         self.file_event.close()
-        return self.previous_date, self.count_gen
+        return self.previous_date, self.count_generator
 
 
-grouped_events = event_gen(LOG_NAME)
+# ## Iterator ##
+grouped_events = EventGenerator(LOG_NAME)
+# ## Generator ##
+# grouped_events = event_generator(LOG_NAME)
 for group_time, event_count in grouped_events:
     print(f'{group_time}] {event_count}')
 
-# TODO поправить по коду переменные в сокращенной форме
+# TODO Посмотрели и генератор и итератор?
