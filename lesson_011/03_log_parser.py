@@ -17,24 +17,25 @@
 LOG_NAME = 'events.txt'
 PARSING_PARAMETER = 'NOK'
 
+
 # ## Generator ##
-# def event_generator(log_name):
-#     count_generator = 0
-#     current_date = ''
-#     previous_date = ''
-#     with open(log_name, 'r', encoding='utf-8') as file_event:
-#         for file_line in file_event:
-#             if file_line[29:32] == PARSING_PARAMETER:
-#                 current_date = file_line[0:17]
-#                 if previous_date == '':
-#                     previous_date = current_date
-#                 if current_date == previous_date:
-#                     count_generator += 1
-#                 else:
-#                     yield previous_date, count_generator
-#                     count_generator = 1
-#                     previous_date = current_date
-#         yield current_date, count_generator
+def event_generator(log_name):
+    count_generator = 0
+    current_date = ''
+    previous_date = ''
+    with open(log_name, 'r', encoding='utf-8') as file_event:
+        for file_line in file_event:
+            if file_line[29:32] == PARSING_PARAMETER:
+                current_date = file_line[0:17]
+                if previous_date == '':
+                    previous_date = current_date
+                if current_date == previous_date:
+                    count_generator += 1
+                else:
+                    yield previous_date, count_generator
+                    count_generator = 1
+                    previous_date = current_date
+        yield current_date, count_generator
 
 
 # ## Iterator ##
@@ -72,10 +73,14 @@ class EventGenerator:
 
 
 # ## Iterator ##
-grouped_events = EventGenerator(LOG_NAME)
+# grouped_events = EventGenerator(LOG_NAME)
 # ## Generator ##
-# grouped_events = event_generator(LOG_NAME)
+grouped_events = event_generator(LOG_NAME)
 for group_time, event_count in grouped_events:
     print(f'{group_time}] {event_count}')
 
-# TODO Посмотрели и генератор и итератор?
+
+# Посмотрели и генератор и итератор?
+# Да, все верно.
+
+# зачет!
