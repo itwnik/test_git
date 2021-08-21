@@ -19,32 +19,32 @@ def get_prime_numbers(n):
 # Распечатать все простые числа до 10000 в столбик
 
 
-class PrimeNumbers:
-    def __init__(self, n):
-        self.n = n
-        self.prime_numbers = []
-        self.new_start = 2
-
-    def __iter__(self):
-        self.iter_number = -1
-        return self
-
-    def __next__(self):
-        self.iter_number += 1
-        for self.number in range(self.new_start, self.n + 1):
-            for prime in self.prime_numbers:
-                if self.number % prime == 0:
-                    break
-            else:
-                self.prime_numbers.append(self.number)
-                self.new_start = self.number
-                return self.number
-        raise StopIteration()
-
-
-prime_number_iterator = PrimeNumbers(n=10000)
-for number in prime_number_iterator:
-    print(number)
+# class PrimeNumbers:
+#     def __init__(self, n):
+#         self.n = n
+#         self.prime_numbers = []
+#         self.new_start = 2
+#
+#     def __iter__(self):
+#         self.iter_number = -1
+#         return self
+#
+#     def __next__(self):
+#         self.iter_number += 1
+#         for self.number in range(self.new_start, self.n + 1):
+#             for prime in self.prime_numbers:
+#                 if self.number % prime == 0:
+#                     break
+#             else:
+#                 self.prime_numbers.append(self.number)
+#                 self.new_start = self.number
+#                 return self.number
+#         raise StopIteration()
+#
+#
+# prime_number_iterator = PrimeNumbers(n=10000)
+# for number in prime_number_iterator:
+#     print(number)
 
 
 # TODO Хорошо делайте вторую часть
@@ -53,13 +53,20 @@ for number in prime_number_iterator:
 # Распечатать все простые числа до 10000 в столбик
 
 
-# def prime_numbers_generator(n):
-#     pass
-    # TODO здесь ваш код
+def prime_numbers_generator(n):
+    prime_numbers = []
+    for number in range(2, n + 1):
+        for prime in prime_numbers:
+            if number % prime == 0:
+                break
+        else:
+            prime_numbers.append(number)
+            yield number
+# TODO Чет как то просто! что то не так с моим кодом?
 
 
-# for number in prime_numbers_generator(n=10000):
-#     print(number)
+for number in prime_numbers_generator(n=10000):
+    print(number)
 
 
 # Часть 3
