@@ -47,7 +47,6 @@ def get_prime_numbers(n):
 #     print(number)
 
 
-# TODO Хорошо делайте вторую часть
 # Часть 2
 # Теперь нужно создать генератор, который выдает последовательность простых чисел до n
 # Распечатать все простые числа до 10000 в столбик
@@ -55,6 +54,7 @@ def get_prime_numbers(n):
 
 def prime_numbers_generator(n):
     prime_numbers = []
+    # TODO тут number подчеркивает из за того что в глобальном скоупе есть такой же нейминг переменной
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
@@ -62,11 +62,13 @@ def prime_numbers_generator(n):
         else:
             prime_numbers.append(number)
             yield number
-# TODO Чет как то просто! что то не так с моим кодом?
 
 
 for number in prime_numbers_generator(n=10000):
     print(number)
+
+# TODO генератор проще чем итератор
+# TODO Делайте далее
 
 
 # Часть 3
