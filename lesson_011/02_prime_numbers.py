@@ -128,7 +128,7 @@ def filter_lucky_number_three(in_number):  # Триморфное число htt
 
 
 # ##Part_3.3.1## method_1
-def prime_numbers_generator_two(n, func):
+def prime_numbers_generator_two(n, filter_func):
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
@@ -136,17 +136,12 @@ def prime_numbers_generator_two(n, func):
                 break
         else:
             prime_numbers.append(number)
-            # функцию нужно принять на вход функции а не брать из вне
-            #  а в чем разница? типабольше расширености кода и можно передать разные функции?
-
-            # если мы перенесем функцию то все сломается и так да для расширения кода
-            # TODO функцию назвать как filter_func чтобы было понятно
-            if func(number):
+            if filter_func(number):
                 yield number
 
 
 #  для проверки раскомментить
-for number_2 in prime_numbers_generator_two(n=10000, func=filter_lucky_number_three):
+for number_2 in prime_numbers_generator_two(n=10000, filter_func=filter_lucky_number_three):
     print(number_2, filter_lucky_number_three(number_2))
 # ##################
 
