@@ -137,9 +137,13 @@ def prime_numbers_generator_two(n, func):
         else:
             prime_numbers.append(number)
             # функцию нужно принять на вход функции а не брать из вне
-            # TODO а в чем разница? типабольше расширености кода и можно передать разные функции?
+            #  а в чем разница? типабольше расширености кода и можно передать разные функции?
+
+            # если мы перенесем функцию то все сломается и так да для расширения кода
+            # TODO функцию назвать как filter_func чтобы было понятно
             if func(number):
                 yield number
+
 
 #  для проверки раскомментить
 for number_2 in prime_numbers_generator_two(n=10000, func=filter_lucky_number_three):
@@ -163,3 +167,5 @@ def prime_numbers_generator_three(n):
 #     if filter_lucky_number(number_2):
 #         print(number_2)
 # ##################
+
+
