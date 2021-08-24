@@ -85,7 +85,7 @@ def filter_lucky_number(in_number):
             return False
     return False
 
-# TODO для проверки раскомментить
+# для проверки раскомментить
 # for number in prime_numbers_generator(n=10000):
 #     print(number, filter_lucky_number(number))
 # ##################
@@ -100,12 +100,13 @@ def filter_lucky_number_two(in_number):
     else:
         return False
 
-# TODO для проверки раскомментить
+# для проверки раскомментить
 # for number in prime_numbers_generator(n=10000):
 #     print(number, filter_lucky_number_two(number))
 # ##################
 
 # 3) придумать свою (https://clck.ru/GB5Fc в помощь)
+
 
 # ##Part_3.3##
 def filter_lucky_number_three(in_number):  # Триморфное число https://clck.ru/SoJih
@@ -114,7 +115,7 @@ def filter_lucky_number_three(in_number):  # Триморфное число htt
     else:
         return False
 
-# TODO для проверки раскомментить
+# для проверки раскомментить
 # for number in prime_numbers_generator(n=10000):
 #     print(number, filter_lucky_number_three(number))
 # ##################
@@ -125,6 +126,7 @@ def filter_lucky_number_three(in_number):  # Триморфное число htt
 #
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
 
+
 # ##Part_3.3.1## method_1
 def prime_numbers_generator_two(n):
     prime_numbers = []
@@ -134,13 +136,15 @@ def prime_numbers_generator_two(n):
                 break
         else:
             prime_numbers.append(number)
+            # TODO функцию нужно принять на вход функции а не брать из вне
             if filter_lucky_number_three(number):
                 yield number
 
-# TODO для проверки раскомментить
+#  для проверки раскомментить
 # for number_2 in prime_numbers_generator_two(n=10000):
 #     print(number_2, filter_lucky_number_three(number_2))
 # ##################
+
 
 # ##Part_3.3.2## method_2
 def prime_numbers_generator_three(n):
@@ -153,7 +157,7 @@ def prime_numbers_generator_three(n):
             prime_numbers.append(number)
             yield number
 
-# TODO для проверки раскомментить
+#  для проверки раскомментить
 # for number_2 in prime_numbers_generator_three(n=10000):
 #     if filter_lucky_number(number_2):
 #         print(number_2)
