@@ -73,4 +73,68 @@
 #     def run(self):
 #         <обработка данных>
 
-# TODO написать код в однопоточном/однопроцессорном стиле
+import os
+from itertools import islice
+
+
+PATH = 'trades'
+
+
+class TickerInspector:
+
+    def __init__(self, path):
+        self.path = path
+        self.files_trades = []
+        self.tickers_volatility = {}
+        self.tickers_volatility_max = {}
+        self.tickers_volatility_min = {}
+        self.tickers_volatility_zero = {}
+
+    def run(self):
+        prices = []
+        self.file_sniffer()
+        for file in self.files_trades:
+            file = os.path.join(self.path, file)
+            with open(file, 'r', encoding='utf-8') as file_read:
+                for line in islice(file_read, 1, None):
+                    secid, _, price, _ = line.split(',')
+                    prices.append(price)
+                prices = list(map(float, prices))
+                half_sum = (max(prices) + min(prices)) / 2
+                volatility = ((max(prices) - min(prices)) / half_sum) * 100
+                if volatility <= 0:
+                    self.tickers_volatility_zero[secid] = round(volatility, 2)
+                else:
+                    self.tickers_volatility[secid] = round(volatility, 2)
+                prices = []
+        self.filter_volatility()
+        self.print_result()
+
+    def file_sniffer(self):
+        self.files_trades = os.listdir(self.path)
+
+    def filter_volatility(self):
+        self.tickers_volatility = dict(sorted(self.tickers_volatility.items(), key=lambda element: element[1],
+                                              reverse=True))
+        # TODO есть ли способы уменьшить код?
+        for item in range(0, 3):
+            self.tickers_volatility_max[list(self.tickers_volatility.keys())[item]] = list(
+                self.tickers_volatility.values())[item]
+        for item in range(len(self.tickers_volatility)-1, len(self.tickers_volatility)-4, -1):
+            self.tickers_volatility_min[list(self.tickers_volatility.keys())[item]] = list(
+                self.tickers_volatility.values())[item]
+
+    def print_result(self):
+        print(f'Максимальная волатильность:')
+        for key, value in self.tickers_volatility_max.items():
+            print(f'ТИКЕР {key} - {value}%')
+        print(f'Минимальная волатильность:')
+        for key, value in self.tickers_volatility_min.items():
+            print(f'ТИКЕР {key} - {value}%')
+        print(f'Нулевая волатильность:')
+        for key in self.tickers_volatility_zero.keys():
+            print(f'{key}', end=', ')  # TODO прошу подсказать как тут поставить . после последнего значения?
+
+
+ticker = TickerInspector(PATH)
+ticker.run()
