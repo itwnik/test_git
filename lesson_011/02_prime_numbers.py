@@ -163,4 +163,5 @@ def prime_numbers_generator_three(n):
 #         print(number_2)
 # ##################
 
+# зачет!
 
