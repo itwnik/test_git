@@ -79,10 +79,21 @@ from itertools import islice
 
 PATH = 'trades'
 
+# TODO Давай те сделаем код более читаемым и подготовим его к потокам, разобьем на функции и вынесем в отдельный модуль
+# TODO все сопутствующие инструменты.
+# TODO Создадим модуль утилиты и перенесем в него все дополнительные функции
+# TODO создадим там декоратор из сниппетов наших уроков. Будем чекать время.
+
 
 class TickerInspector:
+    # TODO ВАЖНО главная задача добиться чтобы класс обрабатывал только один билет на валатильность.
+    # TODO на вход получаем путь до файла который будем обрабатывать.
 
     def __init__(self, path):
+        # TODO из параметров у нас будет полный путь до файла.
+        # TODO И еще два параметра это имя билета self.name_ticket = ''
+        # TODO и сама волатильность self.volatility = 0
+        # TODO остальное у нас будет локальными переменными в методах
         self.path = path
         self.files_trades = []
         self.tickers_volatility = {}
@@ -90,6 +101,10 @@ class TickerInspector:
         self.tickers_volatility_min = {}
         self.tickers_volatility_zero = {}
 
+    # TODO по заданию в методе run который будет запускать нужные нам внутренние методы.
+    # TODO метод который открывает файл и читает его возвращая список данных для обработки. Также запоминая имя билета.
+    # TODO метод который обрабатывает данные и получает валатильность.
+    # TODO код ниже выносим по этим методам
     def run(self):
         prices = []
         self.file_sniffer()
@@ -102,6 +117,7 @@ class TickerInspector:
                 prices = list(map(float, prices))
                 half_sum = (max(prices) + min(prices)) / 2
                 volatility = ((max(prices) - min(prices)) / half_sum) * 100
+                # TODO это у нас будет в главной функции в цикле
                 if volatility <= 0:
                     self.tickers_volatility_zero[secid] = round(volatility, 2)
                 else:
@@ -116,7 +132,8 @@ class TickerInspector:
     def filter_volatility(self):
         self.tickers_volatility = dict(sorted(self.tickers_volatility.items(), key=lambda element: element[1],
                                               reverse=True))
-        # TODO есть ли способы уменьшить код?
+        # TODO у вас тут происходит ?
+        # есть ли способы уменьшить код?
         for item in range(0, 3):
             self.tickers_volatility_max[list(self.tickers_volatility.keys())[item]] = list(
                 self.tickers_volatility.values())[item]
@@ -124,6 +141,7 @@ class TickerInspector:
             self.tickers_volatility_min[list(self.tickers_volatility.keys())[item]] = list(
                 self.tickers_volatility.values())[item]
 
+    # TODO выносим в утилиты
     def print_result(self):
         print(f'Максимальная волатильность:')
         for key, value in self.tickers_volatility_max.items():
@@ -132,9 +150,38 @@ class TickerInspector:
         for key, value in self.tickers_volatility_min.items():
             print(f'ТИКЕР {key} - {value}%')
         print(f'Нулевая волатильность:')
-        for key in self.tickers_volatility_zero.keys():
-            print(f'{key}', end=', ')  # TODO прошу подсказать как тут поставить . после последнего значения?
+        # TODO наверно только так
+        print('{}.'.format(', '.join(self.tickers_volatility_zero.keys())))
+        # for key in self.tickers_volatility_zero.keys():
+        #     print(f'{key}', end=', ')  # прошу подсказать как тут поставить . после последнего значения?
 
+
+# TODO тут мы напишем функцию main() и обернем ее декоратором time_track
+# TODO в функции main()
+# TODO мы объявим нужные нам словари\списки для работы
+# TODO создадим нужную нам последовательность как раз используя генератор который каждый раз будет
+# TODO возвращать файл который мы будем передавать в экземпляр класса.
+# TODO Создадим список экземпляров класса которым на вход будем передавать каждый раз отдельный новый билет.
+# TODO Циклом пройдемся по Экземплярам из списка который мы создали ранее и запустим метод run()
+# TODO отдельным циклом. Это важно, для дальнейших улучшений.
+# TODO Как только они выполнятся мы будем, так же циклом пройдемся по билетам и
+# TODO и будем чекать валатильность, и заносить ее в нужный словарь.
+# TODO В конце кода вызовем функцию которая сформирует нам результат и напечатает на экран нужные данные.
 
 ticker = TickerInspector(PATH)
 ticker.run()
+
+# TODO тут напишем if __name__ == '__main__':
+# TODO и вы вызовем функции main() в которой у нас будет все логика работы программы.
+
+# TODO Создадим модуль утилиты, в него вынесем все дополнительные функции, такие как принты в консоль,
+# TODO обработку путей до файлов.
+#  Также добавим в утилиты декоратор time_track из прошлых заданий.
+
+
+# TODO в функции main() должно быть три цикла, в первом вы записываете в список экземпляры класса
+# TODO во Втором, проходясь по списку с экземплярами класса, запускаете метод .run()
+# TODO в Третьем, вы проходясь по списку с экземплярами класса, получаете параметр volatility и обрабатываете его.
+
+# TODO Функция обработки у вас должна быть реализована в утилитах.
+
