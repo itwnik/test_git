@@ -73,115 +73,62 @@
 #     def run(self):
 #         <обработка данных>
 
-import os
+import utils as ut
 from itertools import islice
+# from utils import time_track
+# from utils import file_sniffer
+# from utils import filter
+# from utils import print_result
 
 
 PATH = 'trades'
 
-# TODO Давай те сделаем код более читаемым и подготовим его к потокам, разобьем на функции и вынесем в отдельный модуль
-# TODO все сопутствующие инструменты.
-# TODO Создадим модуль утилиты и перенесем в него все дополнительные функции
-# TODO создадим там декоратор из сниппетов наших уроков. Будем чекать время.
-
 
 class TickerInspector:
-    # TODO ВАЖНО главная задача добиться чтобы класс обрабатывал только один билет на валатильность.
-    # TODO на вход получаем путь до файла который будем обрабатывать.
 
-    def __init__(self, path):
-        # TODO из параметров у нас будет полный путь до файла.
-        # TODO И еще два параметра это имя билета self.name_ticket = ''
-        # TODO и сама волатильность self.volatility = 0
-        # TODO остальное у нас будет локальными переменными в методах
-        self.path = path
-        self.files_trades = []
-        self.tickers_volatility = {}
-        self.tickers_volatility_max = {}
-        self.tickers_volatility_min = {}
-        self.tickers_volatility_zero = {}
+    def __init__(self, full_path):
+        self.full_path = full_path
+        self.name_ticker = ''
+        self.volatility = 0
 
-    # TODO по заданию в методе run который будет запускать нужные нам внутренние методы.
-    # TODO метод который открывает файл и читает его возвращая список данных для обработки. Также запоминая имя билета.
-    # TODO метод который обрабатывает данные и получает валатильность.
-    # TODO код ниже выносим по этим методам
     def run(self):
-        prices = []
-        self.file_sniffer()
-        for file in self.files_trades:
-            file = os.path.join(self.path, file)
-            with open(file, 'r', encoding='utf-8') as file_read:
-                for line in islice(file_read, 1, None):
-                    secid, _, price, _ = line.split(',')
-                    prices.append(price)
-                prices = list(map(float, prices))
-                half_sum = (max(prices) + min(prices)) / 2
-                volatility = ((max(prices) - min(prices)) / half_sum) * 100
-                # TODO это у нас будет в главной функции в цикле
-                if volatility <= 0:
-                    self.tickers_volatility_zero[secid] = round(volatility, 2)
-                else:
-                    self.tickers_volatility[secid] = round(volatility, 2)
-                prices = []
-        self.filter_volatility()
-        self.print_result()
+        prices = self.file_work()
+        self.volatility_calculation(prices)
 
-    def file_sniffer(self):
-        self.files_trades = os.listdir(self.path)
+    def file_work(self):
+        tickers_prices = []
+        with open(self.full_path, 'r', encoding='utf-8') as file_read:
+            for line in islice(file_read, 1, None):
+                name_ticker, _, price, _ = line.split(',')
+                tickers_prices.append(float(price))
+            self.name_ticker = name_ticker
+        return tickers_prices
 
-    def filter_volatility(self):
-        self.tickers_volatility = dict(sorted(self.tickers_volatility.items(), key=lambda element: element[1],
-                                              reverse=True))
-        # TODO у вас тут происходит ?
-        # есть ли способы уменьшить код?
-        for item in range(0, 3):
-            self.tickers_volatility_max[list(self.tickers_volatility.keys())[item]] = list(
-                self.tickers_volatility.values())[item]
-        for item in range(len(self.tickers_volatility)-1, len(self.tickers_volatility)-4, -1):
-            self.tickers_volatility_min[list(self.tickers_volatility.keys())[item]] = list(
-                self.tickers_volatility.values())[item]
-
-    # TODO выносим в утилиты
-    def print_result(self):
-        print(f'Максимальная волатильность:')
-        for key, value in self.tickers_volatility_max.items():
-            print(f'ТИКЕР {key} - {value}%')
-        print(f'Минимальная волатильность:')
-        for key, value in self.tickers_volatility_min.items():
-            print(f'ТИКЕР {key} - {value}%')
-        print(f'Нулевая волатильность:')
-        # TODO наверно только так
-        print('{}.'.format(', '.join(self.tickers_volatility_zero.keys())))
-        # for key in self.tickers_volatility_zero.keys():
-        #     print(f'{key}', end=', ')  # прошу подсказать как тут поставить . после последнего значения?
+    def volatility_calculation(self, prices):
+        half_sum = (max(prices) + min(prices)) / 2
+        self.volatility = round(((max(prices) - min(prices)) / half_sum) * 100, 2)
 
 
-# TODO тут мы напишем функцию main() и обернем ее декоратором time_track
-# TODO в функции main()
-# TODO мы объявим нужные нам словари\списки для работы
-# TODO создадим нужную нам последовательность как раз используя генератор который каждый раз будет
-# TODO возвращать файл который мы будем передавать в экземпляр класса.
-# TODO Создадим список экземпляров класса которым на вход будем передавать каждый раз отдельный новый билет.
-# TODO Циклом пройдемся по Экземплярам из списка который мы создали ранее и запустим метод run()
-# TODO отдельным циклом. Это важно, для дальнейших улучшений.
-# TODO Как только они выполнятся мы будем, так же циклом пройдемся по билетам и
-# TODO и будем чекать валатильность, и заносить ее в нужный словарь.
-# TODO В конце кода вызовем функцию которая сформирует нам результат и напечатает на экран нужные данные.
-
-ticker = TickerInspector(PATH)
-ticker.run()
-
-# TODO тут напишем if __name__ == '__main__':
-# TODO и вы вызовем функции main() в которой у нас будет все логика работы программы.
-
-# TODO Создадим модуль утилиты, в него вынесем все дополнительные функции, такие как принты в консоль,
-# TODO обработку путей до файлов.
-#  Также добавим в утилиты декоратор time_track из прошлых заданий.
+@ut.time_track
+def main():
+    tickers_volatilitys = {}
+    tickers_volatilitys_zero = {}
+    calculator_volatilitys = [TickerInspector(file_name) for file_name in ut.file_sniffer(PATH)]
+    # TODO можно заменить calculator на calc? Ну пожалуйстаааааааааа)
+    for calculator_volatility in calculator_volatilitys:
+        calculator_volatility.run()
+    for calculator_volatility in calculator_volatilitys:
+        name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
+        if volatility <= 0:
+            tickers_volatilitys_zero[name_ticker] = volatility
+        else:
+            tickers_volatilitys[name_ticker] = volatility
+    tickers_volatilitys_max, tickers_volatilitys_min = ut.filter(tickers_volatilitys)
+    ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
-# TODO в функции main() должно быть три цикла, в первом вы записываете в список экземпляры класса
-# TODO во Втором, проходясь по списку с экземплярами класса, запускаете метод .run()
-# TODO в Третьем, вы проходясь по списку с экземплярами класса, получаете параметр volatility и обрабатываете его.
+if __name__ == '__main__':
+    main()
 
-# TODO Функция обработки у вас должна быть реализована в утилитах.
-
+# TODO Вроде так. долго тупиол на тем, что надо запустить экземпляры класса, а потом пройтись по ним, пока в сниппетах
+#  не подсмотрел.
