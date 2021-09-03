@@ -114,21 +114,25 @@ def main():
     tickers_volatilitys = {}
     tickers_volatilitys_zero = {}
     calculator_volatilitys = [TickerInspector(file_name) for file_name in ut.file_sniffer(PATH)]
-    # TODO можно заменить calculator на calc? Ну пожалуйстаааааааааа)
+
+    # TODO можно заменить на calculating - подсчет_валатильности
+    # можно заменить calculator на calc? Ну пожалуйстаааааааааа)
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.run()
+
     for calculator_volatility in calculator_volatilitys:
         name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
         if volatility <= 0:
             tickers_volatilitys_zero[name_ticker] = volatility
         else:
             tickers_volatilitys[name_ticker] = volatility
+
     tickers_volatilitys_max, tickers_volatilitys_min = ut.filter(tickers_volatilitys)
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
+# TODO напишите ваши спеки частоту процессора ядерность и время сколько работала функция
+# TODO до и после улучшений
 if __name__ == '__main__':
     main()
 
-# TODO Вроде так. долго тупиол на тем, что надо запустить экземпляры класса, а потом пройтись по ним, пока в сниппетах
-#  не подсмотрел.
