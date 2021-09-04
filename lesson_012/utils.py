@@ -25,6 +25,7 @@ def file_sniffer(root):
 def filter_data(data):
     data_zero = []
     for name, volatility in data.items():
+        # TODO этот условие нужно оставить было в главном модуле где они было раньше
         if volatility <= 0:
             data_zero.append(name)
     sorted_data = sorted(data.items(), key=lambda element: element[1], reverse=True)
@@ -36,6 +37,7 @@ def filter_data(data):
 
 def print_result(data_max, data_min, data_zero):
     print(f'Максимальная волатильность:')
+    # TODO получаете не element а сразу разложить и получать имя и процент\результат валатильности
     for element in data_max:
         print(f'ТИКЕР {element[0]} - {element[1]}%')
     print(f'Минимальная волатильность:')

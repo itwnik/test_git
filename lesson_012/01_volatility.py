@@ -113,19 +113,21 @@ class TickerInspector:
 def main():
     tickers_volatilitys = {}
     calculator_volatilitys = [TickerInspector(file_name) for file_name in ut.file_sniffer(PATH)]
+
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.run()
+
     for calculator_volatility in calculator_volatilitys:
         name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
         tickers_volatilitys[name_ticker] = volatility
-    # TODO немного допилил, перенес выделение 0 валантильностей в фильтр, чтоб все в одном месте было.
+
     tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero = ut.filter_data(tickers_volatilitys)
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
 #  напишите ваши спеки частоту процессора ядерность и время сколько работала функция
 #  до и после улучшений
-#  TODO Intel(R)_Core(TM)_i5-8265U_CPU_@_1.60GHz (8 ядер)
+#   Intel(R)_Core(TM)_i5-8265U_CPU_@_1.60GHz (8 ядер)
 #   непонятно, до каких улучшений. Первый раз когда я замерял, программа работала 4,5 сек. Сейчас она работает 2,4 сек
 if __name__ == '__main__':
     main()
