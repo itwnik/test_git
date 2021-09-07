@@ -75,10 +75,6 @@
 
 import utils as ut
 from itertools import islice
-# from utils import time_track
-# from utils import file_sniffer
-# from utils import filter
-# from utils import print_result
 
 
 PATH = 'trades'
@@ -112,6 +108,7 @@ class TickerInspector:
 @ut.time_track
 def main():
     tickers_volatilitys = {}
+    tickers_volatilitys_zero = []
     calculator_volatilitys = [TickerInspector(file_name) for file_name in ut.file_sniffer(PATH)]
 
     for calculator_volatility in calculator_volatilitys:
@@ -119,9 +116,12 @@ def main():
 
     for calculator_volatility in calculator_volatilitys:
         name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
-        tickers_volatilitys[name_ticker] = volatility
+        if volatility <= 0:  # TODO странно, мне казалось, удобнее когдда все списки в одном месте формируются. не так?
+            tickers_volatilitys_zero.append(name_ticker)
+        else:
+            tickers_volatilitys[name_ticker] = volatility
 
-    tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero = ut.filter_data(tickers_volatilitys)
+    tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
