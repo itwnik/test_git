@@ -116,7 +116,8 @@ def main():
 
     for calculator_volatility in calculator_volatilitys:
         name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
-        if volatility <= 0:  # TODO странно, мне казалось, удобнее когдда все списки в одном месте формируются. не так?
+        # этим условием тут мы избавились от лишнего цикла, увеличив скорость
+        if volatility <= 0:  # странно, мне казалось, удобнее когдда все списки в одном месте формируются. не так?
             tickers_volatilitys_zero.append(name_ticker)
         else:
             tickers_volatilitys[name_ticker] = volatility
@@ -131,3 +132,5 @@ def main():
 #   непонятно, до каких улучшений. Первый раз когда я замерял, программа работала 4,5 сек. Сейчас она работает 2,4 сек
 if __name__ == '__main__':
     main()
+
+# зачет!
