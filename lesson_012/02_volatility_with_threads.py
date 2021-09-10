@@ -79,14 +79,7 @@ def main():
     tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
-# TODO странно но при работе в потоках время увеличивается.
-#   добавил принты для трассировки, если смотреть лог, то видно что встречается склеянные строки,
-#   что эт значит? что в одном потоке 2 операции? или просто print не успевает все вывести?
-# открыли файл trades\TICKER_RIH0.csv
-# закрыли файл trades\TICKER_PTH9.csv
-# закрыли файл trades\TICKER_PTU9.csv
-# открыли файл trades\TICKER_RIH9.csv
-# закрыли файл trades\TICKER_PTM9.csvзакрыли файл trades\TICKER_RIH0.csv
 
+# TODO все верно принт не многопоточен, напишите время работы
 if __name__ == '__main__':
     main()
