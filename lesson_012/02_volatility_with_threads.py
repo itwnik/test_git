@@ -45,12 +45,10 @@ class TickerInspector(Thread):
     def file_work(self):
         tickers_prices = []
         with open(self.full_path, 'r', encoding='utf-8') as file_read:
-            print(f'открыли файл {self.full_path}', flush=True)
             for line in islice(file_read, 1, None):
                 name_ticker, _, price, _ = line.split(',')
                 tickers_prices.append(float(price))
             self.name_ticker = name_ticker
-        print(f'закрыли файл {self.full_path}', flush=True)
         return tickers_prices
 
     def volatility_calculation(self, prices):
@@ -64,10 +62,15 @@ def main():
     tickers_volatilitys_zero = []
     calculator_volatilitys = [TickerInspector(file_name) for file_name in ut.file_sniffer(PATH)]
 
+    # TODO Функция работала 2.7472 секунд(ы)
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.start()
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.join()
+
+    # TODO Функция работала 2.1271 секунд(ы)
+    # for calculator_volatility in calculator_volatilitys:
+    #     calculator_volatility.run()
 
     for calculator_volatility in calculator_volatilitys:
         name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
@@ -80,6 +83,5 @@ def main():
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
-# TODO все верно принт не многопоточен, напишите время работы
 if __name__ == '__main__':
     main()
