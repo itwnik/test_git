@@ -17,7 +17,7 @@
 #       ТИКЕР7, ТИКЕР8, ТИКЕР9, ТИКЕР10, ТИКЕР11, ТИКЕР12
 # Волатильности указывать в порядке убывания. Тикеры с нулевой волатильностью упорядочить по имени.
 
-# TODO тут ваш код в многопроцессном стиле
+
 import utils as ut
 import multiprocessing
 from itertools import islice
@@ -41,6 +41,8 @@ class TickerInspector(multiprocessing.Process):
         prices = self.file_work()
         self.volatility_calculation(prices)
         # запихнули в очередь данные которые нам отдает класс
+        # TODO на вход лучше передать словарь из двух ключей на значение им передать self.name_ticker,
+        #  self.volatility_calculation
         self.informator.put(self.name_ticker, self.volatility_calculation)
 
     def file_work(self):
@@ -66,11 +68,14 @@ def main():
 
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.start()
+    # TODO join тормозит перенести за цикл while
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.join()
 
     while True:
         try:
+            # TODO у нас не должно быть цикла
+            # TODO мы тут получаем данные сразу из informator
             for calculator_volatility in calculator_volatilitys:
                 name_ticker, volatility = calculator_volatility.informator.get()
                 # name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
@@ -79,6 +84,7 @@ def main():
                 else:
                     tickers_volatilitys[name_ticker] = volatility
         except Empty:
+            # TODO тут должно быть условие проверки живы ли процессы если нет то выходим ждать нечего
             break  # если пусто просто выходим иои проверяем жив ли процесс?
 
     tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
