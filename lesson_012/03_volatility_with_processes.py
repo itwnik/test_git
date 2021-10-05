@@ -21,7 +21,6 @@
 import utils as ut
 import multiprocessing
 from itertools import islice
-# from multiprocessing import Process, Pipe, Queue
 from queue import Empty
 
 
@@ -41,9 +40,9 @@ class TickerInspector(multiprocessing.Process):
         prices = self.file_work()
         self.volatility_calculation(prices)
         # запихнули в очередь данные которые нам отдает класс
-        # TODO на вход лучше передать словарь из двух ключей на значение им передать self.name_ticker,
+        # на вход лучше передать словарь из двух ключей на значение им передать self.name_ticker,
         #  self.volatility_calculation
-        self.informator.put(self.name_ticker, self.volatility_calculation)
+        self.informator.put(dict(name=self.name_ticker, volatility=self.volatility_calculation))
 
     def file_work(self):
         tickers_prices = []
@@ -68,24 +67,21 @@ def main():
 
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.start()
-    # TODO join тормозит перенести за цикл while
-    for calculator_volatility in calculator_volatilitys:
-        calculator_volatility.join()
 
     while True:
         try:
-            # TODO у нас не должно быть цикла
-            # TODO мы тут получаем данные сразу из informator
-            for calculator_volatility in calculator_volatilitys:
-                name_ticker, volatility = calculator_volatility.informator.get()
-                # name_ticker, volatility = calculator_volatility.name_ticker, calculator_volatility.volatility
-                if volatility <= 0:
-                    tickers_volatilitys_zero.append(name_ticker)
-                else:
-                    tickers_volatilitys[name_ticker] = volatility
+            data = informator.get()
+            name_ticker, volatility = data['name'], data['volatility']
+            if volatility <= 0:
+                tickers_volatilitys_zero.append(name_ticker)
+            else:
+                tickers_volatilitys[name_ticker] = volatility
         except Empty:
-            # TODO тут должно быть условие проверки живы ли процессы если нет то выходим ждать нечего
-            break  # если пусто просто выходим иои проверяем жив ли процесс?
+            if any(calculator_volatility.is_alive() for calculator_volatility in calculator_volatilitys):
+                break
+
+    for calculator_volatility in calculator_volatilitys:
+        calculator_volatility.join()
 
     tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
@@ -93,3 +89,12 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# Traceback (most recent call last):
+#   File "C:\Python\Python38-32\lib\multiprocessing\queues.py", line 239, in _feed
+#     obj = _ForkingPickler.dumps(obj)
+#   File "C:\Python\Python38-32\lib\multiprocessing\reduction.py", line 51, in dumps
+#     cls(buf, protocol).dump(obj)
+#   File "C:\Python\Python38-32\lib\multiprocessing\process.py", line 347, in __reduce__
+#     raise TypeError(
+# TypeError: Pickling an AuthenticationString object is disallowed for security reasons
