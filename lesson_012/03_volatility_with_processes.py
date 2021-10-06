@@ -70,6 +70,7 @@ def main():
 
     while True:
         try:
+            # TODO тут добавить timeout = 1 или меньше
             data = informator.get()
             name_ticker, volatility = data['name'], data['volatility']
             if volatility <= 0:
@@ -77,14 +78,16 @@ def main():
             else:
                 tickers_volatilitys[name_ticker] = volatility
         except Empty:
+            # TODO нужно добавить not перед any мы же выходим кода все пусто
             if any(calculator_volatility.is_alive() for calculator_volatility in calculator_volatilitys):
                 break
 
     for calculator_volatility in calculator_volatilitys:
         calculator_volatility.join()
 
-    tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
-    ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
+    # TODO если кооментировать эти две функции проблема исчезает
+    # tickers_volatilitys_max, tickers_volatilitys_min = ut.filter_data(tickers_volatilitys)
+    # ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
 if __name__ == '__main__':
