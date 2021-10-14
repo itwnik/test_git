@@ -84,7 +84,8 @@ def main():
     ut.print_result(tickers_volatilitys_max, tickers_volatilitys_min, tickers_volatilitys_zero)
 
 
+# Функция работала 3.9116 секунд(ы)
 if __name__ == '__main__':
     main()
 
-# Функция работала 3.9116 секунд(ы)
+# зачет!
