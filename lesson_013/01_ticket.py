@@ -8,13 +8,25 @@
 # Пример заполнения lesson_013/images/ticket_sample.png
 # Подходящий шрифт искать на сайте ofont.ru
 
-
+import argparse
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 TICKET_PATH = "images/ticket_template.png"
+TICKET_SAVE_PATH = "images/ticket_full.png"
 
 
-def make_ticket(fio, from_, to, date):
+def create_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--fio', nargs='+', required=True, help='обязательный, фамилия имя отчество.')
+    parser.add_argument('--from_', type=str, required=True, help='обязательный, откуда летим.')
+    parser.add_argument('--to', type=str, required=True, help='обязательный, куда летим.')
+    parser.add_argument('--date', type=str, required=True, help='обязательный, когда летим.')
+    parser.add_argument('--save_to', default=TICKET_SAVE_PATH,
+                        help='необязательный, путь для сохранения заполненнего билета.')
+    return parser
+
+
+def make_ticket(fio, from_, to, date, save_to):
     ticket = Image.open(TICKET_PATH)
     full_ticket_draw = ImageDraw.Draw(ticket)
 
@@ -29,12 +41,21 @@ def make_ticket(fio, from_, to, date):
     full_ticket_draw.text((45, 256), text_to_ticket, font=font_ticket, fill=ImageColor.colormap["black"])
     full_ticket_draw.text((285, 256), text_date_ticket, font=font_ticket, fill=ImageColor.colormap["black"])
 
-    ticket.save("images/full_ticket.png")
+    ticket.save(save_to)
 
 
 if __name__ == '__main__':
-    make_ticket('Petrov A.A.', 'Rostov-on-Don', 'Moscow', '01.01.22')
+    try:
+        parser = create_parser()
+        ticket_info = parser.parse_args()
+        make_ticket(' '.join(text for text in ticket_info.fio),
+                    ticket_info.from_, ticket_info.to, ticket_info.date, ticket_info.save_to)
+    except SystemExit as exp:
+        print("Нет обязательных параметров!")
 
+# TODO скрипты для запуска:
+#   python 01_ticket.py - -fio Иванов И.И. --from Ростов --to Москва - -date 01.01.2022
+#   python 01_ticket.py - -fio Иванов И.И. --from Ростов --to Москва - -date 01.01.2022 --save_to images/test.png
 
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
